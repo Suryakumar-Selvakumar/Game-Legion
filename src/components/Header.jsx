@@ -1,32 +1,40 @@
+// libs
 import { Component } from "react";
+import styled, { keyframes } from "styled-components";
+
+// assets
 import bladesOfChaosIcon from "../assets/icons/blades.png";
 import searchIcon from "../assets/icons/search.svg";
 import cartIcon from "../assets/icons/cart.svg";
-import styled, { keyframes } from "styled-components";
+import omegaIcon from "../assets/icons/omega.png";
+import omegaNorseIcon from "../assets/icons/omega-norse-blue.png";
 
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: black;
-  padding: 0 1rem;
+  padding: 1rem;
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
 
-  img {
-    height: 85px;
-    width: 85px;
-    transform: rotate(5deg);
+  span > img {
+    height: 70px;
+    width: 75px;
+    transform: rotate(0deg);
+    z-index: 1;
+    position: relative;
   }
 
   span {
     font-family: myFontLogo;
-    /* font-weight: 600; */
     font-size: 2.5rem;
     color: white;
+    display: flex;
+    align-items: end;
   }
 `;
 
@@ -34,9 +42,10 @@ const SearchContainer = styled.div`
   display: flex;
 
   img {
-    width: 22.5px;
+    width: 25px;
     position: relative;
-    left: -6rem;
+    left: -9.5rem;
+    cursor: pointer;
   }
 `;
 
@@ -50,11 +59,29 @@ const expand = keyframes`
   }
 
   75% {
-    width: 565px;
+    width: 590px;
   }
 
   100% {
     width: 600px;
+  }
+`;
+
+const shrink = keyframes`
+  0% {
+    width: 600px;
+  }
+
+  50% {
+    width: 350px
+  }
+
+  75% {
+    width: 360px;
+  }
+
+  100% {
+    width: 350px;
   }
 `;
 
@@ -67,12 +94,15 @@ const SearchBar = styled.input.attrs({
   font-size: 1.25rem;
   border: none;
   position: relative;
-  left: -4rem;
+  left: -7.5rem;
   width: 350px;
-  transition: all 350ms ease;
 
   &:focus {
-    animation: ${expand} 350ms ease forwards;
+    animation: ${expand} 375ms ease forwards;
+  }
+
+  &.shrink {
+    animation: ${shrink} 375ms ease-in-out forwards;
   }
 `;
 
@@ -81,23 +111,54 @@ const Cart = styled.img.attrs({
   alt: "a cart icon",
 })`
   height: 40px;
+  cursor: pointer;
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export class Header extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isShrinking: false,
+    };
+
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+  }
+
+  handleBlur() {
+    this.setState((state) => ({
+      ...state,
+      isShrinking: true,
+    }));
+  }
+
+  handleAnimationEnd() {
+    this.setState((state) => ({
+      ...state,
+      isShrinking: false,
+    }));
   }
 
   render() {
     return (
       <StyledHeader>
         <Logo>
-          <img src={bladesOfChaosIcon} alt="Blade of Chaos" />
-          {/* <img src={bladeExileIcon} alt="Blade of Chaos" /> */}
-          <span>Game Legion</span>
+          <span>
+            GAME <img src={omegaNorseIcon} alt="Omega icon" /> LEGION
+          </span>
         </Logo>
         <SearchContainer>
-          <SearchBar />
+          <SearchBar
+            onBlur={this.handleBlur}
+            onAnimationEnd={this.handleAnimationEnd}
+            className={this.state.isShrinking ? "shrink" : ""}
+          />
           <img src={searchIcon} alt="a search icon" />
         </SearchContainer>
         <Cart />
