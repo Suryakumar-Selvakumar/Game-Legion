@@ -3,17 +3,15 @@ import { Component } from "react";
 import styled, { keyframes } from "styled-components";
 
 // assets
-import bladesOfChaosIcon from "../assets/icons/blades.png";
 import searchIcon from "../assets/icons/search.svg";
 import cartIcon from "../assets/icons/cart.svg";
-import omegaIcon from "../assets/icons/omega.png";
-import omegaNorseIcon from "../assets/icons/omega-norse-blue.png";
+import omegaNorseBlueIcon from "../assets/icons/omega-norse-blue.png";
+import omegaNorseRedIcon from "../assets/icons/omega-norse-red.png";
 
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
   padding: 1rem;
 `;
 
@@ -22,11 +20,10 @@ const Logo = styled.div`
   align-items: center;
 
   span > img {
-    height: 70px;
+    height: 65px;
     width: 75px;
-    transform: rotate(0deg);
-    z-index: 1;
     position: relative;
+    top: -0.25rem;
   }
 
   span {
@@ -35,6 +32,13 @@ const Logo = styled.div`
     color: white;
     display: flex;
     align-items: end;
+  }
+
+  cursor: pointer;
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.05);
   }
 `;
 
@@ -96,6 +100,7 @@ const SearchBar = styled.input.attrs({
   position: relative;
   left: -7.5rem;
   width: 350px;
+  box-shadow: 0 0 2.5px rgb(115, 115, 115);
 
   &:focus {
     animation: ${expand} 375ms ease forwards;
@@ -150,7 +155,7 @@ export class Header extends Component {
       <StyledHeader>
         <Logo>
           <span>
-            GAME <img src={omegaNorseIcon} alt="Omega icon" /> LEGION
+            GAME <img src={omegaNorseBlueIcon} alt="Omega icon" /> LEGION
           </span>
         </Logo>
         <SearchContainer>
