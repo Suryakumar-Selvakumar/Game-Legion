@@ -68,13 +68,23 @@ h6 {
 }
 
 @font-face {
-  font-family: myFontLogo;
+  font-family: myFontLogoNorse;
   src: url("./assets/fonts/Berserker-Regular.ttf");
+}
+
+@font-face {
+  font-family: myFontLogoGreek;
+  src: url("./assets/fonts/GODOFWAR.TTF");
 }
 
 @font-face {
   font-family: myFontRegular;
   src: url("./assets/fonts/GT-Walsheim-Pro-Regular.otf");
+}
+
+@font-face {
+  font-family: myFontBold;
+  src: url("./assets/fonts/GT-Walsheim-Pro-Bold.otf");
 }
 
 body {

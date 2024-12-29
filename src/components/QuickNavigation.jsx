@@ -2,6 +2,7 @@
 import { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { StyledInfoCard } from "./InfoCard";
 
 // assets
 import crownIcon from "../assets/icons/crown.svg";
@@ -15,7 +16,7 @@ const StyledQuickNavigation = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 1.25rem 1.5rem 1.5rem 1.5rem;
   background-color: linear-gradient(
     135deg,
@@ -25,10 +26,12 @@ const StyledQuickNavigation = styled.div`
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(10px);
   justify-content: end;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   h2 {
     color: white;
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 `;
 
@@ -39,7 +42,7 @@ const QuickNavButton = styled(Link)`
   padding: 0.5rem 0rem;
   font-size: 1.25rem;
   cursor: pointer;
-  border-radius: 15px;
+  border-radius: 20px;
   width: 225px;
   transition: transform 250ms ease-out;
 
@@ -52,11 +55,17 @@ const QuickNavButton = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
 
   div > img {
     width: 25px;
+  }
+
+  ${StyledInfoCard} & {
+    width: max-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 `;
 
@@ -103,3 +112,5 @@ export class QuickNavigation extends Component {
     );
   }
 }
+
+export { QuickNavButton };

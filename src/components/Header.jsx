@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 // assets
 import searchIcon from "../assets/icons/search.svg";
 import cartIcon from "../assets/icons/cart.svg";
-import omegaNorseBlueIcon from "../assets/icons/omega-norse-blue.png";
-import omegaNorseRedIcon from "../assets/icons/omega-norse-red.png";
+import omegaNorseIcon from "../assets/icons/omega-norse.png";
+import omegaGreekIcon from "../assets/icons/omega-greek.png";
 
 const StyledHeader = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Logo = styled(Link)`
   }
 
   span {
-    font-family: myFontLogo;
+    font-family: myFontLogoNorse;
     font-size: 2.5rem;
     color: white;
     display: flex;
@@ -37,7 +37,7 @@ const Logo = styled(Link)`
   }
 
   cursor: pointer;
-  transition: transform 150ms ease;
+  transition: transform 250ms ease;
 
   &:hover {
     transform: scale(1.05);
@@ -157,7 +157,7 @@ export class Header extends Component {
       <StyledHeader>
         <Logo to="/">
           <span>
-            GAME <img src={omegaNorseBlueIcon} alt="Omega icon" /> LEGION
+            GAME <img src={omegaNorseIcon} alt="Omega icon" /> LEGION
           </span>
         </Logo>
         <SearchContainer>
