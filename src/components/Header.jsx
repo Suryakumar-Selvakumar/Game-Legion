@@ -1,6 +1,7 @@
 // libs
 import { Component } from "react";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 
 // assets
 import searchIcon from "../assets/icons/search.svg";
@@ -15,9 +16,10 @@ const StyledHeader = styled.div`
   padding: 1rem;
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   display: flex;
   align-items: center;
+  text-decoration: none;
 
   span > img {
     height: 65px;
@@ -153,7 +155,7 @@ export class Header extends Component {
   render() {
     return (
       <StyledHeader>
-        <Logo>
+        <Logo to="/">
           <span>
             GAME <img src={omegaNorseBlueIcon} alt="Omega icon" /> LEGION
           </span>

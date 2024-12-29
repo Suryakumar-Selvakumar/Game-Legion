@@ -4,13 +4,23 @@ import styled from "styled-components";
 
 // assets
 import backgroundVideo from "../assets/videos/bg-video-norse.mp4";
+import { QuickNavigation } from "../components/QuickNavigation";
 
 const StyledHome = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  display: grid;
+  grid-template-rows: min-content 1fr;
+`;
+
+const Body = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
 
 const VideoBackground = styled.div`
   position: relative;
@@ -52,6 +62,9 @@ export class Home extends Component {
           </video>
           <Content>
             <Header />
+            <Body>
+              <QuickNavigation />
+            </Body>
           </Content>
         </VideoBackground>
       </StyledHome>
