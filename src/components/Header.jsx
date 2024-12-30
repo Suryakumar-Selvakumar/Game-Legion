@@ -1,6 +1,6 @@
 // libs
 import { Component } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 
 // assets
@@ -21,15 +21,11 @@ const Logo = styled(Link)`
   align-items: center;
   text-decoration: none;
 
-  span > img {
-    height: 65px;
-    width: 75px;
-    position: relative;
-    top: -0.25rem;
-  }
-
   span {
-    font-family: myFontLogoNorse;
+    font-family: ${(props) =>
+      props.theme.currentTheme === "norse"
+        ? "myFontLogoNorse"
+        : "myFontLogoGreek"};
     font-size: 2.5rem;
     color: white;
     display: flex;
@@ -42,6 +38,15 @@ const Logo = styled(Link)`
   &:hover {
     transform: scale(1.05);
   }
+`;
+
+const LogoIcon = styled.img`
+  height: ${(props) =>
+    props.theme.currentTheme === "norse" ? "65px" : "60px"};
+  width: ${(props) =>
+    props.theme.currentTheme === "norse" ? "75px" : "70px"};
+  position: relative;
+  top: -0.25rem;
 `;
 
 const SearchContainer = styled.div`
@@ -138,6 +143,8 @@ export class Header extends Component {
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
   }
 
+  static contextType = ThemeContext;
+
   handleBlur() {
     this.setState((state) => ({
       ...state,
@@ -153,11 +160,24 @@ export class Header extends Component {
   }
 
   render() {
+    const theme = this.context;
+
     return (
       <StyledHeader>
         <Logo to="/">
           <span>
-            GAME <img src={omegaNorseIcon} alt="Omega icon" /> LEGION
+            GAME{" "}
+            <LogoIcon
+              src={
+                theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
+              }
+              alt={
+                theme.currentTheme === "norse"
+                  ? "Jormungandur icon"
+                  : "omega icon"
+              }
+            />{" "}
+            LEGION
           </span>
         </Logo>
         <SearchContainer>

@@ -26,7 +26,7 @@ const StyledQuickNavigation = styled.div`
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(10px);
   justify-content: end;
-  border:1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   h2 {
@@ -47,7 +47,8 @@ const QuickNavButton = styled(Link)`
   transition: transform 250ms ease-out;
 
   &:hover {
-    background-color: #46afe8;
+    background-color: ${(props) =>
+      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff4747"};
     transform: scale(1.05);
   }
 

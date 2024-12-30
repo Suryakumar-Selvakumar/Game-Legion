@@ -1,11 +1,13 @@
 // libs
 import { Component } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
+import PropTypes from "prop-types";
 
 // components
 import { Header } from "../components/Header";
 import { QuickNavigation } from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
+import { Footer } from "../components/Footer";
 
 // assets
 import backgroundVideoNorse from "../assets/videos/bg-video-norse.mp4";
@@ -57,25 +59,56 @@ const VideoBackground = styled.div`
 export class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      refreshKey: 0,
+    };
+
+    this.handleRefresh = this.handleRefresh.bind(this);
   }
 
+  handleRefresh() {
+    this.setState((state) => ({
+      ...state,
+      refreshKey: state.refreshKey + 1,
+    }));
+  }
+
+  static contextType = ThemeContext;
+
   render() {
+    const theme = this.context;
+
     return (
       <StyledHome>
         <VideoBackground>
-          <video autoPlay loop muted>
-            <source src={backgroundVideoNorse} type="video/mp4" />
+          <video key={this.state.refreshKey} autoPlay loop muted>
+            <source
+              src={
+                theme.currentTheme === "norse"
+                  ? backgroundVideoNorse
+                  : backgroundVideoGreek
+              }
+              type="video/mp4"
+            />
           </video>
           <Content>
             <Header />
             <Body>
               <InfoCard />
               <QuickNavigation />
-              {/* <Footer /> */}
             </Body>
+            <Footer
+              setTheme={this.props.setTheme}
+              handleRefresh={this.handleRefresh}
+            />
           </Content>
         </VideoBackground>
       </StyledHome>
     );
   }
 }
+
+Home.propTypes = {
+  setTheme: PropTypes.func,
+};
