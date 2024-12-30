@@ -2,6 +2,7 @@
 import { Component } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // assets
 import searchIcon from "../assets/icons/search.svg";
@@ -43,8 +44,7 @@ const Logo = styled(Link)`
 const LogoIcon = styled.img`
   height: ${(props) =>
     props.theme.currentTheme === "norse" ? "65px" : "60px"};
-  width: ${(props) =>
-    props.theme.currentTheme === "norse" ? "75px" : "70px"};
+  width: ${(props) => (props.theme.currentTheme === "norse" ? "75px" : "70px")};
   position: relative;
   top: -0.25rem;
 `;
@@ -118,6 +118,17 @@ const SearchBar = styled.input.attrs({
   }
 `;
 
+const ThemeCartContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+
+  div:nth-child(2) {
+    background-color: white;
+    width: 1.5px;
+    border-radius: 10px;
+  }
+`;
+
 const Cart = styled.img.attrs({
   src: cartIcon,
   alt: "a cart icon",
@@ -125,9 +136,83 @@ const Cart = styled.img.attrs({
   height: 40px;
   cursor: pointer;
   transition: transform 150ms ease;
+  position: relative;
+  top: -2.5px;
 
   &:hover {
     transform: scale(1.1);
+  }
+`;
+
+const ThemeSwitcher = styled.input.attrs({
+  type: "checkbox",
+})`
+  width: 80px;
+  height: 35px;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 10px;
+  position: relative;
+  outline: 0;
+  transition: all 0.2s;
+  background-color: rgb(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  &:after {
+    position: absolute;
+    content: "";
+    top: 1.5px;
+    left: 3px;
+    width: 30px;
+    height: 30px;
+    background-color: #7c7c7c;
+    z-index: 2;
+    border-radius: 10px;
+    transition: all 0.35s;
+  }
+
+  &:checked:after {
+    left: calc(100% - 32px);
+    top: 1.5px;
+  }
+`;
+
+const InputWrapper = styled.div`
+  width: 80px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+
+  & img {
+    position: absolute;
+    top: 50%;
+    transform-origin: 50% 50%;
+    transition: all 0.35s;
+    z-index: 1;
+  }
+
+  & .is-checked {
+    width: 30px;
+    height: 30px;
+    left: 8%;
+    transform: translateX(190%) translateY(-50%) scale(0);
+  }
+
+  & .is-unchecked {
+    width: 25px;
+    height: 25px;
+    right: 10%;
+    transform: translateX(0) translateY(-61%) scale(1);
+  }
+
+  ${ThemeSwitcher}:checked + .is-checked {
+    transform: translateX(0) translateY(-61%) scale(1);
+  }
+
+  ${ThemeSwitcher}:checked ~ .is-unchecked {
+    transform: translateX(-190%) translateY(-61%) scale(0);
   }
 `;
 
@@ -137,13 +222,28 @@ export class Header extends Component {
 
     this.state = {
       isShrinking: false,
+      isChecked: true,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   static contextType = ThemeContext;
+
+  handleChange(e) {
+    this.setState((state) => ({
+      ...state,
+      isChecked: e.target.checked,
+    }));
+
+    this.props.setTheme({
+      currentTheme: e.target.checked ? "norse" : "greek",
+    });
+
+    this.props.handleRefresh();
+  }
 
   handleBlur() {
     this.setState((state) => ({
@@ -188,8 +288,32 @@ export class Header extends Component {
           />
           <img src={searchIcon} alt="a search icon" />
         </SearchContainer>
-        <Cart />
+        <ThemeCartContainer>
+          <InputWrapper>
+            <ThemeSwitcher
+              checked={this.state.isChecked}
+              onChange={this.handleChange}
+            />
+            <img
+              src={omegaNorseIcon}
+              alt="Jormungandur icon"
+              className="is-checked"
+            />
+            <img
+              src={omegaGreekIcon}
+              alt="omega icon"
+              className="is-unchecked"
+            />
+          </InputWrapper>
+          <div></div>
+          <Cart />
+        </ThemeCartContainer>
       </StyledHeader>
     );
   }
 }
+
+Header.propTypes = {
+  setTheme: PropTypes.func,
+  handleRefresh: PropTypes.func,
+};

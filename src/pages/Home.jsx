@@ -93,15 +93,14 @@ export class Home extends Component {
             />
           </video>
           <Content>
-            <Header />
+            <Header
+              setTheme={this.props.setTheme}
+              handleRefresh={this.handleRefresh}
+            />
             <Body>
               <InfoCard />
               <QuickNavigation />
             </Body>
-            <Footer
-              setTheme={this.props.setTheme}
-              handleRefresh={this.handleRefresh}
-            />
           </Content>
         </VideoBackground>
       </StyledHome>
