@@ -55,7 +55,7 @@ const SearchContainer = styled.div`
   img {
     width: 25px;
     position: relative;
-    left: -9.5rem;
+    left: -7rem;
     cursor: pointer;
   }
 `;
@@ -105,7 +105,7 @@ const SearchBar = styled.input.attrs({
   font-size: 1.25rem;
   border: none;
   position: relative;
-  left: -7.5rem;
+  left: -5rem;
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
 
@@ -147,8 +147,8 @@ const Cart = styled.img.attrs({
 const ThemeSwitcher = styled.input.attrs({
   type: "checkbox",
 })`
-  width: 80px;
-  height: 35px;
+  width: 75px;
+  height: 34px;
   cursor: pointer;
   appearance: none;
   border-radius: 10px;
@@ -164,9 +164,9 @@ const ThemeSwitcher = styled.input.attrs({
     position: absolute;
     content: "";
     top: 1.5px;
-    left: 3px;
+    left: 2.25px;
     width: 30px;
-    height: 30px;
+    height: 29px;
     background-color: #7c7c7c;
     z-index: 2;
     border-radius: 10px;
@@ -194,21 +194,21 @@ const InputWrapper = styled.div`
   }
 
   & .is-checked {
-    width: 30px;
-    height: 30px;
-    left: 8%;
-    transform: translateX(190%) translateY(-50%) scale(0);
+    width: 27.5px;
+    height: 27.5px;
+    left: 10%;
+    transform: translateX(190%) translateY(-60%) scale(0);
   }
 
   & .is-unchecked {
-    width: 25px;
-    height: 25px;
-    right: 10%;
-    transform: translateX(0) translateY(-61%) scale(1);
+    width: 21.5px;
+    height: 23px;
+    right: 18%;
+    transform: translateX(0) translateY(-63%) scale(1);
   }
 
   ${ThemeSwitcher}:checked + .is-checked {
-    transform: translateX(0) translateY(-61%) scale(1);
+    transform: translateX(0) translateY(-63%) scale(1);
   }
 
   ${ThemeSwitcher}:checked ~ .is-unchecked {

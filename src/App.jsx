@@ -1,7 +1,13 @@
+// libs
 import { useState } from "react";
-import "./App.css";
-import { Home } from "./pages/Home";
 import { ThemeProvider } from "styled-components";
+
+// styles
+import "./App.css";
+
+// pages
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
 
 function App() {
   const [theme, setTheme] = useState({
@@ -11,7 +17,8 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Home setTheme={setTheme} />
+        {/* <Home setTheme={setTheme} /> */}
+        <Shop setTheme={setTheme} />
       </ThemeProvider>
     </>
   );

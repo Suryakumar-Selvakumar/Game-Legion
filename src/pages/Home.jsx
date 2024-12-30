@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import { Header } from "../components/Header";
 import { QuickNavigation } from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
-import { Footer } from "../components/Footer";
 
 // assets
 import backgroundVideoNorse from "../assets/videos/bg-video-norse.mp4";
@@ -20,7 +19,7 @@ const StyledHome = styled.div`
 
 const Content = styled.div`
   display: grid;
-  grid-template-rows: min-content 1fr min-content;
+  grid-template-rows: min-content 1fr;
 `;
 
 const Body = styled.div`
