@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { Header } from "../components/Header";
 import { QuickNavigation } from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
+import { Footer } from "../components/Footer";
 
 // assets
 import backgroundVideoNorse from "../assets/videos/bg-video-norse.mp4";
@@ -55,7 +56,7 @@ const VideoBackground = styled.div`
   }
 `;
 
-export class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -92,14 +93,15 @@ export class Home extends Component {
             />
           </video>
           <Content>
-            <Header
-              setTheme={this.props.setTheme}
-              handleRefresh={this.handleRefresh}
-            />
+            <Header />
             <Body>
               <InfoCard />
               <QuickNavigation />
             </Body>
+            <Footer
+              setTheme={this.props.setTheme}
+              handleRefresh={this.handleRefresh}
+            />
           </Content>
         </VideoBackground>
       </StyledHome>
@@ -110,3 +112,5 @@ export class Home extends Component {
 Home.propTypes = {
   setTheme: PropTypes.func,
 };
+
+export default Home;

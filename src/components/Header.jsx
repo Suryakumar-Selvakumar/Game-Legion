@@ -10,6 +10,9 @@ import cartIcon from "../assets/icons/cart.svg";
 import omegaNorseIcon from "../assets/icons/omega-norse.png";
 import omegaGreekIcon from "../assets/icons/omega-greek.png";
 
+// components
+import { StyledShop } from "../pages/Shop";
+
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -31,6 +34,7 @@ const Logo = styled(Link)`
     color: white;
     display: flex;
     align-items: end;
+    gap: ${(props) => (props.theme.currentTheme === "norse" ? "" : "0.2rem")};
   }
 
   cursor: pointer;
@@ -55,7 +59,7 @@ const SearchContainer = styled.div`
   img {
     width: 25px;
     position: relative;
-    left: -7rem;
+    left: -9rem;
     cursor: pointer;
   }
 `;
@@ -105,7 +109,7 @@ const SearchBar = styled.input.attrs({
   font-size: 1.25rem;
   border: none;
   position: relative;
-  left: -5rem;
+  left: -7rem;
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
 
@@ -115,17 +119,6 @@ const SearchBar = styled.input.attrs({
 
   &.shrink {
     animation: ${shrink} 375ms ease-in-out forwards;
-  }
-`;
-
-const ThemeCartContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  div:nth-child(2) {
-    background-color: white;
-    width: 1.5px;
-    border-radius: 10px;
   }
 `;
 
@@ -144,106 +137,19 @@ const Cart = styled.img.attrs({
   }
 `;
 
-const ThemeSwitcher = styled.input.attrs({
-  type: "checkbox",
-})`
-  width: 75px;
-  height: 34px;
-  cursor: pointer;
-  appearance: none;
-  border-radius: 10px;
-  position: relative;
-  outline: 0;
-  transition: all 0.2s;
-  background-color: rgb(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-
-  &:after {
-    position: absolute;
-    content: "";
-    top: 1.5px;
-    left: 2.25px;
-    width: 30px;
-    height: 29px;
-    background-color: #7c7c7c;
-    z-index: 2;
-    border-radius: 10px;
-    transition: all 0.35s;
-  }
-
-  &:checked:after {
-    left: calc(100% - 32px);
-    top: 1.5px;
-  }
-`;
-
-const InputWrapper = styled.div`
-  width: 80px;
-  height: 40px;
-  position: relative;
-  cursor: pointer;
-
-  & img {
-    position: absolute;
-    top: 50%;
-    transform-origin: 50% 50%;
-    transition: all 0.35s;
-    z-index: 1;
-  }
-
-  & .is-checked {
-    width: 27.5px;
-    height: 27.5px;
-    left: 10%;
-    transform: translateX(190%) translateY(-60%) scale(0);
-  }
-
-  & .is-unchecked {
-    width: 21.5px;
-    height: 23px;
-    right: 18%;
-    transform: translateX(0) translateY(-63%) scale(1);
-  }
-
-  ${ThemeSwitcher}:checked + .is-checked {
-    transform: translateX(0) translateY(-63%) scale(1);
-  }
-
-  ${ThemeSwitcher}:checked ~ .is-unchecked {
-    transform: translateX(-190%) translateY(-61%) scale(0);
-  }
-`;
-
 export class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isShrinking: false,
-      isChecked: true,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   static contextType = ThemeContext;
-
-  handleChange(e) {
-    this.setState((state) => ({
-      ...state,
-      isChecked: e.target.checked,
-    }));
-
-    this.props.setTheme({
-      currentTheme: e.target.checked ? "norse" : "greek",
-    });
-
-    this.props.handleRefresh();
-  }
 
   handleBlur() {
     this.setState((state) => ({
@@ -288,26 +194,7 @@ export class Header extends Component {
           />
           <img src={searchIcon} alt="a search icon" />
         </SearchContainer>
-        <ThemeCartContainer>
-          <InputWrapper>
-            <ThemeSwitcher
-              checked={this.state.isChecked}
-              onChange={this.handleChange}
-            />
-            <img
-              src={omegaNorseIcon}
-              alt="Jormungandur icon"
-              className="is-checked"
-            />
-            <img
-              src={omegaGreekIcon}
-              alt="omega icon"
-              className="is-unchecked"
-            />
-          </InputWrapper>
-          <div></div>
-          <Cart />
-        </ThemeCartContainer>
+        <Cart />
       </StyledHeader>
     );
   }

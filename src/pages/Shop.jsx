@@ -5,11 +5,17 @@ import PropTypes from "prop-types";
 
 // components
 import { Header } from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 const StyledShop = styled.div`
   display: grid;
   grid-template-rows: min-content 1fr;
-  grid-template-columns: min-content 1fr;
+  background-color: rgb(15, 16, 17);
+`;
+
+const Body = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
 `;
 
 class Shop extends Component {
@@ -21,10 +27,13 @@ class Shop extends Component {
 
   render() {
     const theme = this.context;
-    
+
     return (
       <StyledShop>
         <Header />
+        <Body>
+          <Sidebar />
+        </Body>
       </StyledShop>
     );
   }
@@ -35,3 +44,5 @@ Shop.propTypes = {
 };
 
 export default Shop;
+
+export { StyledShop };

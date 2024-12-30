@@ -18,7 +18,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         {/* <Home setTheme={setTheme} /> */}
-        <Shop setTheme={setTheme} />
+        <Shop />
       </ThemeProvider>
     </>
   );
