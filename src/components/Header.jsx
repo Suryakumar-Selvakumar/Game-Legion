@@ -144,6 +144,7 @@ export class Header extends Component {
     this.state = {
       isShrinking: false,
       isCartPageVisible: false,
+      isScrollDisabled: false,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
@@ -171,9 +172,18 @@ export class Header extends Component {
     this.setState((state) => ({
       ...state,
       isCartPageVisible: !state.isCartPageVisible,
+      isScrollDisabled: !state.isScrollDisabled,
     }));
 
-    console.log(this.state.isCartPageVisible);
+    console.log(this.state.isScrollDisabled);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isScrollDisabled !== prevState.isScrollDisabled) {
+      if (this.state.isScrollDisabled === true)
+        document.body.style.overflow = "hidden";
+      else document.body.style.overflow = "auto";
+    }
   }
 
   render() {

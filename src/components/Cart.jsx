@@ -3,7 +3,6 @@ import { Component, createRef } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import useClickOutside from "../utils/useClickOutside";
 
 const popIn = keyframes`
     0%{
@@ -29,13 +28,16 @@ const slideIn = keyframes`
     0%{
         background-color: rgb(0, 0, 0, 0);
         transform: translateX(400px);
-        opacity: 0;
+
+    }
+
+    60% {
+      transform: translateX(-30px);
     }
 
     100% {
-        background-color: rgb(38, 38, 38, 1);
-        transform: translateX(0px);
-        opacity: 1;
+        background-color: rgb(32, 32, 32, 1);
+        transform: translateX(0p);
     }
 `;
 
@@ -56,12 +58,13 @@ const StyledCart = styled.div`
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
   height: 100dvh;
-  animation: ${slideIn} 250ms ease forwards;
+  animation: ${slideIn} 500ms ease forwards;
   color: white;
   right: 0;
+  box-shadow: 10px 0 10px black;
 
   &.hide-cart {
-    animation: ${slideOut} 150ms ease forwards;
+    animation: ${slideOut} 250ms ease forwards;
   }
 `;
 
@@ -78,7 +81,7 @@ const CartHeader = styled.div`
   }
 
   button {
-    background-color: rgb(38, 38, 38);
+    background-color: rgb(32, 32, 32, 1);
     border: none;
     color: rgb(153, 153, 153);
     cursor: pointer;
