@@ -6,6 +6,10 @@ import PropTypes from "prop-types";
 // components
 import { Header } from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Games from "../components/Games";
+
+// utils
+import { getGamesData } from "../utils/getGamesData";
 
 const StyledShop = styled.div`
   display: grid;
@@ -21,9 +25,46 @@ const Body = styled.div`
 class Shop extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      gamesData: null,
+      loading: true,
+      error: null,
+    };
   }
 
   static contextType = ThemeContext;
+
+  componentDidMount() {
+    const fetchGamesData = async () => {
+      try {
+        const fetchedGamesData = await getGamesData(
+          "https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40"
+        );
+        // console.log(fetchedGamesData);
+        this.setState((state) => ({
+          ...state,
+          gamesData: fetchedGamesData,
+          error: null,
+        }));
+        console.log(this.state.gamesData);
+      } catch (err) {
+        this.setState((state) => ({
+          ...state,
+          gamesData: null,
+          error: err.message,
+        }));
+      } finally {
+        this.setState((state) => ({
+          ...state,
+          loading: false,
+        }));
+      }
+    };
+
+    fetchGamesData();
+    
+  }
 
   render() {
     const theme = this.context;
@@ -33,6 +74,7 @@ class Shop extends Component {
         <Header />
         <Body>
           <Sidebar />
+          <Games />
         </Body>
       </StyledShop>
     );
