@@ -4,8 +4,6 @@ import styled, { keyframes, ThemeContext } from "styled-components";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-// assets
-
 const StyledSidebar = styled.div`
   display: grid;
   gap: 2rem;

@@ -11,7 +11,7 @@ import omegaNorseIcon from "../assets/icons/omega-norse.png";
 import omegaGreekIcon from "../assets/icons/omega-greek.png";
 
 // components
-import { StyledShop } from "../pages/Shop";
+import Cart from "./Cart";
 
 const StyledHeader = styled.div`
   display: flex;
@@ -122,7 +122,7 @@ const SearchBar = styled.input.attrs({
   }
 `;
 
-const Cart = styled.img.attrs({
+const CartIcon = styled.img.attrs({
   src: cartIcon,
   alt: "a cart icon",
 })`
@@ -143,10 +143,12 @@ export class Header extends Component {
 
     this.state = {
       isShrinking: false,
+      isCartPageVisible: false,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+    this.handleCartClick = this.handleCartClick.bind(this);
   }
 
   static contextType = ThemeContext;
@@ -165,37 +167,53 @@ export class Header extends Component {
     }));
   }
 
+  handleCartClick() {
+    this.setState((state) => ({
+      ...state,
+      isCartPageVisible: !state.isCartPageVisible,
+    }));
+
+    console.log(this.state.isCartPageVisible);
+  }
+
   render() {
     const theme = this.context;
 
     return (
-      <StyledHeader>
-        <Logo to="/">
-          <span>
-            GAME{" "}
-            <LogoIcon
-              src={
-                theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
-              }
-              alt={
-                theme.currentTheme === "norse"
-                  ? "Jormungandur icon"
-                  : "omega icon"
-              }
-            />{" "}
-            LEGION
-          </span>
-        </Logo>
-        <SearchContainer>
-          <SearchBar
-            onBlur={this.handleBlur}
-            onAnimationEnd={this.handleAnimationEnd}
-            className={this.state.isShrinking ? "shrink" : ""}
-          />
-          <img src={searchIcon} alt="a search icon" />
-        </SearchContainer>
-        <Cart />
-      </StyledHeader>
+      <>
+        <StyledHeader>
+          <Logo to="/">
+            <span>
+              GAME{" "}
+              <LogoIcon
+                src={
+                  theme.currentTheme === "norse"
+                    ? omegaNorseIcon
+                    : omegaGreekIcon
+                }
+                alt={
+                  theme.currentTheme === "norse"
+                    ? "Jormungandur icon"
+                    : "omega icon"
+                }
+              />{" "}
+              LEGION
+            </span>
+          </Logo>
+          <SearchContainer>
+            <SearchBar
+              onBlur={this.handleBlur}
+              onAnimationEnd={this.handleAnimationEnd}
+              className={this.state.isShrinking ? "shrink" : ""}
+            />
+            <img src={searchIcon} alt="a search icon" />
+          </SearchContainer>
+          <CartIcon onClick={this.handleCartClick} />
+        </StyledHeader>
+        {this.state.isCartPageVisible && (
+          <Cart setCart={this.handleCartClick} />
+        )}
+      </>
     );
   }
 }
