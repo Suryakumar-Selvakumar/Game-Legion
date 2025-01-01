@@ -3,7 +3,11 @@ import { Component } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 
-const StyledGameCard = styled.div``;
+const StyledGameCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+`;
 
 const GameCardDetails = styled.div``;
 

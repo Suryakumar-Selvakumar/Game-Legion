@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import { Header } from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Games from "../components/Games";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 // utils
 import { getGamesData } from "../utils/getGamesData";
@@ -41,7 +43,6 @@ class Shop extends Component {
         const fetchedGamesData = await getGamesData(
           "https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40"
         );
-        // console.log(fetchedGamesData);
         this.setState((state) => ({
           ...state,
           gamesData: fetchedGamesData,
@@ -63,7 +64,6 @@ class Shop extends Component {
     };
 
     fetchGamesData();
-    
   }
 
   render() {
@@ -74,7 +74,11 @@ class Shop extends Component {
         <Header />
         <Body>
           <Sidebar />
-          <Games />
+          {this.state.loading && <Loading theme={theme} />}
+          {this.state.error && <Error error={this.state.error} />}
+          {this.state.gamesData && (
+            <Games gamesData={this.state.gamesData} theme={theme} />
+          )}
         </Body>
       </StyledShop>
     );
