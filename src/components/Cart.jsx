@@ -125,6 +125,7 @@ const Shine = styled.button`
   color: #fff;
   cursor: pointer;
   font-family: myFontBold;
+  font-size: 1.1rem;
 
   &:before {
     content: "";

@@ -11,8 +11,6 @@ import nintendoIcon from "../assets/icons/nintendo.svg";
 import appleIcon from "../assets/icons/apple.svg";
 import androidIcon from "../assets/icons/android.svg";
 
-
-
 const StyledGameCard = styled.div`
   display: grid;
   grid-template-rows: 250px 150px;
@@ -44,6 +42,7 @@ const GameCardDetails = styled.div`
     display: flex;
     justify-content: space-between;
     color: rgb(153, 153, 153);
+    font-size: 1rem;
   }
 
   div > button {
@@ -52,7 +51,7 @@ const GameCardDetails = styled.div`
     outline: none;
     color: rgb(153, 153, 153);
     padding: 0;
-    font-size: 1rem;
+
     cursor: pointer;
     line-height: 1;
   }
@@ -62,20 +61,11 @@ const Icons = styled.div`
   display: flex;
   justify-content: start;
   gap: 0.5rem;
+  align-items: center;
 
   img {
-    width: 17.5px;
-    height: 17.5px;
-  }
-
-  img:nth-child(2) {
-    width: 24px;
-    height: 17.5px;
-  }
-
-  img:nth-child(4) {
-    width: 25px;
-    height: 17.5px;
+    width: 15px;
+    height: 16px;
   }
 `;
 
@@ -106,12 +96,45 @@ class GameCard extends Component {
             <p>${this.props.gameDetails.price}</p>
           </div>
           <Icons>
-            <img src={pcIcon} alt="pc icon" />
-            <img src={playStationIcon} alt="playstation icon" />
-            <img src={xboxIcon} alt="xbox icon" />
-            <img src={nintendoIcon} alt="nintendo icon" />
-            <img src={androidIcon} alt="android icon" />
-            <img src={appleIcon} alt="apple icon" />
+            {this.props.gameDetails.platforms.includes("PC") && (
+              <img src={pcIcon} alt="pc icon" />
+            )}
+            {this.props.gameDetails.platforms.includes("PlayStation") && (
+              <img
+                src={playStationIcon}
+                alt="playstation icon"
+                style={{
+                  width: "17.5px",
+                  height: "17.5px",
+                }}
+              />
+            )}
+            {this.props.gameDetails.platforms.includes("Xbox") && (
+              <img src={xboxIcon} alt="xbox icon" />
+            )}
+            {this.props.gameDetails.platforms.includes("Nintendo") && (
+              <img
+                src={nintendoIcon}
+                alt="nintendo icon"
+                style={{
+                  width: "17.5px",
+                  height: "17.5px",
+                }}
+              />
+            )}
+            {this.props.gameDetails.platforms.includes("Android") && (
+              <img src={androidIcon} alt="android icon" />
+            )}
+            {this.props.gameDetails.platforms.includes("Apple Macintosh") && (
+              <img
+                src={appleIcon}
+                alt="apple icon"
+                style={{
+                  width: "17.5px",
+                  height: "17.5px",
+                }}
+              />
+            )}
           </Icons>
           <GameName>{this.props.gameDetails.name}</GameName>
         </GameCardDetails>
