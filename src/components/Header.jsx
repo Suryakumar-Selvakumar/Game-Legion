@@ -13,11 +13,45 @@ import omegaGreekIcon from "../assets/icons/omega-greek.png";
 // components
 import Cart from "./Cart";
 
+const dropDown = keyframes`
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const moveUp = keyframes`
+    0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100px);
+  }
+`;
+
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background-color: rgb(15, 16, 17);
+  top: 0;
+  left: 0;
+
+  &.visible {
+    animation: ${dropDown} 500ms ease forwards;
+  }
+
+  &.hidden {
+    animation: ${moveUp} 500ms ease forwards;
+  }
 `;
 
 const Logo = styled(Link)`
@@ -145,14 +179,46 @@ export class Header extends Component {
       isShrinking: false,
       isCartPageVisible: false,
       isScrollDisabled: false,
+      isHeaderVisible: true,
+      scrollVal: undefined,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
     this.handleCartClick = this.handleCartClick.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   static contextType = ThemeContext;
+
+  handleScroll() {
+    const currentScrollVal =
+      window.scrollY || document.documentElement.scrollTop;
+
+    if (this.state.scrollVal === undefined) {
+      this.setState((state) => ({
+        ...state,
+        scrollVal: currentScrollVal,
+      }));
+    }
+
+    if (currentScrollVal > this.state.scrollVal) {
+      this.setState((state) => ({
+        ...state,
+        isHeaderVisible: false,
+      }));
+    } else {
+      this.setState((state) => ({
+        ...state,
+        isHeaderVisible: true,
+      }));
+    }
+
+    this.setState((state) => ({
+      ...state,
+      scrollVal: currentScrollVal,
+    }));
+  }
 
   handleBlur() {
     this.setState((state) => ({
@@ -178,6 +244,14 @@ export class Header extends Component {
     console.log(this.state.isScrollDisabled);
   }
 
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.isScrollDisabled !== prevState.isScrollDisabled) {
       if (this.state.isScrollDisabled === true)
@@ -191,7 +265,9 @@ export class Header extends Component {
 
     return (
       <>
-        <StyledHeader>
+        <StyledHeader
+          className={this.state.isHeaderVisible ? "visible" : "hidden"}
+        >
           <Logo to="/">
             <span>
               GAME{" "}

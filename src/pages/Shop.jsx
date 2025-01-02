@@ -17,6 +17,7 @@ const StyledShop = styled.div`
   display: grid;
   grid-template-rows: min-content 1fr;
   background-color: rgb(15, 16, 17);
+  padding-top: 5rem;
 `;
 
 const Body = styled.div`
