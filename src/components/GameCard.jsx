@@ -103,7 +103,7 @@ class GameCard extends Component {
         <GameCardDetails>
           <div>
             <button>Add to cart +</button>
-            <p>$</p>
+            <p>${this.props.gameDetails.price}</p>
           </div>
           <Icons>
             <img src={pcIcon} alt="pc icon" />

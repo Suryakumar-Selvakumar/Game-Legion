@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 // components
 import GameCard from "./GameCard";
 
+
 const StyledGames = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));

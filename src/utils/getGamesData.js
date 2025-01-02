@@ -1,3 +1,5 @@
+import { getRandomPrice } from "./getRandomPrice";
+
 export const getGamesData = async (url) => {
   const response = await fetch(url, {
     mode: "cors",
@@ -21,6 +23,7 @@ export const getGamesData = async (url) => {
       released: gameObj.released,
       genre: gameObj.genres.map((genre) => genre.name)[0],
       added: gameObj.added,
+      price: Number(getRandomPrice()),
     };
   });
 };
