@@ -3,17 +3,90 @@ import { Component } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 
+// assets
+import pcIcon from "../assets/icons/windows.svg";
+import playStationIcon from "../assets/icons/playstation.svg";
+import xboxIcon from "../assets/icons/xbox.svg";
+import nintendoIcon from "../assets/icons/nintendo.svg";
+import appleIcon from "../assets/icons/apple.svg";
+import androidIcon from "../assets/icons/android.svg";
+
+
+
 const StyledGameCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  
+  display: grid;
+  grid-template-rows: 250px 150px;
+  background-color: rgb(32, 32, 32);
+  border-radius: 20px;
+  transition: transform 400ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
-const GameCardDetails = styled.div``;
+const GameImage = styled.img`
+  object-fit: fill;
+  height: 100%;
+  width: 100%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+`;
 
-const Icons = styled.div``;
+const GameCardDetails = styled.div`
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-const GameName = styled.div``;
+  & > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    color: rgb(153, 153, 153);
+  }
+
+  div > button {
+    background-color: rgb(32, 32, 32);
+    border: none;
+    outline: none;
+    color: rgb(153, 153, 153);
+    padding: 0;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+`;
+
+const Icons = styled.div`
+  display: flex;
+  justify-content: start;
+  gap: 0.5rem;
+
+  img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  img:nth-child(2) {
+    width: 24px;
+    height: 17.5px;
+  }
+
+  img:nth-child(4) {
+    width: 25px;
+    height: 17.5px;
+  }
+`;
+
+const GameName = styled.p`
+  color: white;
+  font-family: myFontBold;
+  font-size: 1.375rem;
+  line-height: 1;
+  padding: 0.25rem 0;
+  cursor: pointer;
+`;
 
 class GameCard extends Component {
   constructor(props) {
@@ -23,13 +96,25 @@ class GameCard extends Component {
   render() {
     return (
       <StyledGameCard>
-        <img src="" alt="" />
+        <GameImage
+          src={this.props.gameDetails.image}
+          alt={this.props.gameDetails.name}
+        />
         <GameCardDetails>
-          <button>Add to cart +</button>
-          <p>$</p>
+          <div>
+            <button>Add to cart +</button>
+            <p>$</p>
+          </div>
+          <Icons>
+            <img src={pcIcon} alt="pc icon" />
+            <img src={playStationIcon} alt="playstation icon" />
+            <img src={xboxIcon} alt="xbox icon" />
+            <img src={nintendoIcon} alt="nintendo icon" />
+            <img src={androidIcon} alt="android icon" />
+            <img src={appleIcon} alt="apple icon" />
+          </Icons>
+          <GameName>{this.props.gameDetails.name}</GameName>
         </GameCardDetails>
-        <Icons></Icons>
-        <GameName></GameName>
       </StyledGameCard>
     );
   }

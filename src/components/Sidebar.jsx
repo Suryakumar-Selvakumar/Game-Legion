@@ -5,7 +5,8 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const StyledSidebar = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   padding: 2rem;
 `;

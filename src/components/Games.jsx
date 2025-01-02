@@ -7,7 +7,11 @@ import PropTypes from "prop-types";
 import GameCard from "./GameCard";
 
 const StyledGames = styled.div`
-
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-rows: 400px;
+  gap: 2rem;
+  padding: 3rem 2rem 2rem 2rem;
 `;
 
 class Games extends Component {
