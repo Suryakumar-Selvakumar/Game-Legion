@@ -12,6 +12,7 @@ import Error from "../components/Error";
 
 // utils
 import { getGamesData } from "../utils/getGamesData";
+import { getAPIURL } from "../utils/getAPIURL";
 
 const StyledShop = styled.div`
   display: grid;
@@ -35,37 +36,54 @@ class Shop extends Component {
       error: null,
       pageState: null,
     };
+
+    this.setPageState = this.setPageState.bind(this);
+  }
+
+  setPageState(newPageState) {
+    this.setState((state) => ({ ...state, pageState: newPageState }));
   }
 
   static contextType = ThemeContext;
 
-  componentDidMount() {
-    const fetchGamesData = async () => {
-      try {
-        const fetchedGamesData = await getGamesData(
-          "https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40"
-        );
-        this.setState((state) => ({
+  fetchGamesData = async () => {
+    try {
+      const fetchedGamesData = await getGamesData(
+        getAPIURL(this.state.pageState)
+      );
+      console.log("Fetched Data: ", fetchedGamesData);
+      this.setState(
+        (state) => ({
           ...state,
           gamesData: fetchedGamesData,
           error: null,
-        }));
-        console.log(this.state.gamesData);
-      } catch (err) {
-        this.setState((state) => ({
-          ...state,
-          gamesData: null,
-          error: err.message,
-        }));
-      } finally {
-        this.setState((state) => ({
-          ...state,
-          loading: false,
-        }));
-      }
-    };
+        }),
+        () => {
+          console.log("Updated gameState Data: ", this.state.gamesData); // Logs updated state
+        }
+      );
+    } catch (err) {
+      this.setState((state) => ({
+        ...state,
+        gamesData: null,
+        error: err,
+      }));
+    } finally {
+      this.setState((state) => ({
+        ...state,
+        loading: false,
+      }));
+    }
+  };
 
-    fetchGamesData();
+  componentDidMount() {
+    this.fetchGamesData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.pageState !== prevState.pageState) {
+      this.fetchGamesData();
+    }
   }
 
   render() {
@@ -75,7 +93,7 @@ class Shop extends Component {
       <StyledShop>
         <Header />
         <Body>
-          <Sidebar />
+          <Sidebar setPageState={this.setPageState} />
           {this.state.loading && <Loading theme={theme} />}
           {this.state.error && <Error error={this.state.error} />}
           {this.state.gamesData && (

@@ -11,13 +11,13 @@ import {
 
 export const getAPIURL = (pageState) => {
   const currentDate = new Date();
-  const currentDateFormatted = format(currentDateFormatted, "yyyy-MM-dd");
+  const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
   const weekEndDate = format(endOfWeek(new Date()), "yyyy-MM-dd");
 
   switch (pageState) {
     case "Last 30 days": {
       const Last30DaysDate = format(subDays(currentDate, 30), "yyyy-MM-dd");
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${Last30DaysDate},${currentDateFormatted}`;
+      return `https://api.rawg.io/api/games?dates=${Last30DaysDate},${currentDateFormatted}&key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40`;
     }
     case "This week": {
       const weekStartDate = format(startOfWeek(new Date()), "yyyy-MM-dd");

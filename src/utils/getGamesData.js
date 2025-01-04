@@ -6,17 +6,26 @@ export const getGamesData = async (url) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error: Status ${response.status}`);
+    // throw new Error(`HTTP error: Status ${response.status}`);
+    console.log(response.status);
   }
 
   const games = await response.json();
 
-  return games.results.map((gameObj) => {
+  console.log("API Response:", games);
+
+  if (!games.results || !Array.isArray(games.results)) {
+    console.warn("No results found in API response.");
+    return [];
+  }
+
+  return games.results
+  .map((gameObj) => {
     return {
       id: gameObj.id,
       name: gameObj.name,
       image: gameObj.background_image,
-      platforms: gameObj.parent_platforms.map(
+      platforms: gameObj.parent_platforms?.map(
         (platform) => platform.platform.name
       ),
       rating: gameObj.rating,

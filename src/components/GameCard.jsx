@@ -96,10 +96,10 @@ class GameCard extends Component {
             <p>${this.props.gameDetails.price}</p>
           </div>
           <Icons>
-            {this.props.gameDetails.platforms.includes("PC") && (
+            {this.props.gameDetails.platforms?.includes("PC") && (
               <img src={pcIcon} alt="pc icon" />
             )}
-            {this.props.gameDetails.platforms.includes("PlayStation") && (
+            {this.props.gameDetails.platforms?.includes("PlayStation") && (
               <img
                 src={playStationIcon}
                 alt="playstation icon"
@@ -109,10 +109,10 @@ class GameCard extends Component {
                 }}
               />
             )}
-            {this.props.gameDetails.platforms.includes("Xbox") && (
+            {this.props.gameDetails.platforms?.includes("Xbox") && (
               <img src={xboxIcon} alt="xbox icon" />
             )}
-            {this.props.gameDetails.platforms.includes("Nintendo") && (
+            {this.props.gameDetails.platforms?.includes("Nintendo") && (
               <img
                 src={nintendoIcon}
                 alt="nintendo icon"
@@ -122,10 +122,10 @@ class GameCard extends Component {
                 }}
               />
             )}
-            {this.props.gameDetails.platforms.includes("Android") && (
+            {this.props.gameDetails.platforms?.includes("Android") && (
               <img src={androidIcon} alt="android icon" />
             )}
-            {this.props.gameDetails.platforms.includes("Apple Macintosh") && (
+            {this.props.gameDetails.platforms?.includes("Apple Macintosh") && (
               <img
                 src={appleIcon}
                 alt="apple icon"
@@ -142,5 +142,9 @@ class GameCard extends Component {
     );
   }
 }
+
+GameCard.propTypes = {
+  gameDetails: PropTypes.object,
+};
 
 export default GameCard;

@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 // components
 import GameCard from "./GameCard";
 
-
 const StyledGames = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -20,13 +19,23 @@ class Games extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    
+  }
+
   render() {
+    // console.log(this.props.gamesData);
+
     return (
-      <StyledGames>
-        {this.props.gamesData.map((game) => (
-          <GameCard key={game.id} gameDetails={game} />
-        ))}
-      </StyledGames>
+      <>
+        {this.props.gamesData && (
+          <StyledGames>
+            {this.props.gamesData.map((game) => (
+              <GameCard key={game.id} gameDetails={game} />
+            ))}
+          </StyledGames>
+        )}
+      </>
     );
   }
 }
