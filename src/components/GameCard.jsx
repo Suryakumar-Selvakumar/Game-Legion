@@ -10,6 +10,7 @@ import xboxIcon from "../assets/icons/xbox.svg";
 import nintendoIcon from "../assets/icons/nintendo.svg";
 import appleIcon from "../assets/icons/apple.svg";
 import androidIcon from "../assets/icons/android.svg";
+import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 
 const StyledGameCard = styled.div`
   display: grid;
@@ -87,7 +88,11 @@ class GameCard extends Component {
     return (
       <StyledGameCard>
         <GameImage
-          src={this.props.gameDetails.image}
+          src={
+            this.props.gameDetails.image !== null
+              ? this.props.gameDetails.image
+              : placeHolderImage
+          }
           alt={this.props.gameDetails.name}
         />
         <GameCardDetails>

@@ -1,4 +1,4 @@
-import { getRandomPrice } from "./getRandomPrice";
+import { getGamesPrice } from "./getGamesPrice";
 
 export const getGamesData = async (url) => {
   const response = await fetch(url, {
@@ -6,8 +6,7 @@ export const getGamesData = async (url) => {
   });
 
   if (!response.ok) {
-    // throw new Error(`HTTP error: Status ${response.status}`);
-    console.log(response.status);
+    throw new Error(`HTTP error: Status ${response.status}`);
   }
 
   const games = await response.json();
@@ -32,7 +31,7 @@ export const getGamesData = async (url) => {
       released: gameObj.released,
       genre: gameObj.genres.map((genre) => genre.name)[0],
       added: gameObj.added,
-      price: Number(getRandomPrice()),
+      price: Number(getGamesPrice(gameObj.ratings)),
     };
   });
 };
