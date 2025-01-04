@@ -11,8 +11,7 @@ export const getGamesData = async (url) => {
 
   const games = await response.json();
 
-  return games.results
-  .map((gameObj) => {
+  return games.results.map((gameObj) => {
     return {
       id: gameObj.id,
       name: gameObj.name,
