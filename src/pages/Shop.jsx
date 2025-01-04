@@ -7,8 +7,6 @@ import PropTypes from "prop-types";
 import { Header } from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Games from "../components/Games";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
 
 // utils
 import { getGamesData } from "../utils/getGamesData";
@@ -35,9 +33,18 @@ class Shop extends Component {
       loading: true,
       error: null,
       pageState: null,
+      dropDownOpen: false,
     };
 
     this.setPageState = this.setPageState.bind(this);
+    this.setDropDownOpen = this.setDropDownOpen(this);
+  }
+
+  setDropDownOpen() {
+    this.setState((state) => ({
+      ...state,
+      dropDownOpen: !this.state.dropDownOpen,
+    }));
   }
 
   setPageState(newPageState) {
@@ -66,7 +73,7 @@ class Shop extends Component {
       this.setState((state) => ({
         ...state,
         gamesData: null,
-        error: err,
+        error: err.message,
       }));
     } finally {
       this.setState((state) => ({
@@ -93,12 +100,17 @@ class Shop extends Component {
       <StyledShop>
         <Header />
         <Body>
-          <Sidebar pageState={this.state.pageState} setPageState={this.setPageState} />
-          {this.state.loading && <Loading theme={theme} />}
-          {this.state.error && <Error error={this.state.error} />}
-          {this.state.gamesData && (
-            <Games gamesData={this.state.gamesData} theme={theme} />
-          )}
+          <Sidebar
+            pageState={this.state.pageState}
+            setPageState={this.setPageState}
+          />
+
+          <Games
+            gamesData={this.state.gamesData}
+            theme={theme}
+            loading={this.state.loading}
+            error={this.state.error}
+          />
         </Body>
       </StyledShop>
     );

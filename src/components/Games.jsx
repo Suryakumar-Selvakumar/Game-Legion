@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 
 // components
 import GameCard from "./GameCard";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const StyledGames = styled.div`
   display: grid;
@@ -19,18 +21,24 @@ class Games extends Component {
     super(props);
   }
 
-  componentDidMount() {}
+  static contextType = ThemeContext;
 
   render() {
+    const theme = this.context;
+
     return (
       <>
-        {this.props.gamesData && (
-          <StyledGames>
-            {this.props.gamesData.map((game) => (
-              <GameCard key={game.id} gameDetails={game} />
-            ))}
-          </StyledGames>
-        )}
+        {this.props.loading && <Loading theme={theme} />}
+        {this.props.error && <Error error={this.props.error} />}
+        {this.props.gamesData &&
+          !this.props.loading &&
+          this.props.error === null && (
+            <StyledGames>
+              {this.props.gamesData.map((game) => (
+                <GameCard key={game.id} gameDetails={game} />
+              ))}
+            </StyledGames>
+          )}
       </>
     );
   }
@@ -38,6 +46,8 @@ class Games extends Component {
 
 Games.propTypes = {
   gamesData: PropTypes.array,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 export default Games;
