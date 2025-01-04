@@ -26,7 +26,7 @@ const NavIcon = styled.div`
 
   svg {
     width: 20px;
-    fill: #ffffff;
+    /* fill: #ffffff; */
   }
 `;
 
@@ -59,8 +59,18 @@ class Sidebar extends Component {
         <Category>
           <h2>Your Games</h2>
           <NavButton>
-            <NavIcon>
-              <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Wishlist" && "white",
+              }}
+            >
+              <svg
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                fill={
+                  this.props.pageState === "Wishlist" ? "black" : "white"
+                }
+              >
                 <path d="M3 3V0H5C6.65685 0 8 1.34315 8 3C8 1.34315 9.34315 0 11 0H13V3H16V6H0V3H3Z" />
                 <path d="M1 8H7V15H1V8Z" />
                 <path d="M15 8H9V15H15V8Z" />
@@ -72,7 +82,12 @@ class Sidebar extends Component {
         <Category>
           <h2>New Releases</h2>
           <NavButton onClick={() => this.props.setPageState("Last 30 days")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Last 30 days" && "white",
+              }}
+            >
               <svg
                 version="1.0"
                 id="Layer_1"
@@ -80,6 +95,9 @@ class Sidebar extends Component {
                 viewBox="0 0 64 64"
                 enableBackground="new 0 0 64 64"
                 xmlSpace="preserve"
+                fill={
+                  this.props.pageState === "Last 30 days" ? "black" : "white"
+                }
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                 <g
@@ -95,16 +113,34 @@ class Sidebar extends Component {
             <span>Last 30 days</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("This week")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 0 26 26">
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "This week" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="-4 0 26 26"
+                fill={this.props.pageState === "This week" ? "black" : "white"}
+              >
                 <path d="M4.929 25.819C1.783 16.36 8.43 12.909 8.43 12.909c-.465 5.046 2.679 8.977 2.679 8.977 1.156-.318 3.363-1.805 3.363-1.805 0 1.805-1.165 5.735-1.165 5.735s4.077-2.875 5.36-7.65c1.281-4.776-2.441-9.57-2.441-9.57.224 3.38-1.03 6.704-3.485 9.244.123-.13.226-.273.305-.43.441-.804 1.15-2.896.735-7.741C13.197 2.868 6.442 0 6.442 0 7.024 4.144 5.28 5.098 1.19 12.964c-4.09 7.864 3.74 12.855 3.74 12.855z" />
               </svg>
             </NavIcon>
             <span>This week</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Next week")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16">
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Next week" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 16"
+                fill={this.props.pageState === "Next week" ? "black" : "white"}
+              >
                 <path d="M19.788.212a.712.712 0 00-.503-.197h-1.428a.712.712 0 00-.502.197.619.619 0 00-.212.468v7.05a.669.669 0 00-.146-.198L9.073.15c-.141-.132-.26-.177-.357-.135-.097.042-.145.152-.145.333V7.73a.668.668 0 00-.145-.198L.502.15C.361.018.242-.027.145.015.048.057 0 .167 0 .348v15.304c0 .18.049.291.145.333.097.042.216-.004.357-.135l7.924-7.382a.906.906 0 00.145-.198v7.382c0 .18.049.291.145.333.097.041.216-.004.357-.136l7.924-7.381a.909.909 0 00.146-.198v7.05c0 .18.07.335.212.467a.712.712 0 00.502.197h1.429c.193 0 .36-.065.502-.197a.62.62 0 00.212-.468V.68a.62.62 0 00-.212-.468z" />
               </svg>
             </NavIcon>
@@ -116,13 +152,23 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => this.props.setPageState("Best of the year")}
           >
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Best of the year" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="_x32_"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
                 xmlSpace="preserve"
+                fill={
+                  this.props.pageState === "Best of the year"
+                    ? "black"
+                    : "white"
+                }
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
@@ -146,14 +192,20 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Best of the year</span>
           </NavButton>
-          <NavButton
-            onClick={() => this.props.setPageState("Popular in 2026")}
-          >
-            <NavIcon>
+          <NavButton onClick={() => this.props.setPageState("Popular in 2026")}>
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Popular in 2026" && "white",
+              }}
+            >
               <svg
                 viewBox="0 0 1024 1024"
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
+                fill={
+                  this.props.pageState === "Popular in 2026" ? "black" : "white"
+                }
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
@@ -171,7 +223,12 @@ class Sidebar extends Component {
             <span>Popular in 2026</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("All time top")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "All time top" && "white",
+              }}
+            >
               <svg
                 version="1.2"
                 baseProfile="tiny"
@@ -179,6 +236,9 @@ class Sidebar extends Component {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 256 240.5"
                 xmlSpace="preserve"
+                fill={
+                  this.props.pageState === "All time top" ? "black" : "white"
+                }
               >
                 <path
                   d="M41.316,196.312h173.36v30.237H41.316V196.312z M235.842,59.236c-11.133,0-20.158,9.025-20.158,20.158
@@ -196,48 +256,102 @@ class Sidebar extends Component {
         <Category>
           <h2>Platforms</h2>
           <NavButton onClick={() => this.props.setPageState("PC")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "PC" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill={this.props.pageState === "PC" ? "black" : "white"}
+              >
                 <path d="M0 13.772l6.545.902V8.426H0zM0 7.62h6.545V1.296L0 2.198zm7.265 7.15l8.704 1.2V8.425H7.265zm0-13.57v6.42h8.704V0z" />
               </svg>
             </NavIcon>
             <span>PC</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("PlayStation")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 16">
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "PlayStation" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 21 16"
+                fill={
+                  this.props.pageState === "PlayStation" ? "black" : "white"
+                }
+              >
                 <path d="M11.112 16L8 14.654V0s6.764 1.147 7.695 3.987c.931 2.842-.52 4.682-1.03 4.736-1.42.15-1.96-.748-1.96-.748V3.39l-1.544-.648L11.112 16zM12 14.32V16s7.666-2.338 8.794-3.24c1.128-.9-2.641-3.142-4.666-2.704 0 0-2.152.099-4.102.901-.019.008 0 1.51 0 1.51l4.948-1.095 1.743.73L12 14.32zm-5.024-.773s-.942.476-3.041.452c-2.1-.024-3.959-.595-3.935-1.833C.024 10.928 3.476 9.571 6.952 9v1.738l-3.693.952s-.632.786.217.81A11.934 11.934 0 007 12.046l-.024 1.5z" />
               </svg>
             </NavIcon>
             <span>PlayStation</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Xbox")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Xbox" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill={this.props.pageState === "Xbox" ? "black" : "white"}
+              >
                 <path d="M3.564 1.357l-.022.02c.046-.048.11-.1.154-.128C4.948.435 6.396 0 8 0c1.502 0 2.908.415 4.11 1.136.086.052.324.215.446.363C11.4.222 7.993 2.962 7.993 2.962c-1.177-.908-2.26-1.526-3.067-1.746-.674-.185-1.14-.03-1.362.141zm10.305 1.208c-.035-.04-.074-.076-.109-.116-.293-.322-.653-.4-.978-.378-.295.092-1.66.584-3.342 2.172 0 0 1.894 1.841 3.053 3.723 1.159 1.883 1.852 3.362 1.426 5.415A7.969 7.969 0 0016 7.999a7.968 7.968 0 00-2.13-5.434zM10.98 8.77a55.416 55.416 0 00-2.287-2.405 52.84 52.84 0 00-.7-.686l-.848.854c-.614.62-1.411 1.43-1.853 1.902-.787.84-3.043 3.479-3.17 4.958 0 0-.502-1.174.6-3.88.72-1.769 2.893-4.425 3.801-5.29 0 0-.83-.913-1.87-1.544l-.007-.002s-.011-.009-.03-.02c-.5-.3-1.047-.53-1.573-.56a1.391 1.391 0 00-.878.431A8 8 0 0013.92 13.381c0-.002-.169-1.056-1.245-2.57-.253-.354-1.178-1.46-1.696-2.04z" />
               </svg>
             </NavIcon>
             <span>Xbox</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Nintendo Switch")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 16">
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Nintendo Switch" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 21 16"
+                fill={
+                  this.props.pageState === "Nintendo Switch" ? "black" : "white"
+                }
+              >
                 <path d="M8 0h5a8 8 0 110 16H8A8 8 0 118 0zm-.135 1.935a6.065 6.065 0 000 12.13h5.12a6.065 6.065 0 000-12.13h-5.12zm-1.33 2.304h2.401l3.199 5.175V4.24h2.346v7.495H12.18L8.864 6.537v5.201H6.53l.005-7.499z" />
               </svg>
             </NavIcon>
             <span>Nintendo Switch</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("iOS")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "iOS" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill={this.props.pageState === "iOS" ? "black" : "white"}
+              >
                 <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z" />
               </svg>
             </NavIcon>
             <span>iOS</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Android")}>
-            <NavIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 18">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Android" && "white",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 18"
+                fill={this.props.pageState === "Android" ? "black" : "white"}
+              >
                 <path d="M1.168 5.86H1.12c-.614 0-1.115.482-1.115 1.07v4.665c0 .59.5 1.071 1.115 1.071h.049c.614 0 1.115-.482 1.115-1.071V6.93c0-.589-.502-1.072-1.116-1.072zm1.65 7.535c0 .541.46.983 1.025.983h1.095v2.519c0 .591.503 1.073 1.116 1.073h.048c.615 0 1.116-.482 1.116-1.073v-2.52H8.75v2.52c0 .591.504 1.073 1.117 1.073h.047c.615 0 1.116-.482 1.116-1.073v-2.52h1.096c.564 0 1.025-.44 1.025-.982V6.03H2.818v7.364zm7.739-11.83l.87-1.29a.173.173 0 00-.054-.246.188.188 0 00-.256.052l-.902 1.335A6.092 6.092 0 007.985 1a6.1 6.1 0 00-2.232.416L4.853.08a.19.19 0 00-.257-.05.173.173 0 00-.055.246l.871 1.29c-1.57.739-2.628 2.131-2.628 3.729 0 .098.006.195.015.29H13.17c.009-.095.014-.192.014-.29 0-1.598-1.059-2.99-2.628-3.73zM5.58 3.875a.489.489 0 01-.5-.48c0-.265.224-.478.5-.478.277 0 .5.213.5.478a.489.489 0 01-.5.48zm4.809 0a.489.489 0 01-.5-.48c0-.265.224-.478.5-.478s.498.213.498.478a.488.488 0 01-.498.48zm4.458 1.985h-.046c-.614 0-1.117.482-1.117 1.07v4.665c0 .59.503 1.071 1.117 1.071h.047c.615 0 1.115-.482 1.115-1.071V6.93c0-.589-.501-1.072-1.116-1.072z" />
               </svg>
             </NavIcon>
@@ -247,8 +361,16 @@ class Sidebar extends Component {
         <Category>
           <h2>Genres</h2>
           <NavButton onClick={() => this.props.setPageState("Action")}>
-            <NavIcon>
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Action" && "white",
+              }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill={this.props.pageState === "Action" ? "black" : "white"}
+              >
                 <g>
                   <path fill="none" d="M0 0h24v24H0z" />
                   <path
@@ -261,7 +383,11 @@ class Sidebar extends Component {
             <span>Action</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Strategy")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Strategy" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="Layer_1"
@@ -270,6 +396,7 @@ class Sidebar extends Component {
                 y="0px"
                 viewBox="0 0 296.999 296.999"
                 xmlSpace="preserve"
+                fill={this.props.pageState === "Strategy" ? "black" : "white"}
               >
                 <g>
                   <g>
@@ -296,7 +423,11 @@ class Sidebar extends Component {
             <span>Strategy</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("RPG")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "RPG" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="Capa_1"
@@ -305,6 +436,7 @@ class Sidebar extends Component {
                 y="0px"
                 viewBox="0 0 332.441 332.44"
                 xmlSpace="preserve"
+                fill={this.props.pageState === "RPG" ? "black" : "white"}
               >
                 <g>
                   <g>
@@ -362,7 +494,11 @@ class Sidebar extends Component {
             <span>RPG</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Shooter")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Shooter" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="Capa_1"
@@ -371,6 +507,7 @@ class Sidebar extends Component {
                 y="0px"
                 viewBox="0 0 307.296 307.296"
                 xmlSpace="preserve"
+                fill={this.props.pageState === "Shooter" ? "black" : "white"}
               >
                 <g>
                   <g>
@@ -392,7 +529,12 @@ class Sidebar extends Component {
             <span>Shooter</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Adventure")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor:
+                  this.props.pageState === "Adventure" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="Layer_1"
@@ -401,6 +543,7 @@ class Sidebar extends Component {
                 y="0px"
                 viewBox="0 0 512.002 512.002"
                 xmlSpace="preserve"
+                fill={this.props.pageState === "Adventure" ? "black" : "white"}
               >
                 <g>
                   <g>
@@ -427,7 +570,11 @@ class Sidebar extends Component {
             <span>Adventure</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Puzzle")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Puzzle" && "white",
+              }}
+            >
               <svg
                 version="1.1"
                 id="Capa_1"
@@ -436,6 +583,7 @@ class Sidebar extends Component {
                 y="0px"
                 viewBox="0 0 206.185 206.185"
                 xmlSpace="preserve"
+                fill={this.props.pageState === "Puzzle" ? "black" : "white"}
               >
                 <path
                   d="M168.395,92.03c-3.313,0-6.574,0.492-9.687,1.44V51.833c0-4.142-3.357-7.5-7.5-7.5h-38.232
@@ -454,12 +602,17 @@ class Sidebar extends Component {
             <span>Puzzle</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Racing")}>
-            <NavIcon>
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Racing" && "white",
+              }}
+            >
               <svg
                 version="1.0"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 1280.000000 1228.000000"
                 preserveAspectRatio="xMidYMid meet"
+                fill={this.props.pageState === "Racing" ? "black" : "white"}
               >
                 <g
                   transform="translate(0.000000,1228.000000) scale(0.100000,-0.100000)"
@@ -513,8 +666,16 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
             <span>Racing</span>
           </NavButton>
           <NavButton onClick={() => this.props.setPageState("Sports")}>
-            <NavIcon>
-              <svg viewBox="-8 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <NavIcon
+              style={{
+                backgroundColor: this.props.pageState === "Sports" && "white",
+              }}
+            >
+              <svg
+                viewBox="-8 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+                fill={this.props.pageState === "Sports" ? "black" : "white"}
+              >
                 <path d="M481.5 60.3c-4.8-18.2-19.1-32.5-37.3-37.4C420.3 16.5 383 8.9 339.4 8L496 164.8c-.8-43.5-8.2-80.6-14.5-104.5zm-467 391.4c4.8 18.2 19.1 32.5 37.3 37.4 23.9 6.4 61.2 14 104.8 14.9L0 347.2c.8 43.5 8.2 80.6 14.5 104.5zM4.2 283.4L220.4 500c132.5-19.4 248.8-118.7 271.5-271.4L275.6 12C143.1 31.4 26.8 130.7 4.2 283.4zm317.3-123.6c3.1-3.1 8.2-3.1 11.3 0l11.3 11.3c3.1 3.1 3.1 8.2 0 11.3l-28.3 28.3 28.3 28.3c3.1 3.1 3.1 8.2 0 11.3l-11.3 11.3c-3.1 3.1-8.2 3.1-11.3 0l-28.3-28.3-22.6 22.7 28.3 28.3c3.1 3.1 3.1 8.2 0 11.3l-11.3 11.3c-3.1 3.1-8.2 3.1-11.3 0L248 278.6l-22.6 22.6 28.3 28.3c3.1 3.1 3.1 8.2 0 11.3l-11.3 11.3c-3.1 3.1-8.2 3.1-11.3 0l-28.3-28.3-28.3 28.3c-3.1 3.1-8.2 3.1-11.3 0l-11.3-11.3c-3.1-3.1-3.1-8.2 0-11.3l28.3-28.3-28.3-28.2c-3.1-3.1-3.1-8.2 0-11.3l11.3-11.3c3.1-3.1 8.2-3.1 11.3 0l28.3 28.3 22.6-22.6-28.3-28.3c-3.1-3.1-3.1-8.2 0-11.3l11.3-11.3c3.1-3.1 8.2-3.1 11.3 0l28.3 28.3 22.6-22.6-28.3-28.3c-3.1-3.1-3.1-8.2 0-11.3l11.3-11.3c3.1-3.1 8.2-3.1 11.3 0l28.3 28.3 28.3-28.5z" />
               </svg>
             </NavIcon>
@@ -527,6 +688,7 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
 }
 
 Sidebar.propTypes = {
+  pageState: PropTypes.string,
   setPageState: PropTypes.func,
 };
 

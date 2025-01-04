@@ -93,7 +93,7 @@ class Shop extends Component {
       <StyledShop>
         <Header />
         <Body>
-          <Sidebar setPageState={this.setPageState} />
+          <Sidebar pageState={this.state.pageState} setPageState={this.setPageState} />
           {this.state.loading && <Loading theme={theme} />}
           {this.state.error && <Error error={this.state.error} />}
           {this.state.gamesData && (
