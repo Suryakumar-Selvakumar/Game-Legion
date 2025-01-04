@@ -53,11 +53,12 @@ const slideOut = keyframes`
 
 const StyledCart = styled.div`
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
-  height: 100dvh;
+  height: 100%;
+  top: 0;
   animation: ${slideIn} 500ms ease forwards;
   color: white;
   right: 0;

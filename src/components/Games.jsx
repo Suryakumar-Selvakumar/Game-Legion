@@ -13,7 +13,7 @@ const StyledGames = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-auto-rows: 400px;
   gap: 2rem;
-  padding: 3rem 2rem 2rem 2rem;
+  padding: 2rem 2rem 2rem 2rem;
   grid-area: games;
 `;
 

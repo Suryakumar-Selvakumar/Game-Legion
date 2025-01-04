@@ -240,8 +240,6 @@ export class Header extends Component {
       isCartPageVisible: !state.isCartPageVisible,
       isScrollDisabled: !state.isScrollDisabled,
     }));
-
-    console.log(this.state.isScrollDisabled);
   }
 
   componentDidMount() {

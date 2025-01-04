@@ -33,14 +33,14 @@ const FirstRow = styled.div`
   grid-area: first-row;
   display: flex;
   flex-direction: column;
+  padding-top: 3rem;
 
   h1 {
     color: white;
     font-family: myFontBold;
-    font-weight: 900;
     font-size: 60px;
     line-height: 1;
-    padding: 3rem 2rem 2rem 2rem;
+    padding: 0rem 2rem 0rem 2rem;
   }
 `;
 
@@ -54,21 +54,22 @@ class Shop extends Component {
       error: null,
       pageState: null,
       dropDownOpen: false,
+      orderBy: "Popularity",
     };
 
     this.setPageState = this.setPageState.bind(this);
-    this.setDropDownOpen = this.setDropDownOpen.bind(this);
-  }
-
-  setDropDownOpen() {
-    this.setState((state) => ({
-      ...state,
-      dropDownOpen: !this.state.dropDownOpen,
-    }));
+    this.setOrderBy = this.setOrderBy.bind(this);
   }
 
   setPageState(newPageState) {
     this.setState((state) => ({ ...state, pageState: newPageState }));
+  }
+
+  setOrderBy(newOrderBy) {
+    this.setState((state) => ({
+      ...state,
+      orderBy: newOrderBy,
+    }));
   }
 
   static contextType = ThemeContext;
@@ -128,7 +129,12 @@ class Shop extends Component {
             {this.state.pageState && <h1>{this.state.pageState}</h1>}
             {this.state.pageState !== "Best of the year" &&
               this.state.pageState !== "Popular in 2026" &&
-              this.state.pageState !== "All time top" && <DropDown />}
+              this.state.pageState !== "All time top" && (
+                <DropDown
+                  orderBy={this.state.orderBy}
+                  setOrderBy={this.setOrderBy}
+                />
+              )}
           </FirstRow>
 
           <Games
