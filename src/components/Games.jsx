@@ -14,6 +14,7 @@ const StyledGames = styled.div`
   grid-auto-rows: 400px;
   gap: 2rem;
   padding: 3rem 2rem 2rem 2rem;
+  grid-area: games;
 `;
 
 class Games extends Component {

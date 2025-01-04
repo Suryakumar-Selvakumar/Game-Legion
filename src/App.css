@@ -87,6 +87,11 @@ h6 {
   src: url("./assets/fonts/GT-Walsheim-Pro-Bold.otf");
 }
 
+@font-face {
+  font-family: myFontUltraBold;
+  src: url("./assets/fonts/GT-Walsheim-Pro-Condensed-Ultra-Bold.otf");
+}
+
 body {
   font-family: myFontRegular;
 }

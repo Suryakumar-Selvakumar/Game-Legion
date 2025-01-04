@@ -8,7 +8,8 @@ const StyledSidebar = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  grid-area: sidebar;
 `;
 
 const Category = styled.div`
@@ -26,7 +27,6 @@ const NavIcon = styled.div`
 
   svg {
     width: 20px;
-    /* fill: #ffffff; */
   }
 `;
 

@@ -11,6 +11,7 @@ import Games from "../components/Games";
 // utils
 import { getGamesData } from "../utils/getGamesData";
 import { getAPIURL } from "../utils/getAPIURL";
+import DropDown from "../components/DropDown";
 
 const StyledShop = styled.div`
   display: grid;
@@ -22,6 +23,25 @@ const StyledShop = styled.div`
 const Body = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
+  grid-template-rows: min-content min-content;
+  grid-template-areas:
+    "sidebar first-row"
+    "sidebar games";
+`;
+
+const FirstRow = styled.div`
+  grid-area: first-row;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    color: white;
+    font-family: myFontBold;
+    font-weight: 900;
+    font-size: 60px;
+    line-height: 1;
+    padding: 3rem 2rem 2rem 2rem;
+  }
 `;
 
 class Shop extends Component {
@@ -37,7 +57,7 @@ class Shop extends Component {
     };
 
     this.setPageState = this.setPageState.bind(this);
-    this.setDropDownOpen = this.setDropDownOpen(this);
+    this.setDropDownOpen = this.setDropDownOpen.bind(this);
   }
 
   setDropDownOpen() {
@@ -104,6 +124,12 @@ class Shop extends Component {
             pageState={this.state.pageState}
             setPageState={this.setPageState}
           />
+          <FirstRow>
+            {this.state.pageState && <h1>{this.state.pageState}</h1>}
+            {this.state.pageState !== "Best of the year" &&
+              this.state.pageState !== "Popular in 2026" &&
+              this.state.pageState !== "All time top" && <DropDown />}
+          </FirstRow>
 
           <Games
             gamesData={this.state.gamesData}
