@@ -93,7 +93,7 @@ export class QuickNavigation extends Component {
         <QuickNavButton>
           <div>
             <img src={barChartIcon} alt="a bar chart icon" />
-            <span>Popular in 2024</span>
+            <span>Popular in 2026</span>
           </div>
         </QuickNavButton>
         <QuickNavButton>

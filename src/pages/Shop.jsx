@@ -33,6 +33,7 @@ class Shop extends Component {
       gamesData: null,
       loading: true,
       error: null,
+      pageState: null,
     };
   }
 
