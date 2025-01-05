@@ -164,7 +164,7 @@ class DropDown extends Component {
           }}
         >
           <span>
-            Order By: <b>{this.props.orderBy}</b>
+            {this.props.menuName} <b>{this.props.menuItem}</b>
           </span>
           <svg
             className={
@@ -198,12 +198,12 @@ class DropDown extends Component {
               <MenuItem
                 key={index}
                 onClick={() => {
-                  this.props.setOrderBy(item);
+                  this.props.setMenuItem(item);
                   this.setDropDownOpen();
                 }}
               >
                 <span>{item}</span>
-                {this.props.orderBy === item && (
+                {this.props.menuItem === item && (
                   <img src={tickIcon} alt="a tick icon" />
                 )}
               </MenuItem>
@@ -215,9 +215,10 @@ class DropDown extends Component {
 }
 
 DropDown.propTypes = {
-  orderBy: PropTypes.string,
-  setOrderBy: PropTypes.func,
+  menuItem: PropTypes.string,
+  setMenuItem: PropTypes.func,
   menuItems: PropTypes.array,
+  menuName: PropTypes.string,
 };
 
 export default DropDown;

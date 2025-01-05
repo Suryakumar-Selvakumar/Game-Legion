@@ -45,6 +45,12 @@ const FirstRow = styled.div`
   }
 `;
 
+const DropDownsContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: min-content;
+`;
+
 class Shop extends Component {
   constructor(props) {
     super(props);
@@ -56,10 +62,12 @@ class Shop extends Component {
       pageState: null,
       dropDownOpen: false,
       orderBy: "Popularity",
+      sortBy: "High to Low",
     };
 
     this.setPageState = this.setPageState.bind(this);
     this.setOrderBy = this.setOrderBy.bind(this);
+    this.setSortBy = this.setSortBy.bind(this);
     this.setLoading = this.setLoading.bind(this);
   }
 
@@ -71,6 +79,13 @@ class Shop extends Component {
     this.setState((state) => ({
       ...state,
       orderBy: newOrderBy,
+    }));
+  }
+
+  setSortBy(newSortBy) {
+    this.setState((state) => ({
+      ...state,
+      sortBy: newSortBy,
     }));
   }
 
@@ -86,7 +101,7 @@ class Shop extends Component {
   fetchGamesData = async () => {
     try {
       const fetchedGamesData = await getGamesData(
-        getAPIURL(this.state.pageState, this.state.orderBy)
+        getAPIURL(this.state.pageState, this.state.orderBy, this.state.sortBy)
       );
       console.log("Fetched Data: ", fetchedGamesData);
       this.setState(
@@ -120,7 +135,8 @@ class Shop extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (
       this.state.pageState !== prevState.pageState ||
-      this.state.orderBy !== prevState.orderBy
+      this.state.orderBy !== prevState.orderBy ||
+      this.state.sortBy !== prevState.sortBy
     ) {
       this.fetchGamesData();
       this.setLoading();
@@ -140,14 +156,24 @@ class Shop extends Component {
           />
           <FirstRow>
             {this.state.pageState && <h1>{this.state.pageState}</h1>}
+
             {this.state.pageState !== "Best of the year" &&
               this.state.pageState !== "Popular in 2026" &&
               this.state.pageState !== "All time top" && (
-                <DropDown
-                  orderBy={this.state.orderBy}
-                  setOrderBy={this.setOrderBy}
-                  menuItems={["Name", "Release Date", "Popularity", "Rating"]}
-                />
+                <DropDownsContainer>
+                  <DropDown
+                    menuItem={this.state.orderBy}
+                    setMenuItem={this.setOrderBy}
+                    menuItems={["Name", "Release Date", "Popularity", "Rating"]}
+                    menuName="Order By: "
+                  />
+                  <DropDown
+                    menuItem={this.state.sortBy}
+                    setMenuItem={this.setSortBy}
+                    menuItems={["Low to High", "High to Low"]}
+                    menuName="Sort By: "
+                  />
+                </DropDownsContainer>
               )}
           </FirstRow>
 

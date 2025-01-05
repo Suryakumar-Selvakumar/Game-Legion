@@ -9,7 +9,7 @@ import {
   addYears,
 } from "date-fns";
 
-export const getAPIURL = (pageState, orderBy) => {
+export const getAPIURL = (pageState, orderBy, sortBy) => {
   const currentDate = new Date();
   const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
   const weekEndDate = format(endOfWeek(new Date()), "yyyy-MM-dd");
@@ -17,16 +17,24 @@ export const getAPIURL = (pageState, orderBy) => {
 
   switch (orderBy) {
     case "Popularity":
-      orderByFilter = "&ordering=-added";
+      orderByFilter = `&ordering=${
+        sortBy === "Low to High" ? "added" : "-added"
+      }`;
       break;
     case "Name":
-      orderByFilter = "&ordering=name";
+      orderByFilter = `&ordering=${
+        sortBy === "Low to High" ? "name" : "-name"
+      }`;
       break;
     case "Release Date":
-      orderByFilter = "&ordering=-released";
+      orderByFilter = `&ordering=${
+        sortBy === "Low to High" ? "released" : "-released"
+      }`;
       break;
     case "Rating":
-      orderByFilter = "&ordering=-rating";
+      orderByFilter = `&ordering=${
+        sortBy === "Low to High" ? "rating" : "-rating"
+      }`;
       break;
     default:
       orderByFilter = "";
