@@ -23,6 +23,7 @@ const MenuOpener = styled.div`
   gap: 0.25rem;
   cursor: pointer;
   align-items: center;
+  user-select: none;
 
   svg {
     width: 25px;
@@ -102,7 +103,7 @@ const MenuItem = styled.li`
     background-color: #e3e3e3;
   }
 
-  img {
+  svg {
     width: 25px;
   }
 `;
@@ -120,6 +121,8 @@ class DropDown extends Component {
     this.setFirstLoad = this.setFirstLoad.bind(this);
     this.dropDownRef = createRef(null);
   }
+
+  static contextType = ThemeContext;
 
   setDropDownOpen() {
     this.setState((state) => ({
@@ -155,6 +158,8 @@ class DropDown extends Component {
   }
 
   render() {
+    const theme = this.context;
+
     return (
       <StyledDropDown ref={this.dropDownRef}>
         <MenuOpener
@@ -205,7 +210,25 @@ class DropDown extends Component {
               >
                 <span>{item}</span>
                 {this.props.menuItem === item && (
-                  <img src={tickIcon} alt="a tick icon" />
+                  <svg
+                    fill={
+                      theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"
+                    }
+                    viewBox="0 0 1024 1024"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0" />
+
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+
+                    <g id="SVGRepo_iconCarrier">
+                      <path d="M760 380.4l-61.6-61.6-263.2 263.1-109.6-109.5L264 534l171.2 171.2L760 380.4z" />
+                    </g>
+                  </svg>
                 )}
               </MenuItem>
             ))}
