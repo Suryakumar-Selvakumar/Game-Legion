@@ -12,6 +12,8 @@ import Games from "../components/Games";
 import { getGamesData } from "../utils/getGamesData";
 import { getAPIURL } from "../utils/getAPIURL";
 import DropDown from "../components/DropDown";
+import { setSortByArr } from "../utils/setSortByArr";
+import { setCurrentSortBy } from "../utils/setCurrentSortBy";
 
 const StyledShop = styled.div`
   display: grid;
@@ -141,6 +143,10 @@ class Shop extends Component {
       this.fetchGamesData();
       this.setLoading();
     }
+
+    if (this.state.orderBy !== prevState.orderBy) {
+      this.setSortBy(setCurrentSortBy(this.state.orderBy, this.state.sortBy));
+    }
   }
 
   render() {
@@ -170,7 +176,7 @@ class Shop extends Component {
                   <DropDown
                     menuItem={this.state.sortBy}
                     setMenuItem={this.setSortBy}
-                    menuItems={["Low to High", "High to Low"]}
+                    menuItems={setSortByArr(this.state.orderBy)}
                     menuName="Sort by: "
                   />
                 </DropDownsContainer>

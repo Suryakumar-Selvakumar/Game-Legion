@@ -23,12 +23,12 @@ export const getAPIURL = (pageState, orderBy, sortBy) => {
       break;
     case "Name":
       orderByFilter = `&ordering=${
-        sortBy === "Low to High" ? "name" : "-name"
+        sortBy === "A to Z" ? "name" : "-name"
       }`;
       break;
     case "Release Date":
       orderByFilter = `&ordering=${
-        sortBy === "Low to High" ? "released" : "-released"
+        sortBy === "Old to New" ? "released" : "-released"
       }`;
       break;
     case "Rating":

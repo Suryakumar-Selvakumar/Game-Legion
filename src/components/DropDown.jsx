@@ -164,7 +164,8 @@ class DropDown extends Component {
           }}
         >
           <span>
-            {this.props.menuName} <b>{this.props.menuItem}</b>
+            {this.props.menuName}
+            <b key={crypto.randomUUID()}>{this.props.menuItem}</b>
           </span>
           <svg
             className={
