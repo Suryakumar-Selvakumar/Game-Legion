@@ -9,27 +9,46 @@ import {
   addYears,
 } from "date-fns";
 
-export const getAPIURL = (pageState) => {
+export const getAPIURL = (pageState, orderBy) => {
   const currentDate = new Date();
   const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
   const weekEndDate = format(endOfWeek(new Date()), "yyyy-MM-dd");
+  let orderByFilter = "";
+
+  switch (orderBy) {
+    case "Popularity":
+      orderByFilter = "&ordering=-added";
+      break;
+    case "Name":
+      orderByFilter = "&ordering=name";
+      break;
+    case "Release Date":
+      orderByFilter = "&ordering=-released";
+      break;
+    case "Rating":
+      orderByFilter = "&ordering=-rating";
+      break;
+    default:
+      orderByFilter = "";
+      break;
+  }
 
   switch (pageState) {
     case "Last 30 days": {
       const Last30DaysDate = format(subDays(currentDate, 30), "yyyy-MM-dd");
-      return `https://api.rawg.io/api/games?dates=${Last30DaysDate},${currentDateFormatted}&key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40`;
+      return `https://api.rawg.io/api/games?dates=${Last30DaysDate},${currentDateFormatted}&key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
     }
     case "This week": {
       const weekStartDate = format(startOfWeek(new Date()), "yyyy-MM-dd");
 
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${weekStartDate},${weekEndDate}`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${weekStartDate},${weekEndDate}${orderByFilter}`;
     }
     case "Next week": {
       const weekEndDate = endOfWeek(currentDate);
       const nextWeekDate = add(weekEndDate, { days: 2 });
       const nextWeekStartDate = format(startOfWeek(nextWeekDate), "yyyy-MM-dd");
       const nextWeekEndDate = format(endOfWeek(nextWeekDate), "yyyy-MM-dd");
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${nextWeekStartDate},${nextWeekEndDate}`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${nextWeekStartDate},${nextWeekEndDate}${orderByFilter}`;
     }
     case "Best of the year": {
       const yearStartDate = format(startOfYear(currentDate), "yyyy-MM-dd");
@@ -48,49 +67,49 @@ export const getAPIURL = (pageState) => {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&dates=${oldDateFormatted},${currentDateFormatted}&ordering=-added`;
     }
     case "PC": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=1`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=1${orderByFilter}`;
     }
     case "PlayStation": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=2`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=2${orderByFilter}`;
     }
     case "Xbox": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=3`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=3${orderByFilter}`;
     }
     case "Nintendo Switch": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=7`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=7${orderByFilter}`;
     }
-    case "iOS": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=5`;
+    case "MacOS": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=5${orderByFilter}`;
     }
     case "Android": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=8`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&parent_platforms=8${orderByFilter}`;
     }
     case "Action": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=4`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=4${orderByFilter}`;
     }
     case "Strategy": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=10`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=10${orderByFilter}`;
     }
     case "RPG": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=5`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=5${orderByFilter}`;
     }
     case "Shooter": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=2`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=2${orderByFilter}`;
     }
     case "Adventure": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=3`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=3${orderByFilter}`;
     }
     case "Puzzle": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=7`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=7${orderByFilter}`;
     }
     case "Racing": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=1`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=1${orderByFilter}`;
     }
     case "Sports": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=15`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=15${orderByFilter}`;
     }
     default: {
-      return "https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40";
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
     }
   }
 };

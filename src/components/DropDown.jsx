@@ -7,10 +7,10 @@ import PropTypes from "prop-types";
 import tickIcon from "../assets/icons/tick.svg";
 
 const StyledDropDown = styled.div`
-  padding: 1.5rem 2rem 0rem 1rem;
+  padding: 1.5rem 0rem 0rem 1rem;
   position: relative;
   margin-left: 1rem;
-  width: max-content;
+  width: min-content;
 `;
 
 const MenuOpener = styled.div`

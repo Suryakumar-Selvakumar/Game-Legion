@@ -23,7 +23,7 @@ const StyledShop = styled.div`
 const Body = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-template-rows: min-content min-content;
+  grid-template-rows: min-content 1fr;
   grid-template-areas:
     "sidebar first-row"
     "sidebar games";
@@ -34,6 +34,7 @@ const FirstRow = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 3rem;
+  height: min-content;
 
   h1 {
     color: white;
@@ -59,6 +60,7 @@ class Shop extends Component {
 
     this.setPageState = this.setPageState.bind(this);
     this.setOrderBy = this.setOrderBy.bind(this);
+    this.setLoading = this.setLoading.bind(this);
   }
 
   setPageState(newPageState) {
@@ -72,12 +74,19 @@ class Shop extends Component {
     }));
   }
 
+  setLoading() {
+    this.setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+  }
+
   static contextType = ThemeContext;
 
   fetchGamesData = async () => {
     try {
       const fetchedGamesData = await getGamesData(
-        getAPIURL(this.state.pageState)
+        getAPIURL(this.state.pageState, this.state.orderBy)
       );
       console.log("Fetched Data: ", fetchedGamesData);
       this.setState(
@@ -109,8 +118,12 @@ class Shop extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.pageState !== prevState.pageState) {
+    if (
+      this.state.pageState !== prevState.pageState ||
+      this.state.orderBy !== prevState.orderBy
+    ) {
       this.fetchGamesData();
+      this.setLoading();
     }
   }
 
