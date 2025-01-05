@@ -79,17 +79,17 @@ h6 {
 
 @font-face {
   font-family: myFontRegular;
-  src: url("./assets/fonts/GT-Walsheim-Pro-Regular.otf");
+  src: url("./assets/fonts/GTWalsheimPro-Regular.woff2");
 }
 
 @font-face {
   font-family: myFontBold;
-  src: url("./assets/fonts/GT-Walsheim-Pro-Bold.otf");
+  src: url("./assets/fonts/GTWalsheimPro-Bold.woff2");
 }
 
 @font-face {
   font-family: myFontUltraBold;
-  src: url("./assets/fonts/GT-Walsheim-Pro-Ultra-Bold.otf");
+  src: url("./assets/fonts/GTWalsheimPro-UltraBold.woff2");
 }
 
 body {

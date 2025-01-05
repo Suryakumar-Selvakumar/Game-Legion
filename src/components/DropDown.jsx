@@ -3,9 +3,6 @@ import { Component, createRef } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 
-// assets
-import tickIcon from "../assets/icons/tick.svg";
-
 const StyledDropDown = styled.div`
   padding: 1.5rem 0rem 0rem 1rem;
   position: relative;
