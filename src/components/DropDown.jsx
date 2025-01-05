@@ -193,50 +193,21 @@ class DropDown extends Component {
               : "close"
           }
         >
-          <MenuItem
-            onClick={() => {
-              this.props.setOrderBy("Name");
-              this.setDropDownOpen();
-            }}
-          >
-            <span>Name</span>
-            {this.props.orderBy === "Name" && (
-              <img src={tickIcon} alt="a tick icon" />
-            )}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              this.props.setOrderBy("Release Date");
-              this.setDropDownOpen();
-            }}
-          >
-            <span>Release Date</span>
-            {this.props.orderBy === "Release Date" && (
-              <img src={tickIcon} alt="a tick icon" />
-            )}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              this.props.setOrderBy("Popularity");
-              this.setDropDownOpen();
-            }}
-          >
-            <span>Popularity</span>
-            {this.props.orderBy === "Popularity" && (
-              <img src={tickIcon} alt="a tick icon" />
-            )}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              this.props.setOrderBy("Rating");
-              this.setDropDownOpen();
-            }}
-          >
-            <span>Rating</span>
-            {this.props.orderBy === "Rating" && (
-              <img src={tickIcon} alt="a tick icon" />
-            )}
-          </MenuItem>
+          {this.props.menuItems &&
+            this.props.menuItems.map((item, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => {
+                  this.props.setOrderBy(item);
+                  this.setDropDownOpen();
+                }}
+              >
+                <span>{item}</span>
+                {this.props.orderBy === item && (
+                  <img src={tickIcon} alt="a tick icon" />
+                )}
+              </MenuItem>
+            ))}
         </Menu>
       </StyledDropDown>
     );
@@ -246,6 +217,7 @@ class DropDown extends Component {
 DropDown.propTypes = {
   orderBy: PropTypes.string,
   setOrderBy: PropTypes.func,
+  menuItems: PropTypes.array,
 };
 
 export default DropDown;

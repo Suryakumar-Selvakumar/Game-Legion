@@ -146,6 +146,7 @@ class Shop extends Component {
                 <DropDown
                   orderBy={this.state.orderBy}
                   setOrderBy={this.setOrderBy}
+                  menuItems={["Name", "Release Date", "Popularity", "Rating"]}
                 />
               )}
           </FirstRow>
