@@ -165,13 +165,13 @@ class Shop extends Component {
                     menuItem={this.state.orderBy}
                     setMenuItem={this.setOrderBy}
                     menuItems={["Name", "Release Date", "Popularity", "Rating"]}
-                    menuName="Order By: "
+                    menuName="Order by: "
                   />
                   <DropDown
                     menuItem={this.state.sortBy}
                     setMenuItem={this.setSortBy}
                     menuItems={["Low to High", "High to Low"]}
-                    menuName="Sort By: "
+                    menuName="Sort by: "
                   />
                 </DropDownsContainer>
               )}

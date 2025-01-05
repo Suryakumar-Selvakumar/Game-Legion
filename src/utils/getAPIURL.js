@@ -116,8 +116,41 @@ export const getAPIURL = (pageState, orderBy, sortBy) => {
     case "Sports": {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=15${orderByFilter}`;
     }
+    case "Indie": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=51${orderByFilter}`;
+    }
+    case "Casual": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=40${orderByFilter}`;
+    }
+    case "Simulation": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=14${orderByFilter}`;
+    }
+    case "Arcade": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=11${orderByFilter}`;
+    }
+    case "Platformer": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=83${orderByFilter}`;
+    }
+    case "Multiplayer": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=59${orderByFilter}`;
+    }
+    case "Fighting": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=6${orderByFilter}`;
+    }
+    case "Family": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=19${orderByFilter}`;
+    }
+    case "Board Games": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=28${orderByFilter}`;
+    }
+    case "Educational": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=34${orderByFilter}`;
+    }
+    case "Card": {
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=17${orderByFilter}`;
+    }
     default: {
-      return `https://api.rawg.io/api/genres?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
     }
   }
 };
