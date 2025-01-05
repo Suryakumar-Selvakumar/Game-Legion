@@ -117,7 +117,7 @@ export const getAPIURL = (pageState, orderBy, sortBy) => {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&genres=15${orderByFilter}`;
     }
     default: {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
+      return `https://api.rawg.io/api/genres?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
     }
   }
 };
