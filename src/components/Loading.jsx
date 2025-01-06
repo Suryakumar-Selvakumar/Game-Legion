@@ -1,6 +1,7 @@
 import { Component } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { CircularProgress } from "react-cssfx-loading";
+import PropTypes from "prop-types";
 
 const StyledLoading = styled.div`
   display: flex;
@@ -25,12 +26,17 @@ class Loading extends Component {
         <CircularProgress
           color={theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
           duration="2s"
-          width="100px"
-          height="100px"
+          width={this.props.width}
+          height={this.props.height}
         />
       </StyledLoading>
     );
   }
 }
+
+Loading.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+};
 
 export default Loading;

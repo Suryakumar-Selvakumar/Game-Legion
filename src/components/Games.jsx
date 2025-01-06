@@ -29,7 +29,9 @@ class Games extends Component {
 
     return (
       <>
-        {this.props.loading && <Loading theme={theme} />}
+        {this.props.loading && (
+          <Loading theme={theme} width="100px" height="100px" />
+        )}
         {this.props.error && <Error error={this.props.error} />}
         {this.props.gamesData &&
           !this.props.loading &&

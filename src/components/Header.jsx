@@ -140,7 +140,7 @@ const SearchBar = styled.input.attrs({
   outline: none;
   border-radius: 10px;
   padding: 0.3rem 2.25rem 0.3rem 1rem;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   border: none;
   position: relative;
   left: -7rem;
@@ -181,12 +181,14 @@ export class Header extends Component {
       isScrollDisabled: false,
       isHeaderVisible: true,
       scrollVal: undefined,
+      searchInput: "",
     };
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
     this.handleCartClick = this.handleCartClick.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
+    this.setSearchInput = this.setSearchInput.bind(this);
   }
 
   static contextType = ThemeContext;
@@ -258,6 +260,20 @@ export class Header extends Component {
     }
   }
 
+  setSearchInput(e) {
+    setTimeout(
+      () =>
+        this.setState(
+          (state) => ({
+            ...state,
+            searchInput: e.target.value,
+          }),
+          () => console.log(this.state.searchInput)
+        ),
+      1000
+    );
+  }
+
   render() {
     const theme = this.context;
 
@@ -268,7 +284,7 @@ export class Header extends Component {
         >
           <Logo to="/">
             <span>
-              GAME{" "}
+              GAME
               <LogoIcon
                 src={
                   theme.currentTheme === "norse"
@@ -280,7 +296,7 @@ export class Header extends Component {
                     ? "Jormungandur icon"
                     : "omega icon"
                 }
-              />{" "}
+              />
               LEGION
             </span>
           </Logo>
@@ -289,6 +305,7 @@ export class Header extends Component {
               onBlur={this.handleBlur}
               onAnimationEnd={this.handleAnimationEnd}
               className={this.state.isShrinking ? "shrink" : ""}
+              onKeyUp={this.setSearchInput}
             />
             <img src={searchIcon} alt="a search icon" />
           </SearchContainer>
