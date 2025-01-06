@@ -2,6 +2,7 @@
 import { Component } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
+import { Skeleton } from "@mui/material";
 
 // assets
 import pcIcon from "../assets/icons/windows.svg";
@@ -11,27 +12,6 @@ import nintendoIcon from "../assets/icons/nintendo.svg";
 import appleIcon from "../assets/icons/apple.svg";
 import androidIcon from "../assets/icons/android.svg";
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
-
-const StyledGameCard = styled.div`
-  display: grid;
-  grid-template-rows: 250px 150px;
-  background-color: rgb(32, 32, 32);
-  border-radius: 20px;
-  transition: transform 400ms ease;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-const GameImage = styled.img`
-  object-fit: fill;
-  height: 100%;
-  width: 100%;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  cursor: pointer;
-`;
 
 const GameCardDetails = styled.div`
   padding: 1.25rem;
@@ -79,26 +59,81 @@ const GameName = styled.p`
   cursor: pointer;
 `;
 
+const StyledGameCard = styled.div`
+  display: grid;
+  grid-template-rows: 250px 150px;
+  background-color: rgb(32, 32, 32);
+  border-radius: 20px;
+  transition: transform 400ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const ImageContainer = styled.div`
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+
+  .MuiSkeleton-root {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+  }
+`;
+
+const GameImage = styled.img`
+  object-fit: fill;
+  height: 250px;
+  width: 100%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+`;
+
 class GameCard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: true,
+      imageLoading: true,
     };
+
+    this.setImageLoading = this.setImageLoading.bind(this);
+  }
+
+  setImageLoading() {
+    this.setState((state) => ({
+      ...state,
+      imageLoading: false,
+    }));
   }
 
   render() {
     return (
       <StyledGameCard>
-        <GameImage
-          src={
-            this.props.gameDetails.image !== null
-              ? this.props.gameDetails.image
-              : placeHolderImage
-          }
-          alt={this.props.gameDetails.name}
-        />
+        <ImageContainer>
+          {this.state.imageLoading && (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              animation="pulse"
+            />
+          )}
+          <GameImage
+            src={
+              this.props.gameDetails.image !== null
+                ? this.props.gameDetails.image
+                : placeHolderImage
+            }
+            alt={this.props.gameDetails.name}
+            onLoad={this.setImageLoading}
+            style={{
+              display: this.state.imageLoading ? "none" : "block",
+            }}
+          />
+        </ImageContainer>
         <GameCardDetails>
           <div>
             <button>Add to cart +</button>
