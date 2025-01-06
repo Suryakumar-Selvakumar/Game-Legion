@@ -15,10 +15,10 @@ const popIn = keyframes`
 `;
 
 const CartPage = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0vh;
   left: 0;
   z-index: 2;
   background-color: rgb(0, 0, 0, 0.5);
@@ -52,13 +52,13 @@ const slideOut = keyframes`
 `;
 
 const StyledCart = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 4;
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
-  height: 100%;
-  top: 0;
+  height: 100vh;
+  top: 0vh;
   animation: ${slideIn} 500ms ease forwards;
   color: white;
   right: 0;

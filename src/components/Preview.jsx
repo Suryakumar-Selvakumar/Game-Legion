@@ -156,7 +156,7 @@ class Preview extends Component {
     return (
       <StyledPreview>
         {this.state.loading && (
-          <Loading theme={theme} width="100px" height="100px" />
+          <Loading theme={theme} width="90px" height="90px" />
         )}
         {this.state.gamesData &&
           !this.state.loading &&
