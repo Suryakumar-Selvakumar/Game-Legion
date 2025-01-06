@@ -4,6 +4,9 @@ import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 import { Skeleton } from "@mui/material";
 
+// components
+import { SearchCard } from "./Preview";
+
 // assets
 import pcIcon from "../assets/icons/windows.svg";
 import playStationIcon from "../assets/icons/playstation.svg";
@@ -32,7 +35,6 @@ const GameCardDetails = styled.div`
     outline: none;
     color: rgb(153, 153, 153);
     padding: 0;
-
     cursor: pointer;
     line-height: 1;
   }
@@ -192,3 +194,5 @@ GameCard.propTypes = {
 };
 
 export default GameCard;
+
+export { GameName };

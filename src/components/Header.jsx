@@ -12,6 +12,7 @@ import omegaGreekIcon from "../assets/icons/omega-greek.png";
 
 // components
 import Cart from "./Cart";
+import Preview from "./Preview";
 
 const dropDown = keyframes`
   0% {
@@ -87,7 +88,7 @@ const LogoIcon = styled.img`
   top: -0.25rem;
 `;
 
-const SearchContainer = styled.div`
+const SearchInputContainer = styled.div`
   display: flex;
 
   img {
@@ -96,6 +97,11 @@ const SearchContainer = styled.div`
     left: -9rem;
     cursor: pointer;
   }
+`;
+
+const SearchBarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const expand = keyframes`
@@ -182,6 +188,7 @@ export class Header extends Component {
       isHeaderVisible: true,
       scrollVal: undefined,
       searchInput: "",
+      isPreviewVisible: false,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
@@ -189,6 +196,14 @@ export class Header extends Component {
     this.handleCartClick = this.handleCartClick.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.setSearchInput = this.setSearchInput.bind(this);
+    this.setPreviewVisible = this.setPreviewVisible.bind(this);
+  }
+
+  setPreviewVisible() {
+    this.setState((state) => ({
+      ...state,
+      isPreviewVisible: !state.isPreviewVisible,
+    }));
   }
 
   static contextType = ThemeContext;
@@ -209,6 +224,7 @@ export class Header extends Component {
         ...state,
         isHeaderVisible: false,
       }));
+      document.activeElement.blur();
     } else {
       this.setState((state) => ({
         ...state,
@@ -226,6 +242,7 @@ export class Header extends Component {
     this.setState((state) => ({
       ...state,
       isShrinking: true,
+      isPreviewVisible: false,
     }));
   }
 
@@ -300,15 +317,23 @@ export class Header extends Component {
               LEGION
             </span>
           </Logo>
-          <SearchContainer>
-            <SearchBar
-              onBlur={this.handleBlur}
-              onAnimationEnd={this.handleAnimationEnd}
-              className={this.state.isShrinking ? "shrink" : ""}
-              onKeyUp={this.setSearchInput}
-            />
-            <img src={searchIcon} alt="a search icon" />
-          </SearchContainer>
+          <SearchBarContainer>
+            <SearchInputContainer>
+              <SearchBar
+                onFocus={this.setPreviewVisible}
+                onBlur={this.handleBlur}
+                onAnimationEnd={this.handleAnimationEnd}
+                className={this.state.isShrinking ? "shrink" : ""}
+                onKeyUp={this.setSearchInput}
+              />
+              <img src={searchIcon} alt="a search icon" />
+            </SearchInputContainer>
+            {this.state.searchInput !== "" &&
+              this.state.isPreviewVisible &&
+              this.state.isHeaderVisible && (
+                <Preview searchInput={this.state.searchInput} />
+              )}
+          </SearchBarContainer>
           <CartIcon onClick={this.handleCartClick} />
         </StyledHeader>
         {this.state.isCartPageVisible && (
@@ -323,3 +348,5 @@ Header.propTypes = {
   setTheme: PropTypes.func,
   handleRefresh: PropTypes.func,
 };
+
+export { expand };

@@ -4,20 +4,181 @@ import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+//components
+import Loading from "./Loading";
+import { GameName } from "./GameCard";
+
+// utils
+import { getGamesData } from "../utils/getGamesData";
+import { getAPIURL } from "../utils/getAPIURL";
+
+// assets
+import placeHolderImage from "../assets/icons/placeholder-image.jpg";
+
+const expand = keyframes`
+  0% {
+    width: 350px;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  50% {
+    width: 600px;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  75% {
+    width: 590px;
+    transform: scaleY(0.98);
+  }
+
+  100% {
+    width: 600px;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+`;
+
 const StyledPreview = styled.div`
-    
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  background-color: white;
+  position: absolute;
+  z-index: 3;
+  border-radius: 10px;
+  margin-top: 3rem;
+  margin-left: -7rem;
+  box-shadow: 0 0 1rem rgb(58, 58, 58);
+  transform-origin: top right;
+  animation: ${expand} 375ms ease forwards;
+  height: 405px;
+  overflow: scroll;
+  scrollbar-width: none;
+  box-shadow: inset 0 -10px 10px -10px #000000;
+`;
+
+const SearchCard = styled.div`
+  width: 100%;
+  min-height: 135px;
+  display: flex;
+  transition: all 250ms ease;
+  align-items: center;
+  gap: 1rem;
+  padding: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(218, 218, 218);
+  }
+
+  & ${GameName} {
+    font-size: 1.25rem;
+    font-family: myFontRegular;
+    padding: 0;
+    color: black;
+  }
+`;
+
+const GameImage = styled.img`
+  width: 150px;
+  height: 100%;
+  border-radius: 10px;
 `;
 
 class Preview extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      gamesData: null,
+      loading: true,
+      error: null,
+    };
+
+    this.setLoading = this.setLoading.bind(this);
+  }
+
+  fetchGamesData = async () => {
+    try {
+      const fetchedGamesData = await getGamesData(
+        getAPIURL("preview", "", "", this.props.searchInput)
+      );
+      console.log("Fetched Data: ", fetchedGamesData);
+      this.setState(
+        (state) => ({
+          ...state,
+          gamesData: fetchedGamesData,
+          error: null,
+        }),
+        () => {
+          console.log("Updated gameState Data: ", this.state.gamesData); // Logs updated state
+        }
+      );
+    } catch (err) {
+      this.setState((state) => ({
+        ...state,
+        gamesData: null,
+        error: err.message,
+      }));
+    } finally {
+      this.setState((state) => ({
+        ...state,
+        loading: false,
+      }));
+    }
+  };
+
+  setLoading() {
+    this.setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+  }
+
+  static contextType = ThemeContext;
+
+  componentDidMount() {
+    this.fetchGamesData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.searchInput !== prevProps.searchInput) {
+      this.fetchGamesData();
+      this.setLoading();
+    }
   }
 
   render() {
-    return <StyledPreview>
+    const theme = this.context;
 
-    </StyledPreview>;
+    return (
+      <StyledPreview>
+        {this.state.loading && (
+          <Loading theme={theme} width="100px" height="100px" />
+        )}
+        {this.state.gamesData &&
+          !this.state.loading &&
+          this.state.error === null &&
+          this.state.gamesData.map((game) => (
+            <SearchCard key={game.id}>
+              <GameImage
+                src={game.image !== null ? game.image : placeHolderImage}
+                alt={game.name}
+              />
+              <GameName>{game.name}</GameName>
+            </SearchCard>
+          ))}
+      </StyledPreview>
+    );
   }
 }
 
+Preview.propTypes = {
+  searchInput: PropTypes.string,
+};
+
 export default Preview;
+
+export { SearchCard };
