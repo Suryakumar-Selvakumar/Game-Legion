@@ -343,14 +343,18 @@ export class Header extends Component {
           </SearchBarContainer>
           <CartContainer>
             <CartIcon onClick={this.handleCartClick} />
-            {cart.length >= 1 && (
-              <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill={theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
-                  d="M8 3a5 5 0 100 10A5 5 0 008 3z"
-                />
-              </svg>
-            )}
+            <svg
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                visibility: cart.length >= 1 ? "visible" : "hidden",
+              }}
+            >
+              <path
+                fill={theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
+                d="M8 3a5 5 0 100 10A5 5 0 008 3z"
+              />
+            </svg>
           </CartContainer>
         </StyledHeader>
         {this.state.isCartPageVisible && (

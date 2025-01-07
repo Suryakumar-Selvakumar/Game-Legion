@@ -113,6 +113,15 @@ export class Footer extends Component {
     this.props.handleRefresh();
   }
 
+  componentDidMount() {
+    const storedTheme = JSON.parse(localStorage.getItem("theme"));
+
+    this.setState((state) => ({
+      ...state,
+      isChecked: storedTheme.currentTheme === "norse" ? true : false,
+    }));
+  }
+
   render() {
     return (
       <StyledFooter>
