@@ -11,8 +11,8 @@ import { CartProvider } from "./components/CartProvider";
 function App() {
   return (
     <CartProvider>
-      <Home />
-      {/* <Shop /> */}
+      {/* <Home /> */}
+      <Shop />
     </CartProvider>
   );
 }

@@ -105,16 +105,12 @@ class Preview extends Component {
       const fetchedGamesData = await getGamesData(
         getAPIURL("preview", "", "", this.props.searchInput)
       );
-      console.log("Fetched Data: ", fetchedGamesData);
       this.setState(
         (state) => ({
           ...state,
           gamesData: fetchedGamesData,
           error: null,
-        }),
-        () => {
-          console.log("Updated gameState Data: ", this.state.gamesData); // Logs updated state
-        }
+        })
       );
     } catch (err) {
       this.setState((state) => ({

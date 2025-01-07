@@ -15,6 +15,7 @@ import nintendoIcon from "../assets/icons/nintendo.svg";
 import appleIcon from "../assets/icons/apple.svg";
 import androidIcon from "../assets/icons/android.svg";
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
+import { CartContext } from "./CartContext";
 
 const GameCardDetails = styled.div`
   padding: 1.25rem;
@@ -102,6 +103,7 @@ class GameCard extends Component {
     };
 
     this.setImageLoading = this.setImageLoading.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
   setImageLoading() {
@@ -111,7 +113,29 @@ class GameCard extends Component {
     }));
   }
 
+  existingItem = (cart) =>
+    cart.find((cartItem) => cartItem.id === this.props.gameDetails.id);
+
+  addToCart() {
+    const { cart, setCart, theme, setTheme } = this.context;
+
+    const cartGameDetails = {
+      id: this.props.gameDetails.id,
+      name: this.props.gameDetails.name,
+      image: this.props.gameDetails.image,
+      price: this.props.gameDetails.price,
+    };
+
+    if (!this.existingItem(cart)) {
+      setCart([...cart, cartGameDetails]);
+    }
+  }
+
+  static contextType = CartContext;
+
   render() {
+    const { cart, setCart, theme, setTheme } = this.context;
+
     return (
       <StyledGameCard>
         <ImageContainer>
@@ -138,7 +162,9 @@ class GameCard extends Component {
         </ImageContainer>
         <GameCardDetails>
           <div>
-            <button>Add to cart +</button>
+            <button onClick={this.addToCart}>
+              {!this.existingItem(cart) ? "Add to cart +" : "Added"}
+            </button>
             <p>${this.props.gameDetails.price}</p>
           </div>
           <Icons>

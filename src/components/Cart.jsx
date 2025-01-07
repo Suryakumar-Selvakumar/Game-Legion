@@ -1,18 +1,14 @@
 // libs
 import { Component, createRef } from "react";
-import styled, { keyframes, ThemeContext } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const popIn = keyframes`
-    0%{
-        background-color: rgb(0, 0, 0, 0);
-    }
+// Context
+import { CartContext } from "./CartContext";
 
-    100% {
-        background-color: rgb(0, 0, 0, 0.5);
-    }
-`;
+// assets
+import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 
 const CartPage = styled.div`
   position: fixed;
@@ -89,8 +85,6 @@ const CartHeader = styled.div`
   }
 `;
 
-const CartItems = styled.div``;
-
 const Checkout = styled.div`
   padding: 2rem;
   display: flex;
@@ -145,6 +139,25 @@ const Shine = styled.button`
   }
 `;
 
+const CartItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const CartItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const GameImage = styled.img``;
+
+const GameName = styled.p``;
+
+const GamePrice = styled.p``;
+
+const RemoveButton = styled.button``;
+
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -182,7 +195,11 @@ class Cart extends Component {
     };
   }
 
+  static contextType = CartContext;
+
   render() {
+    const { cart, setCart, theme, setTheme } = this.context;
+
     return (
       <>
         <StyledCart
@@ -194,7 +211,20 @@ class Cart extends Component {
             <h2>Games</h2>
             <button>Clear</button>
           </CartHeader>
-          <CartItems></CartItems>
+          <CartItems>
+            {cart.map((game) => (
+              <CartItem key={game.id}>
+                <GameImage
+                  src={game.image !== null ? game.image : placeHolderImage}
+                />
+                <div>
+                  <RemoveButton></RemoveButton>
+                  <GameName>{game.name}</GameName>
+                  <GamePrice>{game.price}</GamePrice>
+                </div>
+              </CartItem>
+            ))}
+          </CartItems>
           <Checkout>
             <p>Total: </p>
             <Shine>Checkout</Shine>
