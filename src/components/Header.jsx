@@ -34,7 +34,7 @@ const moveUp = keyframes`
   }
 `;
 
-const StyledHeader = styled.div`
+export const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

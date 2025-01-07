@@ -8,20 +8,25 @@ import { Header } from "../components/Header";
 import { QuickNavigation } from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
 import { Footer } from "../components/Footer";
+import { StyledHeader } from "../components/Header";
 
 // assets
 import backgroundVideoNorse from "../assets/videos/bg-video-norse.mp4";
 import backgroundVideoGreek from "../assets/videos/bg-video-greek.mp4";
 import { CartContext } from "../components/CartContext";
 
-const StyledHome = styled.div`
+export const StyledHome = styled.div`
   width: 100%;
   height: 100%;
 `;
 
 const Content = styled.div`
   display: grid;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 1fr;
+
+  & > ${StyledHeader} {
+    background-color: rgb(255, 255, 255, 0);
+  }
 `;
 
 const Body = styled.div`
@@ -77,10 +82,6 @@ class Home extends Component {
 
   static contextType = CartContext;
 
-  // componentDidMount() {
-  //   const { cart, setCart, theme, setTheme } = this.
-  // }
-
   render() {
     const { cart, setCart, theme, setTheme } = this.context;
 
@@ -103,10 +104,7 @@ class Home extends Component {
               <InfoCard />
               <QuickNavigation />
             </Body>
-            <Footer
-              setTheme={setTheme}
-              handleRefresh={this.handleRefresh}
-            />
+            <Footer setTheme={setTheme} handleRefresh={this.handleRefresh} />
           </Content>
         </VideoBackground>
       </StyledHome>

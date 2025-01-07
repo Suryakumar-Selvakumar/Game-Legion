@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 
 // components
-import { AppProvider } from "./components/AppProvider";
 import { CartProvider } from "./components/CartProvider";
 
 function App() {

@@ -77,7 +77,7 @@ export class InfoCard extends Component {
             It's just a personal project. The games cannot be bought and the
             prices are fake, generated to imitate a real shop.
           </p>
-          <p>Have fun! 😉</p>
+          <p>Have fun 😉</p>
         </Info>
         <InfoLinks>
           <QuickNavButton
