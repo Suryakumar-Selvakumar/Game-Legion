@@ -88,6 +88,11 @@ h6 {
 }
 
 @font-face {
+  font-family: myFontMedium;
+  src: url("./assets/fonts/GTWalsheimPro-Medium.woff2");
+}
+
+@font-face {
   font-family: myFontUltraBold;
   src: url("./assets/fonts/GTWalsheimPro-UltraBold.woff2");
 }

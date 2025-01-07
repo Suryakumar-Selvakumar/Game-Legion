@@ -99,6 +99,8 @@ const Checkout = styled.div`
 
   p {
     align-self: end;
+    font-size: 1.15rem;
+    color: rgb(153, 153, 153);
   }
 `;
 
@@ -125,7 +127,7 @@ const Shine = styled.button`
   overflow: hidden;
   color: #fff;
   cursor: pointer;
-  font-family: myFontBold;
+  font-family: myFontMedium;
   font-size: 1.1rem;
 
   &:before {
@@ -196,7 +198,7 @@ const CartItem = styled.div`
     justify-content: space-between;
     align-items: center;
     text-align: end;
-    gap: 0.5rem;
+    gap: 1rem;
     cursor: pointer;
     line-height: 1.15;
   }
@@ -204,7 +206,7 @@ const CartItem = styled.div`
   & > div > div {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
 `;
 
@@ -242,10 +244,35 @@ class Cart extends Component {
     this.callBackRef = createRef(null);
     this.callBackRef.current = this.props.setCart;
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.clearCart = this.clearCart.bind(this);
+    this.getTotal = this.getTotal.bind(this);
   }
+
+  static contextType = CartContext;
 
   handleAnimationEnd() {
     this.state.hideCart && this.callBackRef.current();
+  }
+
+  removeItem(gameId) {
+    const { cart, setCart, theme, setTheme } = this.context;
+
+    setCart(cart.filter((item) => item.id !== gameId));
+  }
+
+  clearCart() {
+    const { cart, setCart, theme, setTheme } = this.context;
+
+    setCart([]);
+  }
+
+  getTotal() {
+    const { cart, setCart, theme, setTheme } = this.context;
+    let total = 0;
+
+    cart.forEach((item) => (total += item.price));
+    return total.toFixed(2);
   }
 
   componentDidMount() {
@@ -268,8 +295,6 @@ class Cart extends Component {
     };
   }
 
-  static contextType = CartContext;
-
   render() {
     const { cart, setCart, theme, setTheme } = this.context;
 
@@ -281,13 +306,14 @@ class Cart extends Component {
           onAnimationEnd={this.handleAnimationEnd}
         >
           <CartHeader>
-            <h2>Games</h2>
-            <button>Clear</button>
+            <h2>{cart.length} Games</h2>
+            <button onClick={this.clearCart}>Clear</button>
           </CartHeader>
           <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
             {cart.map((game) => (
               <CartItem key={game.id}>
                 <RemoveButton
+                  onClick={() => this.removeItem(game.id)}
                   viewBox="0 0 24 24"
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -344,7 +370,7 @@ class Cart extends Component {
             ))}
           </CartItems>
           <Checkout>
-            <p>Total: </p>
+            <p>Total: ${this.getTotal()}</p>
             <Shine>Checkout</Shine>
           </Checkout>
         </StyledCart>

@@ -1,6 +1,6 @@
 // libs
 import { Component } from "react";
-import styled, { keyframes, ThemeContext } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -13,6 +13,7 @@ import omegaGreekIcon from "../assets/icons/omega-greek.png";
 // components
 import Cart from "./Cart";
 import Preview from "./Preview";
+import { CartContext } from "./CartContext";
 
 const dropDown = keyframes`
   0% {
@@ -35,10 +36,10 @@ const moveUp = keyframes`
 `;
 
 export const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   padding: 1rem;
+  align-items: center;
   position: fixed;
   width: 100%;
   z-index: 1;
@@ -57,20 +58,18 @@ export const StyledHeader = styled.div`
 
 const Logo = styled(Link)`
   display: flex;
-  align-items: center;
   text-decoration: none;
+  width: min-content;
 
-  span {
-    font-family: ${(props) =>
-      props.theme.currentTheme === "norse"
-        ? "myFontLogoNorse"
-        : "myFontLogoGreek"};
-    font-size: 2.5rem;
-    color: white;
-    display: flex;
-    align-items: end;
-    gap: ${(props) => (props.theme.currentTheme === "norse" ? "" : "0.2rem")};
-  }
+  font-family: ${(props) =>
+    props.theme.currentTheme === "norse"
+      ? "myFontLogoNorse"
+      : "myFontLogoGreek"};
+  font-size: 2.5rem;
+  color: white;
+  display: flex;
+  align-items: end;
+  gap: ${(props) => (props.theme.currentTheme === "norse" ? "" : "0.2rem")};
 
   cursor: pointer;
   transition: transform 250ms ease;
@@ -94,7 +93,7 @@ const SearchInputContainer = styled.div`
   img {
     width: 25px;
     position: relative;
-    left: -9rem;
+    left: -2rem;
     cursor: pointer;
   }
 `;
@@ -102,6 +101,7 @@ const SearchInputContainer = styled.div`
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const expand = keyframes`
@@ -148,8 +148,8 @@ const SearchBar = styled.input.attrs({
   padding: 0.3rem 2.25rem 0.3rem 1rem;
   font-size: 1.15rem;
   border: none;
-  position: relative;
-  left: -7rem;
+  /* position: relative;
+  left: -7rem; */
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
 
@@ -168,9 +168,20 @@ const CartIcon = styled.img.attrs({
 })`
   height: 40px;
   cursor: pointer;
+`;
+
+const CartContainer = styled.div`
+  display: flex;
   transition: transform 150ms ease;
-  position: relative;
-  top: -2.5px;
+  width: fit-content;
+  place-self: center end;
+
+  svg {
+    width: 12.5px;
+    position: relative;
+    top: -20px;
+    right: 0px;
+  }
 
   &:hover {
     transform: scale(1.1);
@@ -206,7 +217,7 @@ export class Header extends Component {
     }));
   }
 
-  static contextType = ThemeContext;
+  static contextType = CartContext;
 
   handleScroll() {
     const currentScrollVal =
@@ -292,7 +303,7 @@ export class Header extends Component {
   }
 
   render() {
-    const theme = this.context;
+    const { cart, setCart, theme, setTheme } = this.context;
 
     return (
       <>
@@ -300,22 +311,18 @@ export class Header extends Component {
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
           <Logo to="/">
-            <span>
-              GAME
-              <LogoIcon
-                src={
-                  theme.currentTheme === "norse"
-                    ? omegaNorseIcon
-                    : omegaGreekIcon
-                }
-                alt={
-                  theme.currentTheme === "norse"
-                    ? "Jormungandur icon"
-                    : "omega icon"
-                }
-              />
-              LEGION
-            </span>
+            GAME
+            <LogoIcon
+              src={
+                theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
+              }
+              alt={
+                theme.currentTheme === "norse"
+                  ? "Jormungandur icon"
+                  : "omega icon"
+              }
+            />
+            LEGION
           </Logo>
           <SearchBarContainer>
             <SearchInputContainer>
@@ -334,7 +341,17 @@ export class Header extends Component {
                 <Preview searchInput={this.state.searchInput} />
               )}
           </SearchBarContainer>
-          <CartIcon onClick={this.handleCartClick} />
+          <CartContainer>
+            <CartIcon onClick={this.handleCartClick} />
+            {cart.length >= 1 && (
+              <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill={theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
+                  d="M8 3a5 5 0 100 10A5 5 0 008 3z"
+                />
+              </svg>
+            )}
+          </CartContainer>
         </StyledHeader>
         {this.state.isCartPageVisible && (
           <Cart setCart={this.handleCartClick} />

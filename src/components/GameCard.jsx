@@ -156,8 +156,8 @@ class GameCard extends Component {
       <motion.div
         animate={this.state.animateTap ? { scale: 0.95 } : { scale: 1 }}
         transition={{
-          duration: 0.065,
-          ease: "easeInOut",
+          duration: 0.05,
+          ease: "easeOut",
         }}
         onAnimationComplete={() => {
           if (this.state.animateTap) {
