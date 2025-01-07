@@ -12,6 +12,7 @@ import { Footer } from "../components/Footer";
 // assets
 import backgroundVideoNorse from "../assets/videos/bg-video-norse.mp4";
 import backgroundVideoGreek from "../assets/videos/bg-video-greek.mp4";
+import { CartContext } from "../components/CartContext";
 
 const StyledHome = styled.div`
   width: 100%;
@@ -74,10 +75,14 @@ class Home extends Component {
     }));
   }
 
-  static contextType = ThemeContext;
+  static contextType = CartContext;
+
+  // componentDidMount() {
+  //   const { cart, setCart, theme, setTheme } = this.
+  // }
 
   render() {
-    const theme = this.context;
+    const { cart, setCart, theme, setTheme } = this.context;
 
     return (
       <StyledHome>
@@ -99,7 +104,7 @@ class Home extends Component {
               <QuickNavigation />
             </Body>
             <Footer
-              setTheme={this.props.setTheme}
+              setTheme={setTheme}
               handleRefresh={this.handleRefresh}
             />
           </Content>
@@ -108,9 +113,5 @@ class Home extends Component {
     );
   }
 }
-
-Home.propTypes = {
-  setTheme: PropTypes.func,
-};
 
 export default Home;

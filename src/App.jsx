@@ -1,7 +1,3 @@
-// libs
-import { useState } from "react";
-import { ThemeProvider } from "styled-components";
-
 // styles
 import "./App.css";
 
@@ -9,18 +5,16 @@ import "./App.css";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 
-function App() {
-  const [theme, setTheme] = useState({
-    currentTheme: "norse",
-  });
+// components
+import { AppProvider } from "./components/AppProvider";
+import { CartProvider } from "./components/CartProvider";
 
+function App() {
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        {/* <Home setTheme={setTheme} /> */}
-        <Shop />
-      </ThemeProvider>
-    </>
+    <CartProvider>
+      <Home />
+      {/* <Shop /> */}
+    </CartProvider>
   );
 }
 
