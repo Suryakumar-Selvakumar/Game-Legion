@@ -9,6 +9,7 @@ import { CartContext } from "./CartContext";
 
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
+import closeIcon from "../assets/icons/close.svg";
 
 const CartPage = styled.div`
   position: fixed;
@@ -22,7 +23,8 @@ const CartPage = styled.div`
 
 const slideIn = keyframes`
     0%{
-        background-color: rgb(0, 0, 0, 0);
+        /* background-color: rgb(0, 0, 0, 0); */
+        background-color: rgb(32, 32, 32, 1);
         transform: translateX(400px);
 
     }
@@ -32,18 +34,20 @@ const slideIn = keyframes`
     }
 
     100% {
-        background-color: rgb(32, 32, 32, 1);
-        transform: translateX(0p);
+      background-color: rgb(32, 32, 32, 1);
+        transform: translateX(0);
     }
 `;
 
 const slideOut = keyframes`
     0% {
         transform: translateX(0px);
+        background-color: rgb(32, 32, 32, 1);
     }
 
     100% {
         transform: translateX(400px);
+        background-color: rgb(32, 32, 32, 1);
     }
 `;
 
@@ -59,6 +63,8 @@ const StyledCart = styled.div`
   color: white;
   right: 0;
   box-shadow: 10px 0 10px black;
+  overflow: scroll;
+  scrollbar-width: none;
 
   &.hide-cart {
     animation: ${slideOut} 250ms ease forwards;
@@ -142,21 +148,88 @@ const Shine = styled.button`
 const CartItems = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  padding: 0 2rem;
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 `;
 
 const CartItem = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: rgb(38, 38, 38);
+  border-color: rgb(153, 153, 153);
+  border-width: 1px;
+  box-shadow: 0px 0px 5px rgb(32, 32, 32);
+  gap: 0.25rem;
+
+  animation: ${fadeIn} 500ms ease forwards;
+
+  &.hide-cart {
+    display: none;
+  }
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: end;
+    gap: 0.5rem;
+    cursor: pointer;
+    line-height: 1.15;
+  }
+
+  & > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 `;
 
-const GameImage = styled.img``;
+const GameImage = styled.img`
+  width: 150px;
+  height: 100px;
+  border-radius: 10px;
+`;
 
-const GameName = styled.p``;
+const GameName = styled.p`
+  overflow-wrap: break-word;
+  font-size: 1rem;
+`;
 
-const GamePrice = styled.p``;
+const GamePrice = styled.p`
+  color: rgb(153, 153, 153);
+`;
 
-const RemoveButton = styled.button``;
+const RemoveButton = styled.svg`
+  width: 22.5px;
+  align-self: end;
+  background-color: rgb(15, 16, 17);
+  border-radius: 5px;
+  cursor: pointer;
+`;
 
 class Cart extends Component {
   constructor(props) {
@@ -211,16 +284,61 @@ class Cart extends Component {
             <h2>Games</h2>
             <button>Clear</button>
           </CartHeader>
-          <CartItems>
+          <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
             {cart.map((game) => (
               <CartItem key={game.id}>
-                <GameImage
-                  src={game.image !== null ? game.image : placeHolderImage}
-                />
+                <RemoveButton
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g
+                    id="Page-1"
+                    stroke="none"
+                    strokeWidth="1"
+                    fill="none"
+                    fillRule="evenodd"
+                  >
+                    <g id="Close">
+                      <rect
+                        id="Rectangle"
+                        fillRule="nonzero"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="24"
+                      ></rect>
+                      <line
+                        x1="16.9999"
+                        y1="7"
+                        x2="7.00001"
+                        y2="16.9999"
+                        id="Path"
+                        stroke="rgb(153, 153, 153)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      ></line>
+                      <line
+                        x1="7.00006"
+                        y1="7"
+                        x2="17"
+                        y2="16.9999"
+                        id="Path"
+                        stroke="rgb(153, 153, 153)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      ></line>
+                    </g>
+                  </g>
+                </RemoveButton>
                 <div>
-                  <RemoveButton></RemoveButton>
-                  <GameName>{game.name}</GameName>
-                  <GamePrice>{game.price}</GamePrice>
+                  <GameImage
+                    src={game.image !== null ? game.image : placeHolderImage}
+                  />
+                  <div>
+                    <GameName>{game.name}</GameName>
+                    <GamePrice>${game.price}</GamePrice>
+                  </div>
                 </div>
               </CartItem>
             ))}
