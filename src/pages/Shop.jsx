@@ -70,7 +70,7 @@ class Shop extends Component {
       dropDownOpen: false,
       orderBy: "Popularity",
       sortBy: "High to Low",
-      searchInput: (state && state.pageState) || "",
+      searchInput: (state && state.searchInput) || "",
     };
 
     this.setPageState = this.setPageState.bind(this);
@@ -158,6 +158,8 @@ class Shop extends Component {
     const { state } = this.props.location;
 
     this.setPageState(state?.pageState || storedPageState || "default");
+    this.setSearchInput(state?.searchInput);
+
     this.fetchGamesData();
   }
 

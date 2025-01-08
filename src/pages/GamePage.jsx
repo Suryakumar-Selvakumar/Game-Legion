@@ -1,3 +1,6 @@
+// libs
+import styled from "styled-components";
+
 // hooks
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -5,6 +8,16 @@ import { useParams } from "react-router-dom";
 // utils
 import { getAPIURL } from "../utils/getAPIURL";
 import { getGamesData } from "../utils/getGamesData";
+
+// components
+import { Header } from "../components/Header";
+
+const StyledGamePage = styled.div`
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  background-color: rgb(15, 16, 17);
+  padding-top: 5rem;
+`;
 
 export function GamePage() {
   let params = useParams();
@@ -54,5 +67,9 @@ export function GamePage() {
     console.log(gameData);
   }, []);
 
-  return <h1>Hello</h1>;
+  return (
+    <StyledGamePage>
+      <Header />
+    </StyledGamePage>
+  );
 }

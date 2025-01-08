@@ -1,6 +1,6 @@
 // libs
 import { Component } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // components

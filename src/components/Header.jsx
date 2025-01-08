@@ -344,13 +344,12 @@ export class Header extends Component {
               ></SearchBar>
               {!this.props.isInShop ? (
                 <SearchIcon
-                  to={"shop"}
+                  to={"/shop"}
                   state={{
                     pageState: "Results",
                     searchInput: this.state.searchInput,
                   }}
                   onMouseDown={(e) => e.preventDefault()}
-                  replace
                 >
                   <img src={searchIcon} alt="a search icon" />
                 </SearchIcon>
