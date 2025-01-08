@@ -74,6 +74,7 @@ class Shop extends Component {
     this.setOrderBy = this.setOrderBy.bind(this);
     this.setSortBy = this.setSortBy.bind(this);
     this.setLoading = this.setLoading.bind(this);
+    this.setSearchInput = this.setSearchInput.bind(this);
   }
 
   setPageState(newPageState) {
@@ -98,6 +99,13 @@ class Shop extends Component {
     this.setState((state) => ({
       ...state,
       loading: true,
+    }));
+  }
+
+  setSearchInput(newInput) {
+    this.setState((state) => ({
+      ...state,
+      searchInput: newInput,
     }));
   }
 
@@ -140,8 +148,10 @@ class Shop extends Component {
     if (
       this.state.pageState !== prevState.pageState ||
       this.state.orderBy !== prevState.orderBy ||
-      this.state.sortBy !== prevState.sortBy
+      this.state.sortBy !== prevState.sortBy ||
+      this.state.searchInput !== prevState.searchInput
     ) {
+      console.log(this.state.searchInput);
       this.fetchGamesData();
       this.setLoading();
     }
@@ -156,14 +166,24 @@ class Shop extends Component {
 
     return (
       <StyledShop>
-        <Header />
+        <Header
+          isInShop={true}
+          setShopSearchInput={this.setSearchInput}
+          setPageState={this.setPageState}
+        />
         <Body>
           <Sidebar
             pageState={this.state.pageState}
             setPageState={this.setPageState}
           />
           <FirstRow>
-            {this.state.pageState && <h1>{this.state.pageState}</h1>}
+            {this.state.pageState && (
+              <h1>
+                {this.state.pageState === "Results"
+                  ? `Results for "${this.state.searchInput}"`
+                  : this.state.pageState}
+              </h1>
+            )}
 
             {this.state.pageState !== "Best of the year" &&
               this.state.pageState !== "Popular in 2026" &&

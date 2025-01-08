@@ -102,6 +102,13 @@ const SearchIcon = styled(Link)`
 
 const SearchInputContainer = styled.div`
   display: flex;
+
+  & > img {
+    width: 25px;
+    position: relative;
+    left: -2rem;
+    cursor: pointer;
+  }
 `;
 
 const SearchBarContainer = styled.div`
@@ -260,7 +267,7 @@ export class Header extends Component {
       isShrinking: true,
       isPreviewVisible: false,
     }));
-    }
+  }
 
   handleAnimationEnd() {
     this.setState((state) => ({
@@ -335,16 +342,28 @@ export class Header extends Component {
                 className={this.state.isShrinking ? "shrink" : ""}
                 onKeyUp={this.setSearchInput}
               ></SearchBar>
-              <SearchIcon
-                to={"shop"}
-                state={{
-                  pageState: "Results",
-                  searchInput: this.state.searchInput,
-                }}
-                onMouseDown={(e) => e.preventDefault()}
-              >
-                <img src={searchIcon} alt="a search icon" />
-              </SearchIcon>
+              {!this.props.isInShop ? (
+                <SearchIcon
+                  to={"shop"}
+                  state={{
+                    pageState: "Results",
+                    searchInput: this.state.searchInput,
+                  }}
+                  onMouseDown={(e) => e.preventDefault()}
+                  replace
+                >
+                  <img src={searchIcon} alt="a search icon" />
+                </SearchIcon>
+              ) : (
+                <img
+                  src={searchIcon}
+                  alt="a search icon"
+                  onMouseDown={() => {
+                    this.props.setShopSearchInput(this.state.searchInput);
+                    this.props.setPageState("Results");
+                  }}
+                />
+              )}
             </SearchInputContainer>
             {this.state.searchInput !== "" &&
               this.state.isPreviewVisible &&
@@ -379,6 +398,9 @@ export class Header extends Component {
 Header.propTypes = {
   setTheme: PropTypes.func,
   handleRefresh: PropTypes.func,
+  isInShop: PropTypes.bool,
+  setShopSearchInput: PropTypes.func,
+  setPageState: PropTypes.func,
 };
 
 export { expand };
