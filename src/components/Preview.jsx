@@ -3,6 +3,7 @@ import { Component } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Skeleton } from "@mui/material";
 
 //components
 import Loading from "./Loading";
@@ -78,6 +79,17 @@ const SearchCard = styled.div`
     font-family: myFontRegular;
     padding: 0;
     color: black;
+    width: calc(100% - 182px);
+  }
+`;
+
+const ImageContainer = styled.div`
+  cursor: pointer;
+  width: 150px;
+  height: 100%;
+
+  .MuiSkeleton-root {
+    border-radius: 10px;
   }
 `;
 
@@ -95,9 +107,11 @@ class Preview extends Component {
       gamesData: null,
       loading: true,
       error: null,
+      imageLoading: true,
     };
 
     this.setLoading = this.setLoading.bind(this);
+    this.setImageLoading = this.setImageLoading.bind(this);
   }
 
   fetchGamesData = async () => {
@@ -105,13 +119,11 @@ class Preview extends Component {
       const fetchedGamesData = await getGamesData(
         getAPIURL("preview", "", "", this.props.searchInput)
       );
-      this.setState(
-        (state) => ({
-          ...state,
-          gamesData: fetchedGamesData,
-          error: null,
-        })
-      );
+      this.setState((state) => ({
+        ...state,
+        gamesData: fetchedGamesData,
+        error: null,
+      }));
     } catch (err) {
       this.setState((state) => ({
         ...state,
@@ -125,6 +137,13 @@ class Preview extends Component {
       }));
     }
   };
+
+  setImageLoading() {
+    this.setState((state) => ({
+      ...state,
+      imageLoading: false,
+    }));
+  }
 
   setLoading() {
     this.setState((state) => ({
@@ -143,6 +162,10 @@ class Preview extends Component {
     if (this.props.searchInput !== prevProps.searchInput) {
       this.fetchGamesData();
       this.setLoading();
+      this.setState((state) => ({
+        ...state,
+        imageLoading: true,
+      }));
     }
   }
 
@@ -159,10 +182,24 @@ class Preview extends Component {
           this.state.error === null &&
           this.state.gamesData.map((game) => (
             <SearchCard key={game.id}>
-              <GameImage
-                src={game.image !== null ? game.image : placeHolderImage}
-                alt={game.name}
-              />
+              <ImageContainer>
+                {this.state.imageLoading && (
+                  <Skeleton
+                    variant="rectangular"
+                    width="150px"
+                    height="100%"
+                    animation="pulse"
+                  />
+                )}
+                <GameImage
+                  src={game.image !== null ? game.image : placeHolderImage}
+                  alt={game.name}
+                  onLoad={this.setImageLoading}
+                  style={{
+                    display: this.state.imageLoading ? "none" : "block",
+                  }}
+                />
+              </ImageContainer>
               <GameName>{game.name}</GameName>
             </SearchCard>
           ))}

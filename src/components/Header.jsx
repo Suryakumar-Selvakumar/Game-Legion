@@ -37,7 +37,7 @@ const moveUp = keyframes`
 
 export const StyledHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 500px 1fr 400px;
   padding: 1rem;
   align-items: center;
   position: fixed;
@@ -396,8 +396,6 @@ export class Header extends Component {
 }
 
 Header.propTypes = {
-  setTheme: PropTypes.func,
-  handleRefresh: PropTypes.func,
   isInShop: PropTypes.bool,
   setShopSearchInput: PropTypes.func,
   setPageState: PropTypes.func,
