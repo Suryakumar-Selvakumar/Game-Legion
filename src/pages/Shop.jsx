@@ -64,11 +64,13 @@ class Shop extends Component {
       loading: true,
       error: null,
       pageState:
-        state.pageState !== null || undefined ? state.pageState : "default",
+        (state && state.pageState) ||
+        JSON.parse(localStorage.getItem("page-state")) ||
+        "default",
       dropDownOpen: false,
       orderBy: "Popularity",
       sortBy: "High to Low",
-      searchInput: state.searchInput ? state.searchInput : "",
+      searchInput: (state && state.pageState) || "",
     };
 
     this.setPageState = this.setPageState.bind(this);
@@ -151,6 +153,10 @@ class Shop extends Component {
   };
 
   componentDidMount() {
+    const storedPageState = JSON.parse(localStorage.getItem("page-state"));
+    const { state } = this.props.location;
+
+    this.setPageState(state?.pageState || storedPageState || "default");
     this.fetchGamesData();
   }
 
@@ -163,6 +169,10 @@ class Shop extends Component {
     ) {
       this.fetchGamesData();
       this.setLoading();
+    }
+
+    if (this.state.pageState !== prevState.pageState) {
+      localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
     }
 
     if (this.state.orderBy !== prevState.orderBy) {
@@ -194,6 +204,8 @@ class Shop extends Component {
               <h1>
                 {this.state.pageState === "Results"
                   ? `Results for "${this.state.searchInput}"`
+                  : this.state.pageState === "default"
+                  ? null
                   : this.state.pageState}
               </h1>
             )}
