@@ -1,8 +1,8 @@
-import { element } from "prop-types";
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
 import { CartProvider } from "./components/CartProvider";
 import ShopWrapper from "./pages/ShopWrapper";
+import { GamePage } from "./pages/GamePage";
 
 export const routes = [
   {
@@ -19,6 +19,14 @@ export const routes = [
     element: (
       <CartProvider>
         <ShopWrapper />
+      </CartProvider>
+    ),
+  },
+  {
+    path: "shop/game/:gameId",
+    element: (
+      <CartProvider>
+        <GamePage />
       </CartProvider>
     ),
   },

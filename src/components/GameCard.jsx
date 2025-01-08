@@ -16,12 +16,18 @@ import appleIcon from "../assets/icons/apple.svg";
 import androidIcon from "../assets/icons/android.svg";
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 import { CartContext } from "./CartContext";
+import { Link } from "react-router-dom";
 
 const GameCardDetails = styled.div`
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  a {
+    text-decoration: none;
+    cursor: pointer;
+  }
 
   & > div:first-child {
     display: flex;
@@ -175,18 +181,20 @@ class GameCard extends Component {
                 animation="pulse"
               />
             )}
-            <GameImage
-              src={
-                this.props.gameDetails.image !== null
-                  ? this.props.gameDetails.image
-                  : placeHolderImage
-              }
-              alt={this.props.gameDetails.name}
-              onLoad={this.setImageLoading}
-              style={{
-                display: this.state.imageLoading ? "none" : "block",
-              }}
-            />
+            <Link to={`game/${String(this.props.gameDetails.id)}`}>
+              <GameImage
+                src={
+                  this.props.gameDetails.image !== null
+                    ? this.props.gameDetails.image
+                    : placeHolderImage
+                }
+                alt={this.props.gameDetails.name}
+                onLoad={this.setImageLoading}
+                style={{
+                  display: this.state.imageLoading ? "none" : "block",
+                }}
+              />
+            </Link>
           </ImageContainer>
           <GameCardDetails>
             <div>
@@ -272,7 +280,9 @@ class GameCard extends Component {
                 />
               )}
             </Icons>
-            <GameName>{this.props.gameDetails.name}</GameName>
+            <Link to={`game/${this.props.gameDetails.id}`}>
+              <GameName>{this.props.gameDetails.name}</GameName>
+            </Link>
           </GameCardDetails>
         </StyledGameCard>
       </motion.div>
