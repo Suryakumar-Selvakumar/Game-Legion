@@ -10,6 +10,7 @@ import trophyIcon from "../assets/icons/trophy.svg";
 import barChartIcon from "../assets/icons/bar-chart.svg";
 import starIcon from "../assets/icons/star.svg";
 import cloverIcon from "../assets/icons/clover.svg";
+import fireIcon from "../assets/icons/fire.svg";
 
 const StyledQuickNavigation = styled.div`
   display: flex;
@@ -58,6 +59,11 @@ const QuickNavButton = styled(Link)`
     gap: 0.5rem;
   }
 
+  &:nth-child(3) > div {
+    position: relative;
+    top: 1px;
+  }
+
   div > img {
     width: 25px;
   }
@@ -81,7 +87,13 @@ export class QuickNavigation extends Component {
         <QuickNavButton>
           <div>
             <img src={cloverIcon} alt="a clover icon" />
-            <span>I'm Feeling Lucky</span>
+            <span>I'm feeling lucky</span>
+          </div>
+        </QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "This week" }}>
+          <div>
+            <img src={fireIcon} alt="a star icon" />
+            <span>New this week</span>
           </div>
         </QuickNavButton>
         <QuickNavButton to={"/shop"} state={{ pageState: "Last 30 days" }}>
@@ -90,16 +102,16 @@ export class QuickNavigation extends Component {
             <span>Last 30 days</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "Popular in 2026" }}>
-          <div>
-            <img src={barChartIcon} alt="a bar chart icon" />
-            <span>Popular in 2026</span>
-          </div>
-        </QuickNavButton>
         <QuickNavButton to={"/shop"} state={{ pageState: "Best of the year" }}>
           <div>
             <img src={trophyIcon} alt="a trophy icon" />
             <span>{"Best of the year"}</span>
+          </div>
+        </QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "Popular in 2026" }}>
+          <div>
+            <img src={barChartIcon} alt="a bar chart icon" />
+            <span>Popular in 2026</span>
           </div>
         </QuickNavButton>
         <QuickNavButton to={"/shop"} state={{ pageState: "All time top" }}>

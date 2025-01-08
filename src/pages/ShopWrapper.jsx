@@ -1,9 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Shop from "./Shop";
 
 const ShopWrapper = (props) => {
   const location = useLocation();
-  return <Shop {...props} location={location} />;
+  let navigate = useNavigate();
+
+  return <Shop {...props} location={location} navigate={navigate} />;
 };
 
 export default ShopWrapper;

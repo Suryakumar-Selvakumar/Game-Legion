@@ -87,15 +87,21 @@ const LogoIcon = styled.img`
   top: -0.25rem;
 `;
 
-const SearchInputContainer = styled.div`
+const SearchIcon = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  left: -2rem;
   display: flex;
+  align-items: center;
 
   img {
     width: 25px;
-    position: relative;
-    left: -2rem;
-    cursor: pointer;
   }
+`;
+
+const SearchInputContainer = styled.div`
+  display: flex;
 `;
 
 const SearchBarContainer = styled.div`
@@ -148,8 +154,6 @@ const SearchBar = styled.input.attrs({
   padding: 0.3rem 2.25rem 0.3rem 1rem;
   font-size: 1.15rem;
   border: none;
-  /* position: relative;
-  left: -7rem; */
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
 
@@ -200,6 +204,7 @@ export class Header extends Component {
       scrollVal: undefined,
       searchInput: "",
       isPreviewVisible: false,
+      isSearchOn: false,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
@@ -255,7 +260,7 @@ export class Header extends Component {
       isShrinking: true,
       isPreviewVisible: false,
     }));
-  }
+    }
 
   handleAnimationEnd() {
     this.setState((state) => ({
@@ -291,13 +296,10 @@ export class Header extends Component {
   setSearchInput(e) {
     setTimeout(
       () =>
-        this.setState(
-          (state) => ({
-            ...state,
-            searchInput: e.target.value,
-          }),
-          () => console.log(this.state.searchInput)
-        ),
+        this.setState((state) => ({
+          ...state,
+          searchInput: e.target.value,
+        })),
       1000
     );
   }
@@ -325,15 +327,24 @@ export class Header extends Component {
             LEGION
           </Logo>
           <SearchBarContainer>
-            <SearchInputContainer>
+            <SearchInputContainer className="search-icon">
               <SearchBar
                 onFocus={this.setPreviewVisible}
                 onBlur={this.handleBlur}
                 onAnimationEnd={this.handleAnimationEnd}
                 className={this.state.isShrinking ? "shrink" : ""}
                 onKeyUp={this.setSearchInput}
-              />
-              <img src={searchIcon} alt="a search icon" />
+              ></SearchBar>
+              <SearchIcon
+                to={"shop"}
+                state={{
+                  pageState: "Results",
+                  searchInput: this.state.searchInput,
+                }}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                <img src={searchIcon} alt="a search icon" />
+              </SearchIcon>
             </SearchInputContainer>
             {this.state.searchInput !== "" &&
               this.state.isPreviewVisible &&

@@ -58,7 +58,6 @@ class Shop extends Component {
     super(props);
 
     const { state } = this.props.location;
-    console.log(state);
 
     this.state = {
       gamesData: null,
@@ -68,6 +67,7 @@ class Shop extends Component {
       dropDownOpen: false,
       orderBy: "Popularity",
       sortBy: "High to Low",
+      searchInput: state.searchInput ? state.searchInput : "",
     };
 
     this.setPageState = this.setPageState.bind(this);
@@ -106,19 +106,18 @@ class Shop extends Component {
   fetchGamesData = async () => {
     try {
       const fetchedGamesData = await getGamesData(
-        getAPIURL(this.state.pageState, this.state.orderBy, this.state.sortBy)
+        getAPIURL(
+          this.state.pageState,
+          this.state.orderBy,
+          this.state.sortBy,
+          this.state.searchInput
+        )
       );
-      console.log("Fetched Data: ", fetchedGamesData);
-      this.setState(
-        (state) => ({
-          ...state,
-          gamesData: fetchedGamesData,
-          error: null,
-        }),
-        () => {
-          console.log("Updated gameState Data: ", this.state.gamesData); // Logs updated state
-        }
-      );
+      this.setState((state) => ({
+        ...state,
+        gamesData: fetchedGamesData,
+        error: null,
+      }));
     } catch (err) {
       this.setState((state) => ({
         ...state,
