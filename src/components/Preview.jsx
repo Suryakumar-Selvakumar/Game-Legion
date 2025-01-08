@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -112,12 +112,17 @@ class Preview extends Component {
 
     this.setLoading = this.setLoading.bind(this);
     this.setImageLoading = this.setImageLoading.bind(this);
+    this.signalRef = createRef(null);
   }
 
   fetchGamesData = async () => {
+    const controller = new AbortController();
+    this.signalRef.current = controller;
+
     try {
       const fetchedGamesData = await getGamesData(
-        getAPIURL("preview", "", "", this.props.searchInput)
+        getAPIURL("preview", "", "", this.props.searchInput),
+        controller.signal
       );
       this.setState((state) => ({
         ...state,
@@ -125,6 +130,10 @@ class Preview extends Component {
         error: null,
       }));
     } catch (err) {
+      if (err.name === "AbortError") {
+        console.log("Aborted");
+        return;
+      }
       this.setState((state) => ({
         ...state,
         gamesData: null,
@@ -167,6 +176,10 @@ class Preview extends Component {
         imageLoading: true,
       }));
     }
+  }
+
+  componentWillUnmount() {
+    this.signalRef.current?.abort();
   }
 
   render() {

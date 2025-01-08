@@ -1,8 +1,9 @@
 import { getGamesPrice } from "./getGamesPrice";
 
-export const getGamesData = async (url) => {
+export const getGamesData = async (url, signal = null) => {
   const response = await fetch(url, {
     mode: "cors",
+    signal,
   });
 
   if (!response.ok) {
@@ -18,8 +19,7 @@ export const getGamesData = async (url) => {
     return [];
   }
 
-  return games.results
-  .map((gameObj) => {
+  return games.results.map((gameObj) => {
     return {
       id: gameObj.id,
       name: gameObj.name,

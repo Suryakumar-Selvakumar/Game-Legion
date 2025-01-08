@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 
@@ -63,7 +63,8 @@ class Shop extends Component {
       gamesData: null,
       loading: true,
       error: null,
-      pageState: state.pageState ? state.pageState : "default",
+      pageState:
+        state.pageState !== null || undefined ? state.pageState : "default",
       dropDownOpen: false,
       orderBy: "Popularity",
       sortBy: "High to Low",
@@ -75,6 +76,7 @@ class Shop extends Component {
     this.setSortBy = this.setSortBy.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.setSearchInput = this.setSearchInput.bind(this);
+    this.signalRef = createRef(null);
   }
 
   setPageState(newPageState) {
@@ -112,6 +114,9 @@ class Shop extends Component {
   static contextType = ThemeContext;
 
   fetchGamesData = async () => {
+    const controller = new AbortController();
+    this.signalRef.current = controller;
+
     try {
       const fetchedGamesData = await getGamesData(
         getAPIURL(
@@ -119,7 +124,8 @@ class Shop extends Component {
           this.state.orderBy,
           this.state.sortBy,
           this.state.searchInput
-        )
+        ),
+        controller.signal
       );
       this.setState((state) => ({
         ...state,
@@ -127,6 +133,10 @@ class Shop extends Component {
         error: null,
       }));
     } catch (err) {
+      if (err.name === "AbortError") {
+        console.log("Aborted");
+        return;
+      }
       this.setState((state) => ({
         ...state,
         gamesData: null,
@@ -151,7 +161,6 @@ class Shop extends Component {
       this.state.sortBy !== prevState.sortBy ||
       this.state.searchInput !== prevState.searchInput
     ) {
-      console.log(this.state.searchInput);
       this.fetchGamesData();
       this.setLoading();
     }
@@ -159,6 +168,10 @@ class Shop extends Component {
     if (this.state.orderBy !== prevState.orderBy) {
       this.setSortBy(setCurrentSortBy(this.state.orderBy, this.state.sortBy));
     }
+  }
+
+  componentWillUnmount() {
+    this.signalRef.current?.abort();
   }
 
   render() {
