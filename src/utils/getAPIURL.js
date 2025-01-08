@@ -9,7 +9,7 @@ import {
   addYears,
 } from "date-fns";
 
-export const getAPIURL = (pageState, orderBy, sortBy, searchInput) => {
+export const getAPIURL = (pageState, orderBy, sortBy, searchInput, gameId) => {
   const currentDate = new Date();
   const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
   const weekEndDate = format(endOfWeek(new Date()), "yyyy-MM-dd");
@@ -152,6 +152,12 @@ export const getAPIURL = (pageState, orderBy, sortBy, searchInput) => {
     }
     case "Results": {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&search=${searchInput}&search_precise=false`;
+    }
+    case "Game": {
+      return `https://api.rawg.io/api/games/${gameId}?key=c82b4f25a584475299b48ed1f5a6e8ed`;
+    }
+    case "Screenshots": {
+      return `https://api.rawg.io/api/games/${gameId}/screenshots?key=c82b4f25a584475299b48ed1f5a6e8ed`;
     }
     case "default": {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;

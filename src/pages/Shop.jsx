@@ -127,7 +127,8 @@ class Shop extends Component {
           this.state.sortBy,
           this.state.searchInput
         ),
-        controller.signal
+        controller.signal,
+        "games"
       );
       this.setState((state) => ({
         ...state,

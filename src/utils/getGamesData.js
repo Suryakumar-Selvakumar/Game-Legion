@@ -1,6 +1,6 @@
 import { getGamesPrice } from "./getGamesPrice";
 
-export const getGamesData = async (url, signal = null) => {
+export const getGamesData = async (url, signal = null, state) => {
   const response = await fetch(url, {
     mode: "cors",
     signal,
@@ -14,24 +14,57 @@ export const getGamesData = async (url, signal = null) => {
 
   console.log("API Response:", games);
 
-  if (!games.results || !Array.isArray(games.results)) {
-    console.warn("No results found in API response.");
-    return [];
+  if (state !== "game")
+    if (!games.results || !Array.isArray(games.results)) {
+      return [];
+    }
+
+  if (state === "games") {
+    return games.results.map((gameObj) => {
+      return {
+        id: gameObj.id,
+        name: gameObj.name,
+        image: gameObj.background_image,
+        platforms: gameObj.parent_platforms?.map(
+          (platform) => platform.platform.name
+        ),
+        price: Number(getGamesPrice(gameObj.ratings)),
+      };
+    });
   }
 
-  return games.results.map((gameObj) => {
+  if (state === "game") {
+    const {
+      name,
+      description_raw,
+      website,
+      released,
+      genres,
+      parent_platforms,
+      developers,
+      background_image,
+      publishers,
+      ratings,
+      ...rest
+    } = games;
+
     return {
-      id: gameObj.id,
-      name: gameObj.name,
-      image: gameObj.background_image,
-      platforms: gameObj.parent_platforms?.map(
-        (platform) => platform.platform.name
-      ),
-      rating: gameObj.rating,
-      released: gameObj.released,
-      genre: gameObj.genres.map((genre) => genre.name)[0],
-      added: gameObj.added,
-      price: Number(getGamesPrice(gameObj.ratings)),
+      name,
+      description_raw,
+      website,
+      released,
+      genres: genres.map((genre) => genre.name),
+      platforms: parent_platforms?.map((platform) => platform.platform.name),
+      developers: developers?.map((dev) => dev.name),
+      background_image,
+      publishers: publishers?.map((pub) => pub.name),
+      price: Number(getGamesPrice(ratings)),
     };
-  });
+  }
+
+  if (state === "screenshot") {
+    return games.results.map((image) => {
+      return image.image;
+    });
+  }
 };
