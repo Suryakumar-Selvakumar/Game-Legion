@@ -9,12 +9,7 @@ import Shop from "./pages/Shop";
 import { CartProvider } from "./components/CartProvider";
 
 function App() {
-  return (
-    <CartProvider>
-      {/* <Home /> */}
-      <Shop />
-    </CartProvider>
-  );
+  return <Home />;
 }
 
 export default App;

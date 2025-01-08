@@ -1,7 +1,8 @@
 import { Component } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import { CircularProgress } from "react-cssfx-loading";
 import PropTypes from "prop-types";
+import { CartContext } from "./CartContext";
 
 const StyledLoading = styled.div`
   display: flex;
@@ -16,15 +17,15 @@ class Loading extends Component {
     super(props);
   }
 
-  static contextType = ThemeContext;
+  static contextType = CartContext;
 
   render() {
-    const theme = this.context;
+    const { theme } = this.context;
 
     return (
       <StyledLoading>
         <CircularProgress
-          color={theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
+          color={theme?.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
           duration="2s"
           width={this.props.width}
           height={this.props.height}

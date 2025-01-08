@@ -57,11 +57,14 @@ class Shop extends Component {
   constructor(props) {
     super(props);
 
+    const { state } = this.props.location;
+    console.log(state);
+
     this.state = {
       gamesData: null,
       loading: true,
       error: null,
-      pageState: null,
+      pageState: state.pageState ? state.pageState : "default",
       dropDownOpen: false,
       orderBy: "Popularity",
       sortBy: "High to Low",
@@ -197,6 +200,7 @@ class Shop extends Component {
 
 Shop.propTypes = {
   setTheme: PropTypes.func,
+  location: PropTypes.any,
 };
 
 export default Shop;

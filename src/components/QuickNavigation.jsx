@@ -84,25 +84,25 @@ export class QuickNavigation extends Component {
             <span>I'm Feeling Lucky</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "Last 30 days" }}>
           <div>
             <img src={starIcon} alt="a star icon" />
             <span>Last 30 days</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "Popular in 2026" }}>
           <div>
             <img src={barChartIcon} alt="a bar chart icon" />
             <span>Popular in 2026</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "Best of the year" }}>
           <div>
             <img src={trophyIcon} alt="a trophy icon" />
-            <span>Best of the year</span>
+            <span>{"Best of the year"}</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton>
+        <QuickNavButton to={"/shop"} state={{ pageState: "All time top" }}>
           <div>
             <img src={crownIcon} alt="a crown icon" />
             <span>All time top</span>
