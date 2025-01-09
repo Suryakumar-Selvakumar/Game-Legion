@@ -186,7 +186,6 @@ const CartItem = styled.div`
   border-width: 1px;
   box-shadow: 0px 0px 5px rgb(32, 32, 32);
   gap: 0.25rem;
-
   animation: ${fadeIn} 500ms ease forwards;
 
   &.hide-cart {
