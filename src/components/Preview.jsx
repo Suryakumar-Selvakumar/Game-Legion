@@ -60,7 +60,7 @@ const StyledPreview = styled.div`
   box-shadow: inset 0 -10px 10px -10px #000000;
 `;
 
-const SearchCard = styled.div`
+const SearchCard = styled(Link)`
   width: 100%;
   min-height: 135px;
   display: flex;
@@ -69,6 +69,7 @@ const SearchCard = styled.div`
   gap: 1rem;
   padding: 15px;
   cursor: pointer;
+  text-decoration: none;
 
   &:hover {
     background-color: rgb(218, 218, 218);
@@ -195,7 +196,14 @@ class Preview extends Component {
           !this.state.loading &&
           this.state.error === null &&
           this.state.gamesData.map((game) => (
-            <SearchCard key={game.id}>
+            <SearchCard
+              key={game.id}
+              to={`/shop/game/${String(game.id)}`}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setTimeout(() => document.activeElement.blur(), 100);
+              }}
+            >
               <ImageContainer>
                 {this.state.imageLoading && (
                   <Skeleton
@@ -224,6 +232,7 @@ class Preview extends Component {
 
 Preview.propTypes = {
   searchInput: PropTypes.string,
+  setPreviewVisible: PropTypes.func,
 };
 
 export default Preview;

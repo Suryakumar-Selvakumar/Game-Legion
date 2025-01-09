@@ -367,7 +367,10 @@ export class Header extends Component {
             {this.state.searchInput !== "" &&
               this.state.isPreviewVisible &&
               this.state.isHeaderVisible && (
-                <Preview searchInput={this.state.searchInput} />
+                <Preview
+                  searchInput={this.state.searchInput}
+                  setPreviewVisible={this.setPreviewVisible}
+                />
               )}
           </SearchBarContainer>
           <CartContainer>

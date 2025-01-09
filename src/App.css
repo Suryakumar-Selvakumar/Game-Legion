@@ -97,6 +97,11 @@ h6 {
   src: url("./assets/fonts/GTWalsheimPro-UltraBold.woff2");
 }
 
+@font-face {
+  font-family: myFontBlack;
+  src: url("./assets/fonts/GTWalsheimPro-Black.woff2");
+}
+
 body {
   font-family: myFontRegular;
 }
