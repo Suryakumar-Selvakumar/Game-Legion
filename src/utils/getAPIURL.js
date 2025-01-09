@@ -159,6 +159,9 @@ export const getAPIURL = (pageState, orderBy, sortBy, searchInput, gameId) => {
     case "Screenshots": {
       return `https://api.rawg.io/api/games/${gameId}/screenshots?key=c82b4f25a584475299b48ed1f5a6e8ed`;
     }
+    case "genres": {
+      return "https://api.rawg.io/api/genres?key=c82b4f25a584475299b48ed1f5a6e8ed";
+    }
     case "default": {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40${orderByFilter}`;
     }

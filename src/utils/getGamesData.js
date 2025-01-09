@@ -67,4 +67,12 @@ export const getGamesData = async (url, signal = null, state) => {
       return image.image;
     });
   }
+
+  if (state === "genres") {
+    return games.results.map((genre) => {
+      return {
+        games: genre.games.map((game) => game.id),
+      };
+    });
+  }
 };

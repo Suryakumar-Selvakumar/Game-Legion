@@ -22,16 +22,10 @@ class Games extends Component {
     super(props);
   }
 
-  static contextType = ThemeContext;
-
   render() {
-    const theme = this.context;
-
     return (
       <>
-        {this.props.loading && (
-          <Loading theme={theme} width="100px" height="100px" />
-        )}
+        {this.props.loading && <Loading width="100px" height="100px" />}
         {this.props.error && <Error error={this.props.error} />}
         {this.props.gamesData &&
           !this.props.loading &&

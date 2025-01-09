@@ -14,6 +14,7 @@ import { getAPIURL } from "../utils/getAPIURL";
 import DropDown from "../components/DropDown";
 import { setSortByArr } from "../utils/setSortByArr";
 import { setCurrentSortBy } from "../utils/setCurrentSortBy";
+import { CartContext } from "../components/CartContext";
 
 const StyledShop = styled.div`
   display: grid;
@@ -113,7 +114,7 @@ class Shop extends Component {
     }));
   }
 
-  static contextType = ThemeContext;
+  static contextType = CartContext;
 
   fetchGamesData = async () => {
     const controller = new AbortController();
@@ -158,8 +159,13 @@ class Shop extends Component {
     const { state } = this.props.location;
 
     this.setPageState(state?.pageState || storedPageState || "default");
-    this.setSearchInput(state?.searchInput);
 
+    if (this.state.pageState === state?.pageState) {
+      localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
+    }
+
+    this.setSearchInput(state?.searchInput);
+    this.setLoading();
     this.fetchGamesData();
   }
 

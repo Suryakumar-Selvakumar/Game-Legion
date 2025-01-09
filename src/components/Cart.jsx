@@ -181,7 +181,7 @@ const CartItem = styled.div`
   justify-content: space-between;
   padding: 1rem;
   border-radius: 10px;
-  background-color: rgb(38, 38, 38);
+  background-color: rgb(40, 40, 40);
   border-color: rgb(153, 153, 153);
   border-width: 1px;
   box-shadow: 0px 0px 5px rgb(32, 32, 32);

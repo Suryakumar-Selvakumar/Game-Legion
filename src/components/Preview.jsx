@@ -15,6 +15,7 @@ import { getAPIURL } from "../utils/getAPIURL";
 
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
+import { CartContext } from "./CartContext";
 
 const expand = keyframes`
   0% {
@@ -163,8 +164,6 @@ class Preview extends Component {
     }));
   }
 
-  static contextType = ThemeContext;
-
   componentDidMount() {
     this.fetchGamesData();
   }
@@ -185,12 +184,11 @@ class Preview extends Component {
   }
 
   render() {
-    const theme = this.context;
 
     return (
       <StyledPreview>
         {this.state.loading && (
-          <Loading theme={theme} width="90px" height="90px" />
+          <Loading width="90px" height="90px" />
         )}
         {this.state.gamesData &&
           !this.state.loading &&

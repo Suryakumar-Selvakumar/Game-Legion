@@ -20,7 +20,7 @@ class Loading extends Component {
   static contextType = CartContext;
 
   render() {
-    const { theme } = this.context;
+    const { cart, setCart, theme, setTheme } = this.context;
 
     return (
       <StyledLoading>

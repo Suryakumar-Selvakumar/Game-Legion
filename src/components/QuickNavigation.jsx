@@ -11,6 +11,11 @@ import barChartIcon from "../assets/icons/bar-chart.svg";
 import starIcon from "../assets/icons/star.svg";
 import cloverIcon from "../assets/icons/clover.svg";
 import fireIcon from "../assets/icons/fire.svg";
+import { getRandomId } from "../utils/getRandomId";
+
+// utils
+import { getGamesData } from "../utils/getGamesData";
+import { getAPIURL } from "../utils/getAPIURL";
 
 const StyledQuickNavigation = styled.div`
   display: flex;
@@ -78,13 +83,61 @@ const QuickNavButton = styled(Link)`
 export class QuickNavigation extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      genres: null,
+      games: null,
+    };
+  }
+
+  getGameId = async () => {
+    try {
+      const fetchedGenresData = await getGamesData(
+        getAPIURL("genres", "", "", ""),
+        null,
+        "genres"
+      );
+      this.setState(
+        (state) => ({
+          ...state,
+          genres: fetchedGenresData,
+        })
+      );
+
+      const gameIds = [];
+
+      this.state.genres &&
+        this.state.genres.forEach((genre) => {
+          genre.games.forEach((gameId) => {
+            gameIds.push(gameId);
+          });
+        });
+
+      this.setState(
+        (state) => ({
+          ...state,
+          games: gameIds,
+        })
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  componentDidMount() {
+    this.getGameId();
   }
 
   render() {
     return (
       <StyledQuickNavigation>
         <h2>Quick Navigation</h2>
-        <QuickNavButton>
+        <QuickNavButton
+          to={`/shop/game/${String(getRandomId(this.state.games)[0])}`}
+          state={{
+            currentPath: "home",
+          }}
+        >
           <div>
             <img src={cloverIcon} alt="a clover icon" />
             <span>I'm feeling lucky</span>
