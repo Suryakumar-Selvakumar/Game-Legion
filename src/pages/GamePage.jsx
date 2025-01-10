@@ -12,6 +12,7 @@ import { getGamesData } from "../utils/getGamesData";
 // components
 import { Header } from "../components/Header";
 import { CartContext } from "../components/CartContext";
+import Carousel from "../components/Carousel";
 
 const StyledGamePage = styled.div`
   display: grid;
@@ -74,12 +75,6 @@ const GameName = styled.span`
   font-family: myFontBlack;
   color: white;
   font-size: 3rem;
-`;
-
-const ImageCarousel = styled.div`
-  width: 70vw;
-  height: 980px;
-  grid-area: image-carousel;
 `;
 
 const GameDetails = styled.div`
@@ -224,6 +219,7 @@ const CartButton = styled.div`
   );
   border-radius: 12px;
   padding: 0.75rem 1rem;
+  height: 55px;
   align-items: center;
 
   span {
@@ -250,7 +246,7 @@ const CartButton = styled.div`
   }
 
   button > svg {
-    width: 35px;
+    width: 30px;
   }
 `;
 
@@ -354,7 +350,7 @@ export function GamePage() {
           <GameName>{gameData?.name}</GameName>
         </TopRow>
         <BottomRow>
-          <ImageCarousel></ImageCarousel>
+          {screenShotsData !== null && <Carousel images={screenShotsData} />}
           <GameDetails>
             <div>
               <Description>
