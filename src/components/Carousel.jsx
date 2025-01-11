@@ -6,15 +6,15 @@ import { CartContext } from "./CartContext";
 
 const StyledCarousel = styled.div`
   position: relative;
-  width: 70vw;
-  height: 980px;
+  width: inherit;
+  height: 100%;
   grid-area: image-carousel;
-  margin: auto;
   overflow: hidden;
 
   img {
+    object-fit: fill;
+    height: inherit;
     width: 100%;
-    height: 100%;
     border-radius: 30px;
   }
 `;
@@ -27,14 +27,12 @@ const SlideDirection = styled.div`
 const Left = styled.div`
   color: #fff;
   padding: 10px 8px 8px 13px;
-  margin: 0 20px;
   border-radius: 50%;
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto 10px;
   height: 100px;
-  width: max-content;
   left: 0;
 
   svg {
@@ -47,7 +45,6 @@ const Left = styled.div`
 const Right = styled.div`
   color: #fff;
   padding: 10px 8px 8px 13px;
-  margin: 0 20px;
   border-radius: 50%;
   position: absolute;
   top: 0;
@@ -55,7 +52,6 @@ const Right = styled.div`
   margin: auto 10px;
   right: 0;
   height: 100px;
-  width: max-content;
 
   svg {
     width: 35px;
@@ -65,7 +61,8 @@ const Right = styled.div`
 `;
 
 const Indicator = styled.div`
-  margin-top: -50px;
+  position: relative;
+  top: -50px;
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -92,31 +89,71 @@ const Dot = styled.div`
   }
 `;
 
+const sliderVariants = {
+  hiddenRight: {
+    x: "100%",
+    opacity: 0,
+  },
+  hiddenLeft: {
+    x: "-100%",
+    opacity: 0,
+  },
+  visible: {
+    x: "0",
+    opacity: 1,
+    transition: {
+      duration: 1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.8,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
 const Carousel = ({ images }) => {
   // states
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState("left");
 
   // context
   const { cart, setCart, theme, setTheme } = useContext(CartContext);
 
   const handleNext = () => {
+    setDirection("right");
     setCurrentIndex((prevIndex) =>
       prevIndex + 1 === images.length ? 0 : prevIndex + 1
     );
   };
 
   const handlePrevious = () => {
+    setDirection("left");
     setCurrentIndex((prevIndex) =>
       prevIndex - 1 < 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
   const handleDotClick = (index) => {
+    setDirection(index > currentIndex ? "right" : "left");
     setCurrentIndex(index);
   };
 
   return (
     <StyledCarousel>
+      {/* <AnimatePresence>
+        <motion.img
+          key={currentIndex}
+          src={images[currentIndex]}
+          alt="game image"
+          variants={sliderVariants}
+          initial={direction === "right" ? "hiddenRight" : "hiddenLeft"}
+          animate="visible"
+          exit="exit"
+        />
+      </AnimatePresence> */}
       <img key={currentIndex} src={images[currentIndex]} alt="game image" />
       <SlideDirection>
         <Left onClick={handlePrevious}>

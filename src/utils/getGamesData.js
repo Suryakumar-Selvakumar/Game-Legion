@@ -61,7 +61,7 @@ export const getGamesData = async (url, signal = null, state) => {
       background_image,
       publishers: publishers?.map((pub) => pub.name),
       price: Number(getGamesPrice(ratings)),
-      ageRating: esrb_rating.name,
+      ageRating: esrb_rating?.name,
       id,
     };
   }

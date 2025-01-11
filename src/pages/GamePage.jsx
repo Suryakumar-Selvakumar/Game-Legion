@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 // hooks
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 // utils
@@ -13,21 +13,38 @@ import { getGamesData } from "../utils/getGamesData";
 import { Header } from "../components/Header";
 import { CartContext } from "../components/CartContext";
 import Carousel from "../components/Carousel";
+import SimpleSlider from "../components/Slider";
+import { StyledHeader } from "../components/Header";
 
 const StyledGamePage = styled.div`
   display: grid;
-  grid-template-rows: min-content 1fr;
   background-color: rgb(15, 16, 17);
-  padding-top: 4rem;
-  width: 100dvw;
-  height: 100dvh;
+  width: 100%;
+  height: 100dvh !important;
+  box-sizing: border-box;
+  padding-bottom: 2.5rem;
+
+  ${StyledHeader} {
+    position: static;
+  }
+
+  ${StyledHeader}.visible {
+    animation: none;
+  }
+
+  ${StyledHeader}.hidden {
+    animation: none;
+  }
 `;
 
 const Body = styled.div`
-  display: grid;
-  grid-template-rows: min-content 1fr;
-  padding: 2.5rem;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0rem 2.5rem;
+  height: 100% !important;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const TopRow = styled.div`
@@ -37,12 +54,14 @@ const TopRow = styled.div`
 
 const BottomRow = styled.div`
   display: grid;
-  grid-template-columns: max-content 1fr;
   gap: 2rem;
-  grid-template-rows: 1fr max-content;
+  flex: 1;
+  grid-template: 1fr min-content / auto max(26vw, 300px);
   grid-template-areas:
     "image-carousel game-details"
     "image-carousel cart-button";
+  box-sizing: border-box;
+  height: 100% !important;
 `;
 
 const BackButton = styled(Link)`
@@ -210,7 +229,6 @@ const Opener = styled.div`
 const CartButton = styled.div`
   grid-area: cart-button;
   display: flex;
-  width: 100%;
   justify-content: space-between;
   background: linear-gradient(
     90deg,
@@ -236,7 +254,6 @@ const CartButton = styled.div`
     border: none;
     outline: none;
     color: rgb(153, 153, 153);
-    padding: 0;
     cursor: pointer;
     line-height: 1;
     display: flex;
@@ -250,6 +267,99 @@ const CartButton = styled.div`
   }
 `;
 
+const ImageCarousel = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100% !important;
+  grid-area: image-carousel;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  border-radius: 30px;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  img {
+    object-fit: cover;
+    height: 100% !important;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .slick-slider {
+    height: 100% !important;
+    width: 99.85%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .slick-list,
+  .slick-track,
+  .slick-slide,
+  .slick-slide > div,
+  .slick-slide > div > div {
+    height: 100% !important;
+    width: 100%;
+  }
+
+  .slick-arrow {
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: min-content;
+    z-index: 2;
+  }
+
+  .slick-next {
+    right: 25px;
+  }
+
+  .slick-next::before {
+    content: "›";
+    font-size: 5rem;
+    color: rgb(204, 204, 204);
+  }
+
+  .slick-prev {
+    left: 20px;
+  }
+
+  .slick-prev::before {
+    font-size: 5rem;
+    content: "‹";
+    color: rgb(204, 204, 204);
+  }
+
+  .slick-dots {
+    bottom: 20px;
+    background-color: rgb(15, 16, 17);
+    padding: 0.25rem 0.75rem 0rem 0.75rem;
+    border-radius: 10px;
+    width: max-content;
+  }
+
+  .slick-dots > li {
+    margin: 0;
+  }
+
+  .slick-dots li button:before {
+    color: rgb(153, 153, 153);
+    font-size: 0.65rem;
+    line-height: 1;
+    opacity: 1;
+    height: min-content;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: ${(props) =>
+      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
+  }
+`;
+
 export function GamePage() {
   // route data
   let params = useParams();
@@ -257,10 +367,9 @@ export function GamePage() {
 
   // states
   const [gameData, setGameData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [screenShotsData, setScreenShotsData] = useState(null);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  const [id, setId] = useState(params?.gameId && params.gameId);
 
   // context
   const { cart, setCart, theme, setTheme } = useContext(CartContext);
@@ -268,43 +377,37 @@ export function GamePage() {
   const fetchGameData = async () => {
     try {
       const fetchedGameData = await getGamesData(
-        getAPIURL("Game", "", "", "", params.gameId),
+        getAPIURL("Game", "", "", "", id),
         null,
         "game"
       );
       const fetchedScreenShotsData = await getGamesData(
-        getAPIURL("Screenshots", "", "", "", params.gameId),
+        getAPIURL("Screenshots", "", "", "", id),
         null,
         "screenshot"
       );
+
       setGameData(fetchedGameData);
 
       fetchedScreenShotsData.unshift(fetchedGameData.background_image);
       setScreenShotsData(fetchedScreenShotsData);
-
-      setError(null);
-      console.log(fetchedScreenShotsData);
-      console.log(fetchedGameData);
     } catch (err) {
       if (err.name === "AbortError") {
         console.log("Aborted");
         return;
       }
+      console.log(err);
       setGameData(null);
-      setError(err.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
+    setId(params.gameId);
     fetchGameData();
-
-    console.log(screenShotsData);
-    console.log(gameData);
   }, []);
 
   useEffect(() => {
+    setId(params.gameId);
     fetchGameData();
   }, [params.gameId]);
 
@@ -350,12 +453,21 @@ export function GamePage() {
           <GameName>{gameData?.name}</GameName>
         </TopRow>
         <BottomRow>
-          {screenShotsData !== null && <Carousel images={screenShotsData} />}
+          {screenShotsData && (
+            <ImageCarousel>
+              <SimpleSlider images={screenShotsData} />
+            </ImageCarousel>
+          )}
           <GameDetails>
             <div>
               <Description>
                 <span>Description</span>
-                <p>{gameData?.description}.</p>
+                <p>
+                  {gameData?.description}
+                  {gameData?.description &&
+                    !gameData?.description.endsWith(".") &&
+                    "."}
+                </p>
               </Description>
               <DetailsDropDown className={dropDownOpen ? "" : "closed"}>
                 <Details className={dropDownOpen ? "" : "closed"}>
