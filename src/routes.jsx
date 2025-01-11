@@ -1,8 +1,8 @@
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
-import { CartProvider } from "./components/CartProvider";
+import CartProvider from "./components/CartProvider";
 import ShopWrapper from "./pages/ShopWrapper";
-import { GamePage } from "./pages/GamePage";
+import GamePage from "./pages/GamePage";
 import Layout from "./pages/Layout";
 
 export const routes = [

@@ -14,6 +14,7 @@ import { Header } from "../components/Header";
 import { CartContext } from "../components/CartContext";
 import SimpleSlider from "../components/Slider";
 import { StyledHeader } from "../components/Header";
+import getFormattedDate from "../utils/getFormattedDate";
 
 const StyledGamePage = styled.div`
   display: grid;
@@ -104,7 +105,7 @@ const ImageCarousel = styled.div`
   .slick-arrow {
     border-radius: 50%;
     position: absolute;
-    top: 0;
+    top: 1rem;
     bottom: 0;
     margin: auto 0;
     height: min-content;
@@ -360,7 +361,7 @@ const CartButton = styled.div`
   }
 `;
 
-export function GamePage() {
+function GamePage() {
   // route data
   let params = useParams();
   const { state } = useLocation();
@@ -504,7 +505,9 @@ export function GamePage() {
                   <DetailPair>
                     <Detail>
                       <span>Release date</span>
-                      <div>{gameData?.released}</div>
+                      <div>
+                        {gameData && getFormattedDate(gameData?.released)}
+                      </div>
                     </Detail>
                     <Detail>
                       <span>Developers</span>
@@ -604,3 +607,5 @@ export function GamePage() {
     </StyledGamePage>
   );
 }
+
+export default GamePage;

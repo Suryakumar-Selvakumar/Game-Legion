@@ -178,7 +178,7 @@ class GameCard extends Component {
                 variant="rectangular"
                 width="100%"
                 height="100%"
-                animation="pulse"
+                animation="wave"
               />
             )}
             <Link to={`game/${String(this.props.gameDetails.id)}`}>

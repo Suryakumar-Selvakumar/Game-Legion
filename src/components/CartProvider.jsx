@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 import { ThemeProvider } from "styled-components";
 
-export const CartProvider = ({ children }) => {
+const CartProvider = ({ children }) => {
   const storedCart = JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState(storedCart !== undefined ? storedCart : []);
 
@@ -34,3 +34,5 @@ export const CartProvider = ({ children }) => {
 CartProvider.propTypes = {
   children: PropTypes.any,
 };
+
+export default CartProvider;
