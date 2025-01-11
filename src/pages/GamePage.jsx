@@ -64,6 +64,99 @@ const BottomRow = styled.div`
   height: 100% !important;
 `;
 
+const ImageCarousel = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100% !important;
+  grid-area: image-carousel;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  border-radius: 30px;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  img {
+    object-fit: cover;
+    height: 100% !important;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .slick-slider {
+    height: 100% !important;
+    width: 99.85%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .slick-list,
+  .slick-track,
+  .slick-slide,
+  .slick-slide > div,
+  .slick-slide > div > div {
+    height: 100% !important;
+    width: 100%;
+  }
+
+  .slick-arrow {
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: min-content;
+    z-index: 2;
+  }
+
+  .slick-next {
+    right: 25px;
+  }
+
+  .slick-next::before {
+    content: "›";
+    font-size: 5rem;
+    color: rgb(204, 204, 204);
+  }
+
+  .slick-prev {
+    left: 20px;
+  }
+
+  .slick-prev::before {
+    font-size: 5rem;
+    content: "‹";
+    color: rgb(204, 204, 204);
+  }
+
+  .slick-dots {
+    bottom: 20px;
+    background-color: rgb(15, 16, 17);
+    padding: 0.25rem 0.75rem 0rem 0.75rem;
+    border-radius: 10px;
+    width: max-content;
+  }
+
+  .slick-dots > li {
+    margin: 0;
+  }
+
+  .slick-dots li button:before {
+    color: rgb(153, 153, 153);
+    font-size: 0.65rem;
+    line-height: 1;
+    opacity: 1;
+    height: min-content;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: ${(props) =>
+      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
+  }
+`;
+
 const BackButton = styled(Link)`
   text-decoration: none;
   color: rgb(204, 204, 204);
@@ -264,99 +357,6 @@ const CartButton = styled.div`
 
   button > svg {
     width: 30px;
-  }
-`;
-
-const ImageCarousel = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100% !important;
-  grid-area: image-carousel;
-  width: 100%;
-  overflow: hidden;
-  cursor: grab;
-  border-radius: 30px;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  img {
-    object-fit: cover;
-    height: 100% !important;
-    width: 100%;
-    pointer-events: none;
-  }
-
-  .slick-slider {
-    height: 100% !important;
-    width: 99.85%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .slick-list,
-  .slick-track,
-  .slick-slide,
-  .slick-slide > div,
-  .slick-slide > div > div {
-    height: 100% !important;
-    width: 100%;
-  }
-
-  .slick-arrow {
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    height: min-content;
-    z-index: 2;
-  }
-
-  .slick-next {
-    right: 25px;
-  }
-
-  .slick-next::before {
-    content: "›";
-    font-size: 5rem;
-    color: rgb(204, 204, 204);
-  }
-
-  .slick-prev {
-    left: 20px;
-  }
-
-  .slick-prev::before {
-    font-size: 5rem;
-    content: "‹";
-    color: rgb(204, 204, 204);
-  }
-
-  .slick-dots {
-    bottom: 20px;
-    background-color: rgb(15, 16, 17);
-    padding: 0.25rem 0.75rem 0rem 0.75rem;
-    border-radius: 10px;
-    width: max-content;
-  }
-
-  .slick-dots > li {
-    margin: 0;
-  }
-
-  .slick-dots li button:before {
-    color: rgb(153, 153, 153);
-    font-size: 0.65rem;
-    line-height: 1;
-    opacity: 1;
-    height: min-content;
-  }
-
-  .slick-dots li.slick-active button:before {
-    color: ${(props) =>
-      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
   }
 `;
 

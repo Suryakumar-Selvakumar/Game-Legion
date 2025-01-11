@@ -3,13 +3,16 @@ import ErrorPage from "./pages/ErrorPage";
 import { CartProvider } from "./components/CartProvider";
 import ShopWrapper from "./pages/ShopWrapper";
 import { GamePage } from "./pages/GamePage";
+import Layout from "./pages/Layout";
 
 export const routes = [
   {
     path: "/",
     element: (
       <CartProvider>
-        <App />
+        <Layout>
+          <App />
+        </Layout>
       </CartProvider>
     ),
     errorElement: <ErrorPage />,
@@ -18,7 +21,9 @@ export const routes = [
     path: "shop",
     element: (
       <CartProvider>
-        <ShopWrapper />
+        <Layout>
+          <ShopWrapper />
+        </Layout>
       </CartProvider>
     ),
   },
@@ -26,7 +31,9 @@ export const routes = [
     path: "shop/game/:gameId",
     element: (
       <CartProvider>
-        <GamePage />
+        <Layout>
+          <GamePage />
+        </Layout>
       </CartProvider>
     ),
   },
