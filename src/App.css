@@ -105,5 +105,9 @@ h6 {
 body {
   font-family: myFontRegular;
   background-color: rgb(15, 16, 17);
-  height: 100%;
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100dvh;
 }

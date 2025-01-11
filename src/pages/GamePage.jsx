@@ -21,7 +21,6 @@ const StyledGamePage = styled.div`
   width: 100%;
   height: 100dvh !important;
   box-sizing: border-box;
-  padding-bottom: 2.5rem;
   grid-template-rows: min-content 1fr;
 
   ${StyledHeader} {
@@ -42,6 +41,7 @@ const Body = styled.div`
   flex-direction: column;
   flex-grow: 1;
   padding: 0rem 2.5rem;
+  padding-bottom: 2.5rem;
   height: 100% !important;
   width: 100%;
   box-sizing: border-box;
@@ -369,7 +369,7 @@ export function GamePage() {
   const [gameData, setGameData] = useState(null);
   const [screenShotsData, setScreenShotsData] = useState(null);
   const [dropDownOpen, setDropDownOpen] = useState(false);
-  const [id, setId] = useState(params?.gameId && params.gameId);
+  // const [id, setId] = useState(params?.gameId && params.gameId);
 
   // context
   const { cart, setCart, theme, setTheme } = useContext(CartContext);
@@ -377,12 +377,12 @@ export function GamePage() {
   const fetchGameData = async () => {
     try {
       const fetchedGameData = await getGamesData(
-        getAPIURL("Game", "", "", "", id),
+        getAPIURL("Game", "", "", "", params?.gameId),
         null,
         "game"
       );
       const fetchedScreenShotsData = await getGamesData(
-        getAPIURL("Screenshots", "", "", "", id),
+        getAPIURL("Screenshots", "", "", "", params?.gameId),
         null,
         "screenshot"
       );
@@ -402,12 +402,12 @@ export function GamePage() {
   };
 
   useEffect(() => {
-    setId(params.gameId);
+    // setId(params.gameId);
     fetchGameData();
   }, []);
 
   useEffect(() => {
-    setId(params.gameId);
+    // setId(params.gameId);
     fetchGameData();
   }, [params.gameId]);
 

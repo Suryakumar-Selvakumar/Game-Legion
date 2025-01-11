@@ -104,7 +104,7 @@ const Checkout = styled.div`
   }
 `;
 
-const shine = keyframes`
+export const shine = keyframes`
     0% {
         left: -100px;
     }
