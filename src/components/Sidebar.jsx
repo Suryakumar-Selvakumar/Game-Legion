@@ -62,7 +62,7 @@ class Sidebar extends Component {
       <StyledSidebar>
         <Category>
           <h2>Your Games</h2>
-          <NavButton>
+          <NavButton onClick={() => this.props.setPageState("Wishlist")}>
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Wishlist" && "white",

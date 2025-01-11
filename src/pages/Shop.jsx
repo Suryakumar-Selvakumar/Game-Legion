@@ -171,19 +171,53 @@ class Shop extends Component {
     }
 
     this.setSearchInput(state?.searchInput);
-    this.setLoading();
-    this.fetchGamesData();
+
+    if (this.state.pageState !== "Wishlist") {
+      this.setLoading();
+      this.fetchGamesData();
+    } else {
+      const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
+
+      this.setState((state) => ({
+        ...state,
+        gamesData: storedWishList !== null || undefined ? storedWishList : [],
+        error: null,
+        loading: false,
+      }));
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
+    const { cart, setCart, theme, setTheme, wishList, setWishList } =
+      this.context;
+
     if (
       this.state.pageState !== prevState.pageState ||
       this.state.orderBy !== prevState.orderBy ||
       this.state.sortBy !== prevState.sortBy ||
       this.state.searchInput !== prevState.searchInput
     ) {
-      this.fetchGamesData();
-      this.setLoading();
+      if (this.state.pageState !== "Wishlist") {
+        this.fetchGamesData();
+        this.setLoading();
+      } else {
+        this.setState((state) => ({
+          ...state,
+          gamesData: storedWishList !== null || undefined ? storedWishList : [],
+          error: null,
+          loading: false,
+        }));
+      }
+    }
+
+    if (this.state.pageState === "Wishlist" && this.state.gamesData !== wishList) {
+      this.setState((state) => ({
+        ...state,
+        gamesData: wishList !== null || undefined ? wishList : [],
+        error: null,
+        loading: false,
+      }));
     }
 
     if (this.state.pageState !== prevState.pageState) {
@@ -205,7 +239,8 @@ class Shop extends Component {
   }
 
   render() {
-    const theme = this.context;
+    const { cart, setCart, theme, setTheme, wishList, setWishList } =
+      this.context;
 
     return (
       <StyledShop>
@@ -232,7 +267,8 @@ class Shop extends Component {
 
             {this.state.pageState !== "Best of the year" &&
               this.state.pageState !== "Popular in 2026" &&
-              this.state.pageState !== "All time top" && (
+              this.state.pageState !== "All time top" &&
+              this.state.pageState !== "Wishlist" && (
                 <DropDownsContainer>
                   <DropDown
                     menuItem={this.state.orderBy}

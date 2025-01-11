@@ -5,7 +5,14 @@ import { ThemeProvider } from "styled-components";
 
 const CartProvider = ({ children }) => {
   const storedCart = JSON.parse(localStorage.getItem("cart"));
-  const [cart, setCart] = useState(storedCart !== undefined ? storedCart : []);
+  const [cart, setCart] = useState(
+    storedCart !== null || undefined ? storedCart : []
+  );
+
+  const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
+  const [wishList, setWishList] = useState(
+    storedWishList !== null || undefined ? storedWishList : []
+  );
 
   const storedTheme = JSON.parse(localStorage.getItem("theme"));
   const [theme, setTheme] = useState(
@@ -21,11 +28,17 @@ const CartProvider = ({ children }) => {
   }, [cart]);
 
   useEffect(() => {
+    localStorage.setItem("wish-list", JSON.stringify(wishList));
+  }, [wishList]);
+
+  useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(theme));
   }, [theme]);
 
   return (
-    <CartContext.Provider value={{ cart, setCart, theme, setTheme }}>
+    <CartContext.Provider
+      value={{ cart, setCart, theme, setTheme, wishList, setWishList }}
+    >
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </CartContext.Provider>
   );

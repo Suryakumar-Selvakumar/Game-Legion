@@ -53,6 +53,16 @@ const GameCardDetails = styled.div`
   }
 `;
 
+const SecondRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    width: 20px;
+    cursor: pointer;
+  }
+`;
+
 const Icons = styled.div`
   display: flex;
   justify-content: start;
@@ -118,6 +128,7 @@ class GameCard extends Component {
     this.setImageLoading = this.setImageLoading.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.setAnimateTap = this.setAnimateTap.bind(this);
+    this.updateWishList = this.updateWishList.bind(this);
   }
 
   setAnimateTap() {
@@ -135,7 +146,7 @@ class GameCard extends Component {
   }
 
   existingItem = (cart) =>
-    cart.find((cartItem) => cartItem.id === this.props.gameDetails.id);
+    cart?.find((cartItem) => cartItem.id === this.props.gameDetails.id);
 
   addToCart() {
     const { cart, setCart, theme, setTheme } = this.context;
@@ -153,10 +164,32 @@ class GameCard extends Component {
     }
   }
 
+  updateWishList() {
+    const { cart, setCart, theme, setTheme, wishList, setWishList } =
+      this.context;
+
+    const wishListGameDetails = {
+      id: this.props.gameDetails.id,
+      name: this.props.gameDetails.name,
+      image: this.props.gameDetails.image,
+      price: this.props.gameDetails.price,
+      platforms: this.props.gameDetails.platforms,
+    };
+
+    if (!this.existingItem(wishList)) {
+      setWishList([...wishList, wishListGameDetails]);
+      this.setAnimateTap();
+    } else {
+      setWishList(
+        wishList.filter((item) => item.id !== this.props.gameDetails.id)
+      );
+    }
+  }
+
   static contextType = CartContext;
 
   render() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart, setCart, theme, setTheme, wishList } = this.context;
 
     return (
       <motion.div
@@ -237,49 +270,78 @@ class GameCard extends Component {
               </button>
               <p>${this.props.gameDetails.price}</p>
             </div>
-            <Icons>
-              {this.props.gameDetails.platforms?.includes("PC") && (
-                <img src={pcIcon} alt="pc icon" />
-              )}
-              {this.props.gameDetails.platforms?.includes("PlayStation") && (
-                <img
-                  src={playStationIcon}
-                  alt="playstation icon"
-                  style={{
-                    width: "17.5px",
-                    height: "17.5px",
-                  }}
-                />
-              )}
-              {this.props.gameDetails.platforms?.includes("Xbox") && (
-                <img src={xboxIcon} alt="xbox icon" />
-              )}
-              {this.props.gameDetails.platforms?.includes("Nintendo") && (
-                <img
-                  src={nintendoIcon}
-                  alt="nintendo icon"
-                  style={{
-                    width: "17.5px",
-                    height: "17.5px",
-                  }}
-                />
-              )}
-              {this.props.gameDetails.platforms?.includes("Android") && (
-                <img src={androidIcon} alt="android icon" />
-              )}
-              {this.props.gameDetails.platforms?.includes(
-                "Apple Macintosh"
-              ) && (
-                <img
-                  src={appleIcon}
-                  alt="apple icon"
-                  style={{
-                    width: "17.5px",
-                    height: "17.5px",
-                  }}
-                />
-              )}
-            </Icons>
+            <SecondRow>
+              <Icons>
+                {this.props.gameDetails.platforms?.includes("PC") && (
+                  <img src={pcIcon} alt="pc icon" />
+                )}
+                {this.props.gameDetails.platforms?.includes("PlayStation") && (
+                  <img
+                    src={playStationIcon}
+                    alt="playstation icon"
+                    style={{
+                      width: "17.5px",
+                      height: "17.5px",
+                    }}
+                  />
+                )}
+                {this.props.gameDetails.platforms?.includes("Xbox") && (
+                  <img src={xboxIcon} alt="xbox icon" />
+                )}
+                {this.props.gameDetails.platforms?.includes("Nintendo") && (
+                  <img
+                    src={nintendoIcon}
+                    alt="nintendo icon"
+                    style={{
+                      width: "17.5px",
+                      height: "17.5px",
+                    }}
+                  />
+                )}
+                {this.props.gameDetails.platforms?.includes("Android") && (
+                  <img src={androidIcon} alt="android icon" />
+                )}
+                {this.props.gameDetails.platforms?.includes(
+                  "Apple Macintosh"
+                ) && (
+                  <img
+                    src={appleIcon}
+                    alt="apple icon"
+                    style={{
+                      width: "17.5px",
+                      height: "17.5px",
+                    }}
+                  />
+                )}
+              </Icons>
+              <svg
+                onClick={this.updateWishList}
+                viewBox="0 0 64 64"
+                xmlns="http://www.w3.org/2000/svg"
+                strokeWidth="3"
+                stroke="#ffffff"
+                fill={
+                  this.existingItem(wishList)
+                    ? theme.currentTheme === "norse"
+                      ? "#46afe8"
+                      : "#ff5a5a"
+                    : "none"
+                }
+              >
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                    strokeLinecap="round"
+                  ></path>
+                </g>
+              </svg>
+            </SecondRow>
             <Link to={`game/${this.props.gameDetails.id}`}>
               <GameName>{this.props.gameDetails.name}</GameName>
             </Link>

@@ -237,7 +237,7 @@ const DetailsDropDown = styled.div`
   box-shadow: 0px -10px 25px rgb(15, 15, 15);
   overflow: hidden;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   clip-path: inset(-25px 0px 0px 0px);
   display: flex;
   flex-direction: column;
