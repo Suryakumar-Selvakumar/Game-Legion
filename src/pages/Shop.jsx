@@ -1,6 +1,6 @@
 // libs
 import { Component, createRef } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // components
@@ -69,8 +69,8 @@ class Shop extends Component {
         JSON.parse(localStorage.getItem("page-state")) ||
         "default",
       dropDownOpen: false,
-      orderBy: "Popularity",
-      sortBy: "High to Low",
+      orderBy: JSON.parse(localStorage.getItem("order-by")) || "Popularity",
+      sortBy: JSON.parse(localStorage.getItem("sort-by")) || "High to Low",
       searchInput: (state && state.searchInput) || "",
     };
 
@@ -160,6 +160,12 @@ class Shop extends Component {
 
     this.setPageState(state?.pageState || storedPageState || "default");
 
+    const storedSortBy = JSON.parse(localStorage.getItem("sort-by"));
+    this.setSortBy(storedSortBy || "High to Low");
+
+    const storedOrderBy = JSON.parse(localStorage.getItem("order-by"));
+    this.setOrderBy(storedOrderBy || "Popularity");
+
     if (this.state.pageState === state?.pageState) {
       localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
     }
@@ -184,8 +190,13 @@ class Shop extends Component {
       localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
     }
 
+    if (this.state.sortBy !== prevState.sortBy) {
+      localStorage.setItem("sort-by", JSON.stringify(this.state.sortBy));
+    }
+
     if (this.state.orderBy !== prevState.orderBy) {
       this.setSortBy(setCurrentSortBy(this.state.orderBy, this.state.sortBy));
+      localStorage.setItem("order-by", JSON.stringify(this.state.orderBy));
     }
   }
 

@@ -12,7 +12,6 @@ import { getGamesData } from "../utils/getGamesData";
 // components
 import { Header } from "../components/Header";
 import { CartContext } from "../components/CartContext";
-import Carousel from "../components/Carousel";
 import SimpleSlider from "../components/Slider";
 import { StyledHeader } from "../components/Header";
 
@@ -23,6 +22,7 @@ const StyledGamePage = styled.div`
   height: 100dvh !important;
   box-sizing: border-box;
   padding-bottom: 2.5rem;
+  grid-template-rows: min-content 1fr;
 
   ${StyledHeader} {
     position: static;
