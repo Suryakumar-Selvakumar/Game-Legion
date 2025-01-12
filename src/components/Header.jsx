@@ -1,7 +1,7 @@
 // libs
 import { Component } from "react";
 import styled, { keyframes } from "styled-components";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // assets
@@ -15,6 +15,7 @@ import Cart from "./Cart";
 import Preview from "./Preview";
 import { CartContext } from "./CartContext";
 import withRouter from "./withRouter";
+import media from "../utils/breakpoints";
 
 const dropDown = keyframes`
   0% {
@@ -55,6 +56,13 @@ export const StyledHeader = styled.div`
   &.hidden {
     animation: ${moveUp} 500ms ease forwards;
   }
+
+  @media ${media.mobile} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
 `;
 
 const Logo = styled(Link)`
@@ -79,6 +87,14 @@ const Logo = styled(Link)`
   &:hover {
     transform: scale(1.05);
   }
+
+  @media ${media.mobile} {
+    width: fit-content;
+    padding-left: ${(props) =>
+      props.theme.currentTheme === "norse" ? "0" : "7.5px"};
+    padding-top: ${(props) =>
+      props.theme.currentTheme === "norse" ? "0" : "7.5px"};
+  }
 `;
 
 const LogoIcon = styled.img`
@@ -87,6 +103,14 @@ const LogoIcon = styled.img`
   width: ${(props) => (props.theme.currentTheme === "norse" ? "75px" : "70px")};
   position: relative;
   top: -0.25rem;
+
+  @media ${media.mobile} {
+    height: ${(props) =>
+      props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
+    width: ${(props) =>
+      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
+    top: ${(props) => (props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem")};
+  }
 `;
 
 const SearchIcon = styled(Link)`
@@ -99,6 +123,12 @@ const SearchIcon = styled(Link)`
 
   img {
     width: 25px;
+  }
+
+  @media ${media.mobile} {
+    & > img {
+      display: none;
+    }
   }
 `;
 
@@ -173,6 +203,20 @@ const SearchBar = styled.input.attrs({
   &.shrink {
     animation: ${shrink} 375ms ease-in-out forwards;
   }
+
+  @media ${media.mobile} {
+    width: 200px;
+    font-size: 1rem;
+    padding: 0.25rem 1rem 0.25rem 1rem;
+
+    &:focus {
+      animation: none;
+    }
+
+    &.shrink {
+      animation: none;
+    }
+  }
 `;
 
 const CartIcon = styled.img.attrs({
@@ -181,6 +225,10 @@ const CartIcon = styled.img.attrs({
 })`
   height: 40px;
   cursor: pointer;
+
+  @media ${media.mobile} {
+    height: 35px;
+  }
 `;
 
 const CartContainer = styled.div`
@@ -199,6 +247,13 @@ const CartContainer = styled.div`
   &:hover {
     transform: scale(1.1);
   }
+
+  @media ${media.mobile} {
+    svg {
+      width: 10px;
+      top: -17.5px;
+    }
+  }
 `;
 
 class Header extends Component {
@@ -215,6 +270,8 @@ class Header extends Component {
       isPreviewVisible: false,
       isSearchOn: false,
     };
+
+    this.mediaQuery = window.matchMedia(media.mobile);
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
@@ -331,7 +388,7 @@ class Header extends Component {
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
           <Logo to="/">
-            GAME
+            {!this.mediaQuery.matches && "GAME"}
             <LogoIcon
               src={
                 theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
@@ -342,7 +399,7 @@ class Header extends Component {
                   : "omega icon"
               }
             />
-            LEGION
+            {!this.mediaQuery.matches && "LEGION"}
           </Logo>
           <SearchBarContainer>
             <SearchInputContainer className="search-icon">

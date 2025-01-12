@@ -7,11 +7,13 @@ import { QuickNavButton } from "./QuickNavigation";
 // assets
 import githubIcon from "../assets/icons/github.svg";
 import rawgIcon from "../assets/icons/rawg.png";
+import media from "../utils/breakpoints";
 
 const StyledInfoCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
 `;
 
 const Info = styled.div`
@@ -43,6 +45,20 @@ const Info = styled.div`
     font-weight: 900;
     font-family: myFontBold;
   }
+
+  @media ${media.mobile} {
+    gap: 0.25rem;
+    width: 350px;
+    padding: 1rem;
+
+    p {
+      font-size: 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+  }
 `;
 
 const InfoLinks = styled.div`
@@ -61,6 +77,13 @@ const InfoLinks = styled.div`
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  @media ${media.mobile} {
+    width: 350px;
+    padding: 0.5rem 0;
+    border-radius: 15px;
+    gap: 0.75rem;
+  }
 `;
 
 export class InfoCard extends Component {

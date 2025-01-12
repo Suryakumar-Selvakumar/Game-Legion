@@ -16,6 +16,7 @@ import { getRandomId } from "../utils/getRandomId";
 // utils
 import { getGamesData } from "../utils/getGamesData";
 import { getAPIURL } from "../utils/getAPIURL";
+import media from "../utils/breakpoints";
 
 const StyledQuickNavigation = styled.div`
   display: flex;
@@ -36,7 +37,18 @@ const StyledQuickNavigation = styled.div`
 
   h2 {
     color: white;
+    font-family: myFontBold;
     font-size: 2rem;
+  }
+
+  @media ${media.mobile} {
+    padding: 1.25rem 1rem 1.25rem 1rem;
+    gap: 0.8rem;
+
+    h2 {
+      font-size: 1.5rem;
+      width: 200px;
+    }
   }
 `;
 
@@ -78,6 +90,29 @@ const QuickNavButton = styled(Link)`
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  @media ${media.mobile} {
+    font-size: 1rem;
+    padding: 0.4rem 0rem;
+    border-radius: 15px;
+    width: 170px;
+
+    div > img {
+      width: 20px;
+    }
+
+    div {
+      gap: 0.25rem;
+    }
+
+    ${StyledInfoCard} & {
+      border-radius: 10px;
+      width: max-content;
+      padding: 0.4rem 0rem;
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+    }
+  }
 `;
 
 export class QuickNavigation extends Component {
@@ -97,12 +132,10 @@ export class QuickNavigation extends Component {
         null,
         "genres"
       );
-      this.setState(
-        (state) => ({
-          ...state,
-          genres: fetchedGenresData,
-        })
-      );
+      this.setState((state) => ({
+        ...state,
+        genres: fetchedGenresData,
+      }));
 
       const gameIds = [];
 
@@ -113,12 +146,10 @@ export class QuickNavigation extends Component {
           });
         });
 
-      this.setState(
-        (state) => ({
-          ...state,
-          games: gameIds,
-        })
-      );
+      this.setState((state) => ({
+        ...state,
+        games: gameIds,
+      }));
     } catch (err) {
       console.log(err.message);
     }
