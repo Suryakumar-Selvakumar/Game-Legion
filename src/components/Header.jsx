@@ -61,7 +61,8 @@ const Logo = styled(Link)`
   display: flex;
   text-decoration: none;
   width: min-content;
-
+  padding-top: ${(props) =>
+    props.theme.currentTheme === "norse" ? "0px" : "5px"};
   font-family: ${(props) =>
     props.theme.currentTheme === "norse"
       ? "myFontLogoNorse"
@@ -401,7 +402,7 @@ class Header extends Component {
           </CartContainer>
         </StyledHeader>
         {this.state.isCartPageVisible && (
-          <Cart setCart={this.handleCartClick} />
+          <Cart setCart={this.handleCartClick} isInShop={this.props.isInShop} />
         )}
       </>
     );

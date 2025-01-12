@@ -155,6 +155,8 @@ class Shop extends Component {
   };
 
   componentDidMount() {
+    document.body.style.overflow = "auto";
+
     const storedPageState = JSON.parse(localStorage.getItem("page-state"));
     const { state } = this.props.location;
 
@@ -170,7 +172,7 @@ class Shop extends Component {
       localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
     }
 
-    this.setSearchInput(state?.searchInput);
+    this.setSearchInput(state?.searchInput || "");
 
     if (this.state.pageState !== "Wishlist") {
       this.setLoading();
@@ -258,7 +260,7 @@ class Shop extends Component {
             setPageState={this.setPageState}
           />
           <FirstRow>
-            {this.state.pageState && (
+            {this.state.pageState && this.state.searchInput !== "" && (
               <h1>
                 {this.state.pageState === "Results"
                   ? `Results for "${this.state.searchInput}"`

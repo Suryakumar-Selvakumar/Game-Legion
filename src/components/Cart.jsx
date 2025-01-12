@@ -152,6 +152,11 @@ const CartItems = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   padding: 0 2rem;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 const fadeIn = keyframes`
@@ -310,62 +315,71 @@ class Cart extends Component {
           </CartHeader>
           <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
             {cart.map((game) => (
-              <CartItem key={game.id}>
-                <RemoveButton
-                  onClick={() => this.removeItem(game.id)}
-                  viewBox="0 0 24 24"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g
-                    id="Page-1"
-                    stroke="none"
-                    strokeWidth="1"
-                    fill="none"
-                    fillRule="evenodd"
+              <Link
+                key={game.id}
+                to={
+                  this.props.isInShop
+                    ? `game/${String(game.id)}`
+                    : `shop/game/${String(game.id)}`
+                }
+              >
+                <CartItem>
+                  <RemoveButton
+                    onClick={() => this.removeItem(game.id)}
+                    viewBox="0 0 24 24"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g id="Close">
-                      <rect
-                        id="Rectangle"
-                        fillRule="nonzero"
-                        x="0"
-                        y="0"
-                        width="24"
-                        height="24"
-                      ></rect>
-                      <line
-                        x1="16.9999"
-                        y1="7"
-                        x2="7.00001"
-                        y2="16.9999"
-                        id="Path"
-                        stroke="rgb(153, 153, 153)"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      ></line>
-                      <line
-                        x1="7.00006"
-                        y1="7"
-                        x2="17"
-                        y2="16.9999"
-                        id="Path"
-                        stroke="rgb(153, 153, 153)"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      ></line>
+                    <g
+                      id="Page-1"
+                      stroke="none"
+                      strokeWidth="1"
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <g id="Close">
+                        <rect
+                          id="Rectangle"
+                          fillRule="nonzero"
+                          x="0"
+                          y="0"
+                          width="24"
+                          height="24"
+                        ></rect>
+                        <line
+                          x1="16.9999"
+                          y1="7"
+                          x2="7.00001"
+                          y2="16.9999"
+                          id="Path"
+                          stroke="rgb(153, 153, 153)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        ></line>
+                        <line
+                          x1="7.00006"
+                          y1="7"
+                          x2="17"
+                          y2="16.9999"
+                          id="Path"
+                          stroke="rgb(153, 153, 153)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        ></line>
+                      </g>
                     </g>
-                  </g>
-                </RemoveButton>
-                <div>
-                  <GameImage
-                    src={game.image !== null ? game.image : placeHolderImage}
-                  />
+                  </RemoveButton>
                   <div>
-                    <GameName>{game.name}</GameName>
-                    <GamePrice>${game.price}</GamePrice>
+                    <GameImage
+                      src={game.image !== null ? game.image : placeHolderImage}
+                    />
+                    <div>
+                      <GameName>{game.name}</GameName>
+                      <GamePrice>${game.price}</GamePrice>
+                    </div>
                   </div>
-                </div>
-              </CartItem>
+                </CartItem>
+              </Link>
             ))}
           </CartItems>
           <Checkout>
@@ -381,6 +395,7 @@ class Cart extends Component {
 
 Cart.propTypes = {
   setCart: PropTypes.func,
+  isInShop: PropTypes.bool,
 };
 
 export default Cart;

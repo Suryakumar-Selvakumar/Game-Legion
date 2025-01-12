@@ -237,7 +237,7 @@ const Description = styled.div`
 `;
 
 const DetailsDropDown = styled.div`
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 1.5rem 1rem 1rem 1rem;
   background: linear-gradient(
     90deg,
     rgba(38, 38, 38, 0) 0%,
@@ -386,7 +386,6 @@ function GamePage() {
   const [gameData, setGameData] = useState(null);
   const [screenShotsData, setScreenShotsData] = useState(null);
   const [dropDownOpen, setDropDownOpen] = useState(false);
-  // const [id, setId] = useState(params?.gameId && params.gameId);
 
   // context
   const { cart, setCart, theme, setTheme, wishList, setWishList } =
@@ -420,12 +419,10 @@ function GamePage() {
   };
 
   useEffect(() => {
-    // setId(params.gameId);
     fetchGameData();
   }, []);
 
   useEffect(() => {
-    // setId(params.gameId);
     fetchGameData();
   }, [params.gameId]);
 
