@@ -1,8 +1,8 @@
 import { css } from "styled-components";
 
 export const size = {
-  mobile: "769px",
-  pc: "819px",
+  mobile: "768px",
+  pc: "820px",
 };
 
 const media = {

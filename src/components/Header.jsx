@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -109,7 +109,8 @@ const LogoIcon = styled.img`
       props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
     width: ${(props) =>
       props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
-    top: ${(props) => (props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem")};
+    top: ${(props) =>
+      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
   }
 `;
 
@@ -250,8 +251,7 @@ const CartContainer = styled.div`
 
   @media ${media.mobile} {
     svg {
-      width: 10px;
-      top: -17.5px;
+      top: -15px;
     }
   }
 `;
@@ -269,9 +269,8 @@ class Header extends Component {
       searchInput: "",
       isPreviewVisible: false,
       isSearchOn: false,
+      isMobileView: window.matchMedia(media.mobile).matches,
     };
-
-    this.mediaQuery = window.matchMedia(media.mobile);
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
@@ -280,6 +279,20 @@ class Header extends Component {
     this.setSearchInput = this.setSearchInput.bind(this);
     this.setPreviewVisible = this.setPreviewVisible.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.queryRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+  }
+
+  handleMediaChange(e) {
+    this.setIsMobileView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   setPreviewVisible() {
@@ -354,10 +367,15 @@ class Header extends Component {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+
+    this.queryRef.current = window.matchMedia(media.mobile);
+    this.queryRef.current.addEventListener("change", this.handleMediaChange);
   }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+
+    this.queryRef.current.removeEventListener("change", this.handleMediaChange);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -388,7 +406,7 @@ class Header extends Component {
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
           <Logo to="/">
-            {!this.mediaQuery.matches && "GAME"}
+            {!this.state.isMobileView && "GAME"}
             <LogoIcon
               src={
                 theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
@@ -399,7 +417,7 @@ class Header extends Component {
                   : "omega icon"
               }
             />
-            {!this.mediaQuery.matches && "LEGION"}
+            {!this.state.isMobileView && "LEGION"}
           </Logo>
           <SearchBarContainer>
             <SearchInputContainer className="search-icon">

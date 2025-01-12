@@ -10,6 +10,8 @@ import { CartContext } from "./CartContext";
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 import closeIcon from "../assets/icons/close.svg";
+import media from "../utils/breakpoints";
+import { m } from "framer-motion";
 
 const CartPage = styled.div`
   position: fixed;
@@ -23,7 +25,6 @@ const CartPage = styled.div`
 
 const slideIn = keyframes`
     0%{
-        /* background-color: rgb(0, 0, 0, 0); */
         background-color: rgb(32, 32, 32, 1);
         transform: translateX(400px);
 
@@ -51,13 +52,41 @@ const slideOut = keyframes`
     }
 `;
 
+const slideInMobile = keyframes`
+    0%{
+        background-color: rgb(32, 32, 32, 1);
+        transform: translateX(275px);
+    }
+
+    60% {
+      transform: translateX(-30px);
+    }
+
+    100% {
+      background-color: rgb(32, 32, 32, 1);
+        transform: translateX(0);
+    }
+`;
+
+const slideOutMobile = keyframes`
+    0% {
+        transform: translateX(0px);
+        background-color: rgb(32, 32, 32, 1);
+    }
+
+    100% {
+        transform: translateX(275px);
+        background-color: rgb(32, 32, 32, 1);
+    }
+`;
+
 const StyledCart = styled.div`
   position: fixed;
   z-index: 4;
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
-  height: 100vh;
+  height: 100dvh;
   top: 0vh;
   animation: ${slideIn} 500ms ease forwards;
   color: white;
@@ -68,6 +97,15 @@ const StyledCart = styled.div`
 
   &.hide-cart {
     animation: ${slideOut} 250ms ease forwards;
+  }
+
+  @media ${media.mobile} {
+    width: 275px;
+    animation: ${slideInMobile} 500ms ease forwards;
+
+    &.hide-cart {
+      animation: ${slideOutMobile} 250ms ease forwards;
+    }
   }
 `;
 
@@ -89,6 +127,14 @@ const CartHeader = styled.div`
     color: rgb(153, 153, 153);
     cursor: pointer;
   }
+
+  @media ${media.mobile} {
+    padding: 1rem 2rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 const Checkout = styled.div`
@@ -103,6 +149,14 @@ const Checkout = styled.div`
     display: flex;
     gap: 0.25rem;
     color: rgb(153, 153, 153);
+  }
+
+  @media ${media.mobile} {
+    gap: 0.5rem;
+
+    p {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -146,6 +200,10 @@ const Shine = styled.button`
     top: 0;
     left: -100px;
     animation: ${shine} 3s infinite linear;
+  }
+
+  @media ${media.mobile} {
+    font-size: 1rem;
   }
 `;
 
@@ -200,10 +258,29 @@ const CartItem = styled.div`
     line-height: 1.15;
   }
 
-  & > div > div {
+  & > a > div {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  @media ${media.mobile} {
+    gap: 0.75rem;
+
+    & > a {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: end;
+      text-align: end;
+      gap: 0.75rem;
+      cursor: pointer;
+      line-height: 1.15;
+    }
+
+    & > a > div {
+      gap: 0.5rem;
+    }
   }
 `;
 
@@ -211,6 +288,10 @@ const GameImage = styled.img`
   width: 150px;
   height: 100px;
   border-radius: 10px;
+
+  @media ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 const GameName = styled.p`
@@ -228,6 +309,10 @@ const RemoveButton = styled.svg`
   background-color: rgb(15, 16, 17);
   border-radius: 5px;
   cursor: pointer;
+
+  @media ${media.mobile} {
+    width: 20px;
+  }
 `;
 
 class Cart extends Component {

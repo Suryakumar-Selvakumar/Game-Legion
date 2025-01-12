@@ -36,10 +36,10 @@ const ThemeSwitcher = styled.input.attrs({
   &:after {
     position: absolute;
     content: "";
-    top: 1.5px;
+    top: 2.5px;
     left: 2.25px;
     width: 30px;
-    height: 29px;
+    height: 27px;
     background-color: #7c7c7c;
     z-index: 2;
     border-radius: 10px;
@@ -48,7 +48,7 @@ const ThemeSwitcher = styled.input.attrs({
 
   &:checked:after {
     left: calc(100% - 32px);
-    top: 1.5px;
+    top: 2.5px;
   }
 `;
 

@@ -93,7 +93,7 @@ const QuickNavButton = styled(Link)`
 
   @media ${media.mobile} {
     font-size: 1rem;
-    padding: 0.4rem 0rem;
+    padding: 0.5rem 0rem;
     border-radius: 15px;
     width: 170px;
 
@@ -107,10 +107,11 @@ const QuickNavButton = styled(Link)`
 
     ${StyledInfoCard} & {
       border-radius: 10px;
+      font-size: 0.95rem;
       width: max-content;
-      padding: 0.4rem 0rem;
-      padding-left: 0.35rem;
-      padding-right: 0.35rem;
+      padding: 0.5rem 0rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
   }
 `;

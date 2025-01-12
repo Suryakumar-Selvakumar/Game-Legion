@@ -12,7 +12,7 @@ import media from "../utils/breakpoints";
 const StyledInfoCard = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
 `;
 
@@ -57,6 +57,7 @@ const Info = styled.div`
 
     h1 {
       font-size: 3rem;
+      -webkit-text-stroke: 0.25px rgb(75, 75, 75);
     }
   }
 `;
@@ -82,7 +83,7 @@ const InfoLinks = styled.div`
     width: 350px;
     padding: 0.5rem 0;
     border-radius: 15px;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 `;
 
