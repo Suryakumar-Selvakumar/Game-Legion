@@ -1,7 +1,6 @@
 // libs
 import { Component } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 // components
 import Header from "../components/Header";

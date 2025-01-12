@@ -565,7 +565,8 @@ function GamePage() {
                     <Detail>
                       <span>Release date</span>
                       <div>
-                        {gameData && getFormattedDate(gameData?.released)}
+                        {gameData?.released &&
+                          getFormattedDate(gameData?.released)}
                       </div>
                     </Detail>
                     <Detail>

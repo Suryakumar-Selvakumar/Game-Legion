@@ -98,8 +98,10 @@ const Checkout = styled.div`
   gap: 1rem;
 
   p {
-    align-self: end;
+    align-self: start;
     font-size: 1.15rem;
+    display: flex;
+    gap: 0.25rem;
     color: rgb(153, 153, 153);
   }
 `;
@@ -169,16 +171,6 @@ const fadeIn = keyframes`
   }
 `;
 
-const fadeOut = keyframes`
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-`;
-
 const CartItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -192,12 +184,13 @@ const CartItem = styled.div`
   box-shadow: 0px 0px 5px rgb(32, 32, 32);
   gap: 0.25rem;
   animation: ${fadeIn} 500ms ease forwards;
+  user-select: none;
 
   &.hide-cart {
     display: none;
   }
 
-  & > div {
+  & > a {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -315,75 +308,74 @@ class Cart extends Component {
           </CartHeader>
           <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
             {cart.map((game) => (
-              <Link
-                key={game.id}
-                to={
-                  this.props.isInShop
-                    ? `game/${String(game.id)}`
-                    : `shop/game/${String(game.id)}`
-                }
-              >
-                <CartItem>
-                  <RemoveButton
-                    onClick={() => this.removeItem(game.id)}
-                    viewBox="0 0 24 24"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
+              <CartItem key={game.id}>
+                <RemoveButton
+                  onClick={() => this.removeItem(game.id)}
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g
+                    id="Page-1"
+                    stroke="none"
+                    strokeWidth="1"
+                    fill="none"
+                    fillRule="evenodd"
                   >
-                    <g
-                      id="Page-1"
-                      stroke="none"
-                      strokeWidth="1"
-                      fill="none"
-                      fillRule="evenodd"
-                    >
-                      <g id="Close">
-                        <rect
-                          id="Rectangle"
-                          fillRule="nonzero"
-                          x="0"
-                          y="0"
-                          width="24"
-                          height="24"
-                        ></rect>
-                        <line
-                          x1="16.9999"
-                          y1="7"
-                          x2="7.00001"
-                          y2="16.9999"
-                          id="Path"
-                          stroke="rgb(153, 153, 153)"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        ></line>
-                        <line
-                          x1="7.00006"
-                          y1="7"
-                          x2="17"
-                          y2="16.9999"
-                          id="Path"
-                          stroke="rgb(153, 153, 153)"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        ></line>
-                      </g>
+                    <g id="Close">
+                      <rect
+                        id="Rectangle"
+                        fillRule="nonzero"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="24"
+                      ></rect>
+                      <line
+                        x1="16.9999"
+                        y1="7"
+                        x2="7.00001"
+                        y2="16.9999"
+                        id="Path"
+                        stroke="rgb(153, 153, 153)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      ></line>
+                      <line
+                        x1="7.00006"
+                        y1="7"
+                        x2="17"
+                        y2="16.9999"
+                        id="Path"
+                        stroke="rgb(153, 153, 153)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      ></line>
                     </g>
-                  </RemoveButton>
+                  </g>
+                </RemoveButton>
+                <Link
+                  to={
+                    this.props.isInShop
+                      ? `game/${String(game.id)}`
+                      : `shop/game/${String(game.id)}`
+                  }
+                >
+                  <GameImage
+                    src={game.image !== null ? game.image : placeHolderImage}
+                  />
                   <div>
-                    <GameImage
-                      src={game.image !== null ? game.image : placeHolderImage}
-                    />
-                    <div>
-                      <GameName>{game.name}</GameName>
-                      <GamePrice>${game.price}</GamePrice>
-                    </div>
+                    <GameName>{game.name}</GameName>
+                    <GamePrice>${game.price}</GamePrice>
                   </div>
-                </CartItem>
-              </Link>
+                </Link>
+              </CartItem>
             ))}
           </CartItems>
           <Checkout>
-            <p>Total: ${this.getTotal()}</p>
+            <p>
+              <span>Total:</span> <span>${this.getTotal()}</span>
+            </p>
             <Shine>Checkout</Shine>
           </Checkout>
         </StyledCart>
