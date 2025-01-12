@@ -176,11 +176,12 @@ class Shop extends Component {
       this.setLoading();
       this.fetchGamesData();
     } else {
-      const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
+      const { cart, setCart, theme, setTheme, wishList, setWishList } =
+        this.context;
 
       this.setState((state) => ({
         ...state,
-        gamesData: storedWishList !== null || undefined ? storedWishList : [],
+        gamesData: wishList !== null || undefined ? wishList : [],
         error: null,
         loading: false,
       }));
@@ -188,7 +189,6 @@ class Shop extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
     const { cart, setCart, theme, setTheme, wishList, setWishList } =
       this.context;
 
@@ -204,14 +204,17 @@ class Shop extends Component {
       } else {
         this.setState((state) => ({
           ...state,
-          gamesData: storedWishList !== null || undefined ? storedWishList : [],
+          gamesData: wishList !== null || undefined ? wishList : [],
           error: null,
           loading: false,
         }));
       }
     }
 
-    if (this.state.pageState === "Wishlist" && this.state.gamesData !== wishList) {
+    if (
+      this.state.pageState === "Wishlist" &&
+      this.state.gamesData !== wishList
+    ) {
       this.setState((state) => ({
         ...state,
         gamesData: wishList !== null || undefined ? wishList : [],

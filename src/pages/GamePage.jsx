@@ -74,6 +74,8 @@ const ImageCarousel = styled.div`
   overflow: hidden;
   cursor: grab;
   border-radius: 30px;
+  display: flex;
+  align-items: end;
 
   &:active {
     cursor: grabbing;
@@ -156,6 +158,15 @@ const ImageCarousel = styled.div`
     color: ${(props) =>
       props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
   }
+`;
+
+const WishListIcon = styled.svg`
+  min-width: 30px !important;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+  bottom: 15px;
+  left: -45px;
 `;
 
 const BackButton = styled(Link)`
@@ -359,6 +370,11 @@ const CartButton = styled.div`
   button > svg {
     width: 30px;
   }
+
+  div {
+    display: flex;
+    gap: 1rem;
+  }
 `;
 
 function GamePage() {
@@ -373,7 +389,8 @@ function GamePage() {
   // const [id, setId] = useState(params?.gameId && params.gameId);
 
   // context
-  const { cart, setCart, theme, setTheme } = useContext(CartContext);
+  const { cart, setCart, theme, setTheme, wishList, setWishList } =
+    useContext(CartContext);
 
   const fetchGameData = async () => {
     try {
@@ -413,7 +430,7 @@ function GamePage() {
   }, [params.gameId]);
 
   const existingItem = (cart) =>
-    cart.find((cartItem) => cartItem.id === gameData?.id);
+    cart?.find((cartItem) => cartItem.id === gameData?.id);
 
   function addToCart() {
     const cartGameDetails = {
@@ -425,6 +442,24 @@ function GamePage() {
 
     if (!existingItem(cart)) {
       setCart([...cart, cartGameDetails]);
+    }
+  }
+
+  function updateWishList() {
+    console.log(1);
+
+    const wishListGameDetails = {
+      id: gameData?.id,
+      name: gameData?.name,
+      image: gameData?.background_image,
+      price: gameData?.price,
+      platforms: gameData?.platforms,
+    };
+
+    if (!existingItem(wishList)) {
+      setWishList([...wishList, wishListGameDetails]);
+    } else {
+      setWishList(wishList.filter((item) => item.id !== gameData?.id));
     }
   }
 
@@ -457,6 +492,33 @@ function GamePage() {
           {screenShotsData && (
             <ImageCarousel>
               <SimpleSlider images={screenShotsData} />
+              <WishListIcon
+                onClick={updateWishList}
+                viewBox="0 0 64 64"
+                xmlns="http://www.w3.org/2000/svg"
+                strokeWidth="3"
+                stroke="#ffffff"
+                fill={
+                  existingItem(wishList)
+                    ? theme.currentTheme === "norse"
+                      ? "#46afe8"
+                      : "#ff5a5a"
+                    : "none"
+                }
+              >
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                    strokeLinecap="round"
+                  ></path>
+                </g>
+              </WishListIcon>
             </ImageCarousel>
           )}
           <GameDetails>
