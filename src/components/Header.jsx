@@ -1,7 +1,7 @@
 // libs
 import { Component } from "react";
 import styled, { keyframes } from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // assets
@@ -14,6 +14,7 @@ import omegaGreekIcon from "../assets/icons/omega-greek.png";
 import Cart from "./Cart";
 import Preview from "./Preview";
 import { CartContext } from "./CartContext";
+import withRouter from "./withRouter";
 
 const dropDown = keyframes`
   0% {
@@ -199,7 +200,7 @@ const CartContainer = styled.div`
   }
 `;
 
-export class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
 
@@ -220,6 +221,7 @@ export class Header extends Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.setSearchInput = this.setSearchInput.bind(this);
     this.setPreviewVisible = this.setPreviewVisible.bind(this);
+    this.handleInputSubmit = this.handleInputSubmit.bind(this);
   }
 
   setPreviewVisible() {
@@ -284,6 +286,14 @@ export class Header extends Component {
     }));
   }
 
+  handleInputSubmit(e) {
+    if (e.key === "Enter") {
+      this.props.navigate("/shop", {
+        state: { pageState: "Results", searchInput: this.state.searchInput },
+      });
+    }
+  }
+
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
   }
@@ -341,7 +351,8 @@ export class Header extends Component {
                 onAnimationEnd={this.handleAnimationEnd}
                 className={this.state.isShrinking ? "shrink" : ""}
                 onKeyUp={this.setSearchInput}
-              ></SearchBar>
+                onKeyDown={this.handleInputSubmit}
+              />
               {!this.props.isInShop ? (
                 <SearchIcon
                   to={"/shop"}
@@ -401,6 +412,9 @@ Header.propTypes = {
   isInShop: PropTypes.bool,
   setShopSearchInput: PropTypes.func,
   setPageState: PropTypes.func,
+  navigate: PropTypes.any,
 };
+
+export default withRouter(Header);
 
 export { expand };

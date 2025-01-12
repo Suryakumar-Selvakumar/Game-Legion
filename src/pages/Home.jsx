@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // components
-import { Header } from "../components/Header";
+import Header from "../components/Header";
 import { QuickNavigation } from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
 import { Footer } from "../components/Footer";

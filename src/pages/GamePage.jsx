@@ -10,7 +10,7 @@ import { getAPIURL } from "../utils/getAPIURL";
 import { getGamesData } from "../utils/getGamesData";
 
 // components
-import { Header } from "../components/Header";
+import Header from "../components/Header";
 import { CartContext } from "../components/CartContext";
 import SimpleSlider from "../components/Slider";
 import { StyledHeader } from "../components/Header";

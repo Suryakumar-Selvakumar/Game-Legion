@@ -151,7 +151,7 @@ export const getAPIURL = (pageState, orderBy, sortBy, searchInput, gameId) => {
       return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=8&search=${searchInput}&search_precise=false`;
     }
     case "Results": {
-      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&search=${searchInput}&search_precise=false`;
+      return `https://api.rawg.io/api/games?key=c82b4f25a584475299b48ed1f5a6e8ed&page_size=40&search=${searchInput}&search_precise=false${orderByFilter}`;
     }
     case "Game": {
       return `https://api.rawg.io/api/games/${gameId}?key=c82b4f25a584475299b48ed1f5a6e8ed`;

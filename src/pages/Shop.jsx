@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // components
-import { Header } from "../components/Header";
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Games from "../components/Games";
 
