@@ -2,16 +2,16 @@ import styled from "styled-components";
 
 const IconStyles = styled.span`
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, 50%);
 
   &,
   &::before,
   &::after {
-    width: 3rem;
+    width: 1.25rem;
     height: 2px;
-    background-color: gray;
+    background-color: #000000;
     display: inline-block;
   }
 
@@ -24,11 +24,11 @@ const IconStyles = styled.span`
   }
 
   &::before {
-    top: -0.8rem;
+    top: -0.4rem;
   }
 
   &::after {
-    top: 0.8rem;
+    top: 0.4rem;
   }
 `;
 
