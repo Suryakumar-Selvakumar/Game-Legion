@@ -58,6 +58,8 @@ const FirstRow = styled.div`
   }
 
   @media ${media.mobile} {
+    padding-top: 2rem;
+
     h1 {
       font-size: 3rem;
       text-align: center;
@@ -109,13 +111,15 @@ class Shop extends Component {
     this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
     this.setSideBarVisible = this.setSideBarVisible.bind(this);
+    this.setSideBarClosed = this.setSideBarClosed.bind(this);
   }
 
   setSideBarClosed() {
-    this.setState((state) => ({
-      ...state,
-      isSideBarClosed: !state.isSideBarClosed,
-    }));
+    !this.state.isSideBarVisible &&
+      this.setState((state) => ({
+        ...state,
+        isSideBarClosed: true,
+      }));
   }
 
   setSideBarVisible(e) {
@@ -321,7 +325,7 @@ class Shop extends Component {
           setPageState={this.setPageState}
         />
         <Body>
-          {this.state.isMobileView && (
+          {this.state.isMobileView && this.state.gamesData && (
             <>
               <CheckBox
                 id="navi-toggle"
@@ -329,17 +333,24 @@ class Shop extends Component {
                 onChange={this.setSideBarVisible}
               />
               <ButtonLabel htmlFor="navi-toggle">
-                <Icon>&nbsp;</Icon>
+                <Icon></Icon>
               </ButtonLabel>
-              <Background>&nbsp;</Background>
+              <Background onTransitionEnd={this.setSideBarClosed}></Background>
             </>
           )}
-          {!this.state.isSideBarClosed && (
+          {this.state.isMobileView ? (
+            !this.state.isSideBarClosed && (
+              <Sidebar
+                pageState={this.state.pageState}
+                setPageState={this.setPageState}
+                setSideBarVisible={this.setSideBarVisible}
+                isSideBarVisible={this.state.isSideBarVisible}
+              />
+            )
+          ) : (
             <Sidebar
               pageState={this.state.pageState}
               setPageState={this.setPageState}
-              setSideBarVisible={this.setSideBarVisible}
-              isSideBarVisible={this.state.isSideBarVisible}
             />
           )}
           <FirstRow>

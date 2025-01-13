@@ -9,9 +9,7 @@ import { CartContext } from "./CartContext";
 
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
-import closeIcon from "../assets/icons/close.svg";
 import media from "../utils/breakpoints";
-import { m } from "framer-motion";
 
 const CartPage = styled.div`
   position: fixed;
@@ -82,7 +80,7 @@ const slideOutMobile = keyframes`
 
 const StyledCart = styled.div`
   position: fixed;
-  z-index: 4;
+  z-index: 5;
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
@@ -232,7 +230,7 @@ const CartItem = styled.div`
   box-shadow: 0px 0px 5px rgb(32, 32, 32);
   gap: 0.25rem;
   user-select: none;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   opacity: 1;
 
   &.hide-cart {
@@ -242,6 +240,14 @@ const CartItem = styled.div`
   &.delete {
     opacity: 0;
     transform: translateX(-350px);
+  }
+
+  @media ${media.mobile} {
+    transition: all 0.35s ease;
+
+    &.delete {
+      transform: translateX(-250px);
+    }
   }
 
   & > a {

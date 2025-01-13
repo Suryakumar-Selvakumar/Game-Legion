@@ -6,10 +6,10 @@ const Background = styled.div`
   width: 2.75rem;
   border-radius: 50%;
   position: fixed;
-  bottom: 2dvh;
-  right: 5.25dvw;
+  bottom: 1rem;
+  right: 1rem;
   background-image: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
-  z-index: 1000;
+  z-index: 2;
   transition: transform 1s ease;
 
   ${CheckBox}:checked ~ & {

@@ -55,7 +55,7 @@ const Body = styled.div`
   @media ${media.mobile} {
     width: 100dvw;
     padding: 0;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
     gap: 0.25rem;
   }
 `;

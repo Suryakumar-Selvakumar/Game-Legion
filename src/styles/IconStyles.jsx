@@ -9,8 +9,9 @@ const IconStyles = styled.span`
   &,
   &::before,
   &::after {
-    width: 1.25rem;
-    height: 2px;
+    width: 1.5rem;
+    height: 2.5px;
+    border-radius: 5px;
     background-color: #000000;
     display: inline-block;
   }

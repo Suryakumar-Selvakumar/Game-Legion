@@ -22,7 +22,6 @@ const sideBarPopOut = keyframes`
 
   100% {
     opacity: 0;
-    display: none;
   }
 `;
 
@@ -37,7 +36,7 @@ export const StyledSidebar = styled.div`
     height: 100dvh;
     position: fixed;
     top: 0;
-    z-index: 1500;
+    z-index: 3;
     width: 100%;
     opacity: 0;
     overflow: auto;
@@ -45,7 +44,7 @@ export const StyledSidebar = styled.div`
     animation-delay: 500ms;
 
     &.close {
-      animation: ${sideBarPopOut} 500ms ease forwards;
+      animation: ${sideBarPopOut} 300ms ease forwards;
     }
   }
 `;
@@ -107,9 +106,6 @@ class Sidebar extends Component {
     return (
       <StyledSidebar
         className={!this.props.isSideBarVisible ? "close" : ""}
-        onAnimationEnd={
-          !this.props.isSideBarVisible && this.props.setSideBarClosed
-        }
       >
         <Category>
           <h2>Your Games</h2>
