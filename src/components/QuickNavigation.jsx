@@ -39,6 +39,7 @@ const StyledQuickNavigation = styled.div`
     color: white;
     font-family: myFontBold;
     font-size: 2rem;
+    padding: 1rem 0;
   }
 
   @media ${media.mobile} {
@@ -48,6 +49,16 @@ const StyledQuickNavigation = styled.div`
     h2 {
       font-size: 1.5rem;
       width: 200px;
+    }
+  }
+
+  @media ${media.tablet} {
+    h2 {
+      font-size: 2rem;
+      width: 225px;
+      text-align: center;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 `;
@@ -79,6 +90,11 @@ const QuickNavButton = styled(Link)`
   &:nth-child(3) > div {
     position: relative;
     top: 1px;
+
+    img {
+      position: relative;
+      top: -1px;
+    }
   }
 
   div > img {
@@ -95,7 +111,7 @@ const QuickNavButton = styled(Link)`
     font-size: 1rem;
     padding: 0.5rem 0rem;
     border-radius: 15px;
-    width: 170px;
+    width: 160px;
 
     div > img {
       width: 20px;
@@ -103,6 +119,7 @@ const QuickNavButton = styled(Link)`
 
     div {
       gap: 0.25rem;
+      align-items: center;
     }
 
     ${StyledInfoCard} & {
@@ -112,6 +129,22 @@ const QuickNavButton = styled(Link)`
       padding: 0.5rem 0rem;
       padding-left: 0.5rem;
       padding-right: 0.5rem;
+    }
+  }
+
+  @media ${media.tablet} {
+    border-radius: 15px;
+    width: 200px;
+
+    div {
+      align-items: center;
+    }
+
+    ${StyledInfoCard} & {
+      border-radius: 10px;
+      font-size: 1.09rem;
+      width: max-content;
+      padding: 0.5rem;
     }
   }
 `;

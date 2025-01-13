@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
       <motion.div
         key={location.pathname}
         variants={pageTransition}
-        initial={!location.pathname === "/" ? "initial" : "home"}
+        initial={"initial"}
         animate="animate"
         exit="exit"
         transition={{ duration: 0.5 }}

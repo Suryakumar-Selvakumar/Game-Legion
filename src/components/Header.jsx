@@ -39,7 +39,7 @@ const moveUp = keyframes`
 
 export const StyledHeader = styled.div`
   display: grid;
-  grid-template-columns: 500px 1fr 400px;
+  grid-template-columns: 1fr 1fr 1fr;
   padding: 1rem;
   align-items: center;
   position: fixed;
@@ -60,8 +60,17 @@ export const StyledHeader = styled.div`
   @media ${media.mobile} {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 1.5rem;
+  }
+
+  @media ${media.tablet} {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media ${media.tabletPro} {
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
@@ -95,6 +104,10 @@ const Logo = styled(Link)`
     padding-top: ${(props) =>
       props.theme.currentTheme === "norse" ? "0" : "7.5px"};
   }
+
+  @media ${media.tablet} {
+    width: fit-content;
+  }
 `;
 
 const LogoIcon = styled.img`
@@ -109,6 +122,15 @@ const LogoIcon = styled.img`
       props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
     width: ${(props) =>
       props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
+    top: ${(props) =>
+      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
+  }
+
+  @media ${media.tablet} {
+    height: ${(props) =>
+      props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
+    width: ${(props) =>
+      props.theme.currentTheme === "norse" ? "65px" : "57.5px"};
     top: ${(props) =>
       props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
   }
@@ -130,6 +152,10 @@ const SearchIcon = styled(Link)`
     & > img {
       display: none;
     }
+  }
+
+  @media ${media.tablet} {
+    left: -1rem;
   }
 `;
 
@@ -218,6 +244,11 @@ const SearchBar = styled.input.attrs({
       animation: none;
     }
   }
+
+  @media ${media.tablet} {
+    position: relative;
+    left: 1rem;
+  }
 `;
 
 const CartIcon = styled.img.attrs({
@@ -270,6 +301,7 @@ class Header extends Component {
       isPreviewVisible: false,
       isSearchOn: false,
       isMobileView: window.matchMedia(media.mobile).matches,
+      isTabletView: window.matchMedia(media.tablet).matches,
     };
 
     this.handleBlur = this.handleBlur.bind(this);
@@ -280,12 +312,22 @@ class Header extends Component {
     this.setPreviewVisible = this.setPreviewVisible.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
     this.setIsMobileView = this.setIsMobileView.bind(this);
-    this.queryRef = createRef(null);
+    this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
+    this.tabletRef = createRef(null);
   }
 
-  handleMediaChange(e) {
-    this.setIsMobileView(e.matches);
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsTabletView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isTabletView: currentState,
+    }));
   }
 
   setIsMobileView(currentState) {
@@ -368,14 +410,29 @@ class Header extends Component {
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
 
-    this.queryRef.current = window.matchMedia(media.mobile);
-    this.queryRef.current.addEventListener("change", this.handleMediaChange);
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+
+    this.tabletRef.current = window.matchMedia(media.tablet);
+    this.tabletRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "tablet")
+    );
+
+    console.log(window.matchMedia(media.tablet).matches);
   }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
 
-    this.queryRef.current.removeEventListener("change", this.handleMediaChange);
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+
+    this.tabletRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "tablet")
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -406,7 +463,7 @@ class Header extends Component {
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
           <Logo to="/">
-            {!this.state.isMobileView && "GAME"}
+            {!this.state.isMobileView && !this.state.isTabletView && "GAME"}
             <LogoIcon
               src={
                 theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
@@ -417,7 +474,7 @@ class Header extends Component {
                   : "omega icon"
               }
             />
-            {!this.state.isMobileView && "LEGION"}
+            {!this.state.isMobileView && !this.state.isTabletView && "LEGION"}
           </Logo>
           <SearchBarContainer>
             <SearchInputContainer className="search-icon">

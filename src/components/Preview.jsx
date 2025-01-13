@@ -67,6 +67,10 @@ const StyledPreview = styled.div`
     margin-top: 2.75rem;
     height: 300px;
   }
+
+  @media ${media.tablet} {
+    margin-left: 0.35rem;
+  }
 `;
 
 const SearchCard = styled(Link)`

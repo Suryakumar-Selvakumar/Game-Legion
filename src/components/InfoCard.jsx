@@ -57,7 +57,22 @@ const Info = styled.div`
 
     h1 {
       font-size: 3rem;
-      -webkit-text-stroke: 0.25px rgb(75, 75, 75);
+      text-shadow: 0 0 1px black;
+    }
+  }
+
+  @media ${media.tablet} {
+    gap: 0.25rem;
+    width: 425px;
+    padding: 1rem;
+
+    p {
+      font-size: 1rem;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      text-shadow: 0 0 1px black;
     }
   }
 `;
@@ -84,6 +99,12 @@ const InfoLinks = styled.div`
     padding: 0.5rem 0;
     border-radius: 15px;
     gap: 1rem;
+  }
+
+  @media ${media.tablet} {
+    width: 425px;
+    padding: 0.75rem 0.75rem;
+    border-radius: 15px;
   }
 `;
 

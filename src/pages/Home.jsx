@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled from "styled-components";
 
 // components
@@ -59,6 +59,11 @@ const Body = styled.div`
     align-items: center;
     gap: 1.5rem;
   }
+
+  @media ${media.tablet} {
+    padding: 0;
+    justify-content: space-evenly;
+  }
 `;
 
 const VideoBackground = styled.div`
@@ -91,7 +96,16 @@ const VideoBackground = styled.div`
 
     & video {
       object-position: ${(props) =>
-        props.theme.currentTheme === "norse" ? "75% 75%" : "95% 50%"};
+        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
+    }
+  }
+
+  @media ${media.tablet} {
+    overflow: auto;
+
+    & video {
+      object-position: ${(props) =>
+        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
     }
   }
 `;
@@ -102,9 +116,35 @@ class Home extends Component {
 
     this.state = {
       refreshKey: 0,
+      isMobileView: window.matchMedia(media.mobile).matches,
+      isTabletView: window.matchMedia(media.tablet).matches,
     };
 
     this.handleRefresh = this.handleRefresh.bind(this);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+    this.tabletRef = createRef(null);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsTabletView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isTabletView: currentState,
+    }));
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   handleRefresh() {
@@ -115,6 +155,28 @@ class Home extends Component {
   }
 
   static contextType = CartContext;
+
+  componentDidMount() {
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+
+    this.tabletRef.current = window.matchMedia(media.tablet);
+    this.tabletRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "tablet")
+    );
+  }
+
+  componentWillUnmount() {
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+
+    this.tabletRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "tablet")
+    );
+  }
 
   render() {
     const { cart, setCart, theme, setTheme } = this.context;

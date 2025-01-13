@@ -116,6 +116,10 @@ const GameName = styled.span`
     text-align: end;
     line-height: 1.15;
   }
+
+  @media ${media.tablet} {
+    font-size: 2.5rem;
+  }
 `;
 
 const BottomRow = styled.div`
@@ -142,7 +146,6 @@ const BottomRow = styled.div`
 
 const ImageCarousel = styled.div`
   position: relative;
-  width: 100%;
   height: 100% !important;
   grid-area: image-carousel;
   width: 100%;
