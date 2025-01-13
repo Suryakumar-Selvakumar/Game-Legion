@@ -16,6 +16,7 @@ import { getAPIURL } from "../utils/getAPIURL";
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 import { CartContext } from "./CartContext";
+import media from "../utils/breakpoints";
 
 const expand = keyframes`
   0% {
@@ -58,6 +59,14 @@ const StyledPreview = styled.div`
   overflow: scroll;
   scrollbar-width: none;
   box-shadow: inset 0 -10px 10px -10px #000000;
+
+  @media ${media.mobile} {
+    width: 200px;
+    animation: none;
+    margin-left: 0;
+    margin-top: 2.75rem;
+    height: 300px;
+  }
 `;
 
 const SearchCard = styled(Link)`
@@ -82,6 +91,20 @@ const SearchCard = styled(Link)`
     color: black;
     width: calc(100% - 182px);
   }
+
+  @media ${media.mobile} {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 2rem;
+    min-height: 150px;
+
+    & ${GameName} {
+      font-size: 1rem;
+      color: black;
+      width: 100%;
+      text-align: center;
+    }
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -92,12 +115,20 @@ const ImageContainer = styled.div`
   .MuiSkeleton-root {
     border-radius: 10px;
   }
+
+  @media ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 const GameImage = styled.img`
   width: 150px;
   height: 100%;
   border-radius: 10px;
+
+  @media ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 class Preview extends Component {
@@ -183,12 +214,9 @@ class Preview extends Component {
   }
 
   render() {
-
     return (
       <StyledPreview>
-        {this.state.loading && (
-          <Loading width="90px" height="90px" />
-        )}
+        {this.state.loading && <Loading width="90px" height="90px" />}
         {this.state.gamesData &&
           !this.state.loading &&
           this.state.error === null &&

@@ -15,6 +15,7 @@ import { CartContext } from "../components/CartContext";
 import SimpleSlider from "../components/Slider";
 import { StyledHeader } from "../components/Header";
 import getFormattedDate from "../utils/getFormattedDate";
+import media from "../utils/breakpoints";
 
 const StyledGamePage = styled.div`
   display: grid;
@@ -35,6 +36,10 @@ const StyledGamePage = styled.div`
   ${StyledHeader}.hidden {
     animation: none;
   }
+
+  @media ${media.mobile} {
+    width: 100dvw;
+  }
 `;
 
 const Body = styled.div`
@@ -46,23 +51,93 @@ const Body = styled.div`
   height: 100% !important;
   width: 100%;
   box-sizing: border-box;
+
+  @media ${media.mobile} {
+    width: 100dvw;
+    padding: 0;
+    padding-bottom: 1rem;
+    gap: 0.25rem;
+  }
 `;
 
 const TopRow = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  @media ${media.mobile} {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+`;
+
+const BackButton = styled(Link)`
+  text-decoration: none;
+  color: rgb(204, 204, 204);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: myFontBold;
+  font-size: 1.375rem;
+  transition: all 250ms ease;
+
+  svg {
+    width: 25px;
+    fill: rgb(204, 204, 204);
+    transition: all 250ms ease;
+  }
+
+  &:hover {
+    color: ${(props) =>
+      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
+    svg {
+      fill: ${(props) =>
+        props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
+    }
+  }
+
+  @media ${media.mobile} {
+    font-size: 1.15rem;
+    gap: 0.25rem;
+
+    svg {
+      min-width: 20px;
+    }
+  }
+`;
+
+const GameName = styled.span`
+  font-family: myFontBlack;
+  color: white;
+  font-size: 3rem;
+
+  @media ${media.mobile} {
+    font-size: 1.5rem;
+    text-align: end;
+    line-height: 1.15;
+  }
 `;
 
 const BottomRow = styled.div`
   display: grid;
   gap: 2rem;
-  flex: 1;
   grid-template: 1fr min-content / auto max(26vw, 300px);
   grid-template-areas:
     "image-carousel game-details"
     "image-carousel cart-button";
   box-sizing: border-box;
   height: 100% !important;
+
+  @media ${media.mobile} {
+    grid-template-columns: 100%;
+    grid-template-rows: 500px min-content min-content;
+    grid-template-areas:
+      "image-carousel"
+      "cart-button"
+      "game-details";
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
 `;
 
 const ImageCarousel = styled.div`
@@ -158,6 +233,44 @@ const ImageCarousel = styled.div`
     color: ${(props) =>
       props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
   }
+
+  @media ${media.mobile} {
+    .slick-slider {
+      width: 99.8%;
+    }
+
+    .slick-next::before {
+      font-size: 3rem;
+    }
+
+    .slick-prev::before {
+      font-size: 3rem;
+    }
+
+    .slick-next {
+      right: 10px;
+    }
+
+    .slick-prev {
+      left: 10px;
+    }
+
+    .slick-dots {
+      bottom: 10px;
+      padding: 0rem 0.5rem 0rem 0.5rem;
+      border-radius: 10px;
+      width: max-content;
+    }
+
+    .slick-dots li button {
+      height: 0;
+      width: 0;
+    }
+
+    .slick-dots li button:before {
+      font-size: 0.6rem;
+    }
+  }
 `;
 
 const WishListIcon = styled.svg`
@@ -167,38 +280,13 @@ const WishListIcon = styled.svg`
   position: relative;
   bottom: 15px;
   left: -45px;
-`;
 
-const BackButton = styled(Link)`
-  text-decoration: none;
-  color: rgb(204, 204, 204);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: myFontBold;
-  font-size: 1.375rem;
-  transition: all 250ms ease;
-
-  svg {
-    width: 25px;
-    fill: rgb(204, 204, 204);
-    transition: all 250ms ease;
+  @media ${media.mobile} {
+    min-width: 25px !important;
+    height: 25px;
+    bottom: 15px;
+    left: -40px;
   }
-
-  &:hover {
-    color: ${(props) =>
-      props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
-    svg {
-      fill: ${(props) =>
-        props.theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"};
-    }
-  }
-`;
-
-const GameName = styled.span`
-  font-family: myFontBlack;
-  color: white;
-  font-size: 3rem;
 `;
 
 const GameDetails = styled.div`
@@ -375,6 +463,16 @@ const CartButton = styled.div`
     display: flex;
     gap: 1rem;
   }
+
+  @media ${media.mobile} {
+    button {
+      font-size: 1.25rem;
+    }
+
+    span {
+      font-size: 1.15rem;
+    }
+  }
 `;
 
 function GamePage() {
@@ -386,6 +484,9 @@ function GamePage() {
   const [gameData, setGameData] = useState(null);
   const [screenShotsData, setScreenShotsData] = useState(null);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(
+    window.matchMedia(media.mobile).matches
+  );
 
   // context
   const { cart, setCart, theme, setTheme, wishList, setWishList } =
@@ -420,6 +521,16 @@ function GamePage() {
 
   useEffect(() => {
     fetchGameData();
+
+    const mediaQuery = window.matchMedia(media.mobile);
+
+    const handleMediaChange = (e) => {
+      setIsMobileView(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaChange);
+
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
   useEffect(() => {
