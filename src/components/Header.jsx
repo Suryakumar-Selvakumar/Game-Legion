@@ -168,6 +168,12 @@ const SearchInputContainer = styled.div`
     left: -2rem;
     cursor: pointer;
   }
+
+  @media ${media.mobile} {
+    & > img {
+      display: none;
+    }
+  }
 `;
 
 const SearchBarContainer = styled.div`

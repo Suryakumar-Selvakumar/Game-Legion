@@ -2,12 +2,18 @@
 import { Component, createRef } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
+import media from "../utils/breakpoints";
 
 const StyledDropDown = styled.div`
   padding: 1.5rem 0rem 0rem 1rem;
   position: relative;
   margin-left: 1rem;
   width: min-content;
+
+  @media ${media.mobile} {
+    padding: 1.5rem 0rem 0rem 0rem;
+    margin-left: 0;
+  }
 `;
 
 const MenuOpener = styled.div`
@@ -33,6 +39,17 @@ const MenuOpener = styled.div`
 
   svg.close {
     transform: rotate(0deg);
+  }
+
+  @media ${media.mobile} {
+    width: max-content;
+    font-size: 0.825rem;
+    gap: 0rem;
+    padding-right: 7.5px;
+
+    svg {
+      width: 20px;
+    }
   }
 `;
 
@@ -79,6 +96,10 @@ const Menu = styled.ul`
   &.close {
     animation: ${growUp} 250ms ease forwards;
   }
+
+  @media ${media.mobile} {
+    font-size: 0.825rem;
+  }
 `;
 
 const MenuItem = styled.li`
@@ -112,11 +133,28 @@ class DropDown extends Component {
     this.state = {
       dropDownOpen: false,
       firstLoad: true,
+      isMobileView: window.matchMedia(media.mobile).matches,
     };
 
     this.setDropDownOpen = this.setDropDownOpen.bind(this);
     this.setFirstLoad = this.setFirstLoad.bind(this);
     this.dropDownRef = createRef(null);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   static contextType = ThemeContext;
@@ -125,6 +163,7 @@ class DropDown extends Component {
     this.setState((state) => ({
       ...state,
       dropDownOpen: !this.state.dropDownOpen,
+      isMobileView: window.matchMedia(media.mobile).matches,
     }));
   }
 
@@ -146,12 +185,21 @@ class DropDown extends Component {
 
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutside, true);
+
+    console.log(this.state.isMobileView);
+
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
   }
 
   componentWillUnmount() {
-    return () => {
-      document.removeEventListener("click", this.handleClickOutside, true);
-    };
+    document.removeEventListener("click", this.handleClickOutside, true);
+
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
   }
 
   render() {
@@ -195,6 +243,13 @@ class DropDown extends Component {
               ? "open"
               : "close"
           }
+          style={{
+            width: this.state.isMobileView
+              ? this.props.count === 1
+                ? "175px"
+                : "152.5px"
+              : "",
+          }}
         >
           {this.props.menuItems &&
             this.props.menuItems.map((item, index) => (
@@ -240,6 +295,7 @@ DropDown.propTypes = {
   setMenuItem: PropTypes.func,
   menuItems: PropTypes.array,
   menuName: PropTypes.string,
+  count: PropTypes.number,
 };
 
 export default DropDown;

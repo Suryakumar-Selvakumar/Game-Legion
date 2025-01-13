@@ -49,6 +49,8 @@ const StyledQuickNavigation = styled.div`
     h2 {
       font-size: 1.5rem;
       width: 200px;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 

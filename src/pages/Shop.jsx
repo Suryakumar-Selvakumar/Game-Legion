@@ -15,10 +15,11 @@ import DropDown from "../components/DropDown";
 import { setSortByArr } from "../utils/setSortByArr";
 import { setCurrentSortBy } from "../utils/setCurrentSortBy";
 import { CartContext } from "../components/CartContext";
+import media from "../utils/breakpoints";
 
 const StyledShop = styled.div`
   display: grid;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 1fr;
   background-color: rgb(15, 16, 17);
   padding-top: 5rem;
 `;
@@ -30,6 +31,11 @@ const Body = styled.div`
   grid-template-areas:
     "sidebar first-row"
     "sidebar games";
+
+  @media ${media.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const FirstRow = styled.div`
@@ -46,12 +52,24 @@ const FirstRow = styled.div`
     line-height: 1;
     padding: 0rem 2rem 0rem 2rem;
   }
+
+  @media ${media.mobile} {
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+    }
+  }
 `;
 
 const DropDownsContainer = styled.div`
   display: flex;
   width: 100%;
   height: min-content;
+
+  @media ${media.mobile} {
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
 `;
 
 class Shop extends Component {
@@ -72,6 +90,7 @@ class Shop extends Component {
       orderBy: JSON.parse(localStorage.getItem("order-by")) || "Popularity",
       sortBy: JSON.parse(localStorage.getItem("sort-by")) || "High to Low",
       searchInput: (state && state.searchInput) || "",
+      isMobileView: window.matchMedia(media.mobile).matches,
     };
 
     this.setPageState = this.setPageState.bind(this);
@@ -80,6 +99,22 @@ class Shop extends Component {
     this.setLoading = this.setLoading.bind(this);
     this.setSearchInput = this.setSearchInput.bind(this);
     this.signalRef = createRef(null);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   setPageState(newPageState) {
@@ -156,6 +191,11 @@ class Shop extends Component {
 
   componentDidMount() {
     document.body.style.overflow = "auto";
+
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
 
     const storedPageState = JSON.parse(localStorage.getItem("page-state"));
     const { state } = this.props.location;
@@ -241,6 +281,10 @@ class Shop extends Component {
 
   componentWillUnmount() {
     this.signalRef.current?.abort();
+
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
   }
 
   render() {
@@ -255,15 +299,18 @@ class Shop extends Component {
           setPageState={this.setPageState}
         />
         <Body>
-          <Sidebar
-            pageState={this.state.pageState}
-            setPageState={this.setPageState}
-          />
+          {!this.state.isMobileView && (
+            <Sidebar
+              pageState={this.state.pageState}
+              setPageState={this.setPageState}
+            />
+          )}
           <FirstRow>
-            {this.state.pageState && this.state.searchInput !== "" && (
+            {this.state.pageState && (
               <h1>
                 {this.state.pageState === "Results"
-                  ? `Results for "${this.state.searchInput}"`
+                  ? this.state.searchInput !== "" &&
+                    `Results for "${this.state.searchInput}"`
                   : this.state.pageState === "default"
                   ? null
                   : this.state.pageState}
@@ -280,17 +327,18 @@ class Shop extends Component {
                     setMenuItem={this.setOrderBy}
                     menuItems={["Name", "Release Date", "Popularity", "Rating"]}
                     menuName="Order by: "
+                    count={1}
                   />
                   <DropDown
                     menuItem={this.state.sortBy}
                     setMenuItem={this.setSortBy}
                     menuItems={setSortByArr(this.state.orderBy)}
                     menuName="Sort by: "
+                    count={2}
                   />
                 </DropDownsContainer>
               )}
           </FirstRow>
-
           <Games
             gamesData={this.state.gamesData}
             theme={theme}

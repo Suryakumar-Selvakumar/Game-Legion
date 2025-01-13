@@ -1,12 +1,13 @@
 // libs
 import { Component } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // components
 import GameCard from "./GameCard";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+import media from "../utils/breakpoints";
 
 const StyledGames = styled.div`
   display: grid;
@@ -15,6 +16,11 @@ const StyledGames = styled.div`
   gap: 2rem;
   padding: 2rem 2rem 2rem 2rem;
   grid-area: games;
+
+  @media ${media.mobile} {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    padding: 2rem;
+  }
 `;
 
 class Games extends Component {
