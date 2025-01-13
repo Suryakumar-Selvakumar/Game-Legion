@@ -17,6 +17,7 @@ import androidIcon from "../assets/icons/android.svg";
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 import { CartContext } from "./CartContext";
 import { Link } from "react-router-dom";
+import media from "../utils/breakpoints";
 
 const GameCardDetails = styled.div`
   padding: 1.25rem;
@@ -51,6 +52,10 @@ const GameCardDetails = styled.div`
   div > button > svg {
     width: 25px;
   }
+
+  @media ${media.mobile} {
+    gap: 5px;
+  }
 `;
 
 const SecondRow = styled.div`
@@ -82,6 +87,10 @@ const GameName = styled.p`
   line-height: 1;
   padding: 0.25rem 0;
   cursor: pointer;
+
+  @media ${media.mobile} {
+    font-size: 1.2rem;
+  }
 `;
 
 const StyledGameCard = styled.div`
@@ -93,6 +102,10 @@ const StyledGameCard = styled.div`
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  @media ${media.mobile} {
+    grid-template-rows: 225px 125px;
   }
 `;
 
@@ -114,6 +127,10 @@ const GameImage = styled.img`
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   cursor: pointer;
+
+  @media ${media.mobile} {
+    height: 225px;
+  }
 `;
 
 class GameCard extends Component {

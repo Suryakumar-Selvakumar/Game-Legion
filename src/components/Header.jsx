@@ -59,7 +59,7 @@ export const StyledHeader = styled.div`
 
   @media ${media.mobile} {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1.5rem;
   }
 
@@ -425,8 +425,6 @@ class Header extends Component {
     this.tabletRef.current.addEventListener("change", (e) =>
       this.handleMediaChange(e, "tablet")
     );
-
-    console.log(window.matchMedia(media.tablet).matches);
   }
 
   componentWillUnmount() {

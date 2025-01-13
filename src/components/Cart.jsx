@@ -59,7 +59,7 @@ const slideInMobile = keyframes`
     }
 
     60% {
-      transform: translateX(-30px);
+      transform: translateX(-20px);
     }
 
     100% {

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // components
 import Header from "../components/Header";
-import { QuickNavigation } from "../components/QuickNavigation";
+import QuickNavigation from "../components/QuickNavigation";
 import { InfoCard } from "../components/InfoCard";
 import { Footer } from "../components/Footer";
 import { StyledHeader } from "../components/Header";

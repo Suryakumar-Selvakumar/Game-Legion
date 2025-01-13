@@ -11,7 +11,7 @@ const StyledDropDown = styled.div`
   width: min-content;
 
   @media ${media.mobile} {
-    padding: 1.5rem 0rem 0rem 0rem;
+    padding: 0;
     margin-left: 0;
   }
 `;
@@ -42,7 +42,6 @@ const MenuOpener = styled.div`
   }
 
   @media ${media.mobile} {
-    width: max-content;
     font-size: 0.825rem;
     gap: 0rem;
     padding-right: 7.5px;
@@ -186,8 +185,6 @@ class DropDown extends Component {
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutside, true);
 
-    console.log(this.state.isMobileView);
-
     this.mobileRef.current = window.matchMedia(media.mobile);
     this.mobileRef.current.addEventListener("change", (e) =>
       this.handleMediaChange(e, "mobile")
@@ -211,6 +208,13 @@ class DropDown extends Component {
           onClick={() => {
             this.setDropDownOpen();
             this.setFirstLoad();
+          }}
+          style={{
+            width: this.state.isMobileView
+              ? this.props.count === 1
+                ? "175px"
+                : "157px"
+              : "",
           }}
         >
           <span>
@@ -247,7 +251,7 @@ class DropDown extends Component {
             width: this.state.isMobileView
               ? this.props.count === 1
                 ? "175px"
-                : "152.5px"
+                : "157px"
               : "",
           }}
         >

@@ -57,6 +57,7 @@ const FirstRow = styled.div`
     h1 {
       font-size: 3rem;
       text-align: center;
+      padding: 0rem 2rem 1.5rem 2rem;
     }
   }
 `;
@@ -306,13 +307,11 @@ class Shop extends Component {
             />
           )}
           <FirstRow>
-            {this.state.pageState && (
+            {this.state.pageState && this.state.pageState !== "default" && (
               <h1>
                 {this.state.pageState === "Results"
                   ? this.state.searchInput !== "" &&
                     `Results for "${this.state.searchInput}"`
-                  : this.state.pageState === "default"
-                  ? null
                   : this.state.pageState}
               </h1>
             )}

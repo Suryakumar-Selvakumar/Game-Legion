@@ -3,6 +3,7 @@ import { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { StyledInfoCard } from "./InfoCard";
+import PropTypes from "prop-types";
 
 // assets
 import crownIcon from "../assets/icons/crown.svg";
@@ -17,6 +18,7 @@ import { getRandomId } from "../utils/getRandomId";
 import { getGamesData } from "../utils/getGamesData";
 import { getAPIURL } from "../utils/getAPIURL";
 import media from "../utils/breakpoints";
+import withRouter from "./withRouter";
 
 const StyledQuickNavigation = styled.div`
   display: flex;
@@ -65,7 +67,7 @@ const StyledQuickNavigation = styled.div`
   }
 `;
 
-const QuickNavButton = styled(Link)`
+export const QuickNavButton = styled(Link)`
   color: black;
   text-decoration: none;
   background-color: white;
@@ -151,60 +153,59 @@ const QuickNavButton = styled(Link)`
   }
 `;
 
-export class QuickNavigation extends Component {
+class QuickNavigation extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       genres: null,
-      games: null,
+      gameId: null,
     };
   }
 
   getGameId = async () => {
+    const gameIds = [];
+
     try {
       const fetchedGenresData = await getGamesData(
         getAPIURL("genres", "", "", ""),
         null,
         "genres"
       );
-      this.setState((state) => ({
-        ...state,
-        genres: fetchedGenresData,
-      }));
 
-      const gameIds = [];
-
-      this.state.genres &&
-        this.state.genres.forEach((genre) => {
-          genre.games.forEach((gameId) => {
-            gameIds.push(gameId);
+      this.setState(
+        (state) => ({
+          ...state,
+          gameId: String(
+            getRandomId(
+              fetchedGenresData.flatMap((genre) =>
+                genre.games.map((gameId) => gameId)
+              )
+            )[0]
+          ),
+        }),
+        () => {
+          this.props.navigate(`/shop/game/${this.state.gameId}`, {
+            state: {
+              currentPath: "home",
+            },
           });
-        });
-
-      this.setState((state) => ({
-        ...state,
-        games: gameIds,
-      }));
+        }
+      );
     } catch (err) {
       console.log(err.message);
     }
   };
 
-  componentDidMount() {
-    this.getGameId();
-  }
+  handleNavigation = async () => {
+    await this.getGameId();
+  };
 
   render() {
     return (
       <StyledQuickNavigation>
         <h2>Quick Navigation</h2>
-        <QuickNavButton
-          to={`/shop/game/${String(getRandomId(this.state.games)[0])}`}
-          state={{
-            currentPath: "home",
-          }}
-        >
+        <QuickNavButton onClick={this.handleNavigation}>
           <div>
             <img src={cloverIcon} alt="a clover icon" />
             <span>I'm feeling lucky</span>
@@ -245,4 +246,8 @@ export class QuickNavigation extends Component {
   }
 }
 
-export { QuickNavButton };
+QuickNavigation.propTypes = {
+  navigate: PropTypes.func,
+};
+
+export default withRouter(QuickNavigation);

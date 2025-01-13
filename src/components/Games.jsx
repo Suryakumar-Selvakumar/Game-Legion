@@ -19,7 +19,8 @@ const StyledGames = styled.div`
 
   @media ${media.mobile} {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    padding: 2rem;
+    grid-auto-rows: 350px;
+    padding: 1.75rem;
   }
 `;
 
