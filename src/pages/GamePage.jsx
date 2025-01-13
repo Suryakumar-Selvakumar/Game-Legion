@@ -523,8 +523,6 @@ function GamePage() {
   };
 
   useEffect(() => {
-    fetchGameData();
-
     const mediaQuery = window.matchMedia(media.mobile);
 
     const handleMediaChange = (e) => {

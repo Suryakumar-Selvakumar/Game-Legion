@@ -7,6 +7,10 @@ import PropTypes from "prop-types";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Games from "../components/Games";
+import CheckBox from "../styles/CheckBox";
+import Icon from "../styles/Icon";
+import ButtonLabel from "../styles/ButtonLabel";
+import Background from "../styles/Background";
 
 // utils
 import { getGamesData } from "../utils/getGamesData";
@@ -72,7 +76,6 @@ const DropDownsContainer = styled.div`
     padding: 0 2rem;
   }
 `;
-
 class Shop extends Component {
   constructor(props) {
     super(props);
@@ -92,6 +95,8 @@ class Shop extends Component {
       sortBy: JSON.parse(localStorage.getItem("sort-by")) || "High to Low",
       searchInput: (state && state.searchInput) || "",
       isMobileView: window.matchMedia(media.mobile).matches,
+      isSideBarVisible: false,
+      isSideBarClosed: true,
     };
 
     this.setPageState = this.setPageState.bind(this);
@@ -103,6 +108,22 @@ class Shop extends Component {
     this.setIsMobileView = this.setIsMobileView.bind(this);
     this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
+    this.setSideBarVisible = this.setSideBarVisible.bind(this);
+  }
+
+  setSideBarClosed() {
+    this.setState((state) => ({
+      ...state,
+      isSideBarClosed: !state.isSideBarClosed,
+    }));
+  }
+
+  setSideBarVisible(e) {
+    this.setState((state) => ({
+      ...state,
+      isSideBarClosed: state.isSideBarVisible && false,
+      isSideBarVisible: e.target.checked,
+    }));
   }
 
   handleMediaChange(e, currentView) {
@@ -300,10 +321,25 @@ class Shop extends Component {
           setPageState={this.setPageState}
         />
         <Body>
-          {!this.state.isMobileView && (
+          {this.state.isMobileView && (
+            <>
+              <CheckBox
+                id="navi-toggle"
+                value={this.state.isSideBarVisible}
+                onChange={this.setSideBarVisible}
+              />
+              <ButtonLabel htmlFor="navi-toggle">
+                <Icon>&nbsp;</Icon>
+              </ButtonLabel>
+              <Background>&nbsp;</Background>
+            </>
+          )}
+          {!this.state.isSideBarClosed && (
             <Sidebar
               pageState={this.state.pageState}
               setPageState={this.setPageState}
+              setSideBarVisible={this.setSideBarVisible}
+              isSideBarVisible={this.state.isSideBarVisible}
             />
           )}
           <FirstRow>

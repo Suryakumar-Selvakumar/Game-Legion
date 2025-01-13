@@ -55,6 +55,7 @@ const GameCardDetails = styled.div`
 
   @media ${media.mobile} {
     gap: 5px;
+    padding-top: 1rem;
   }
 `;
 

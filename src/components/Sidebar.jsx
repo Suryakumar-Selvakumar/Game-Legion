@@ -1,15 +1,53 @@
 // libs
 import { Component } from "react";
-import styled, { keyframes, ThemeContext } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import media from "../utils/breakpoints";
 
-const StyledSidebar = styled.div`
+const sideBarPopIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
+const sideBarPopOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+`;
+
+export const StyledSidebar = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding: 3rem 2rem;
   grid-area: sidebar;
+
+  @media ${media.mobile} {
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    z-index: 1500;
+    width: 100%;
+    opacity: 0;
+    overflow: auto;
+    animation: ${sideBarPopIn} 1.5s ease forwards;
+    animation-delay: 500ms;
+
+    &.close {
+      animation: ${sideBarPopOut} 500ms ease forwards;
+    }
+  }
 `;
 
 const Category = styled.div`
@@ -17,6 +55,10 @@ const Category = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   color: white;
+
+  @media ${media.mobile} {
+    color: black;
+  }
 `;
 
 const NavIcon = styled.div`
@@ -50,6 +92,10 @@ const NavButton = styled(NavLink)`
       fill: black;
     }
   }
+
+  @media ${media.mobile} {
+    color: black !important;
+  }
 `;
 
 class Sidebar extends Component {
@@ -59,7 +105,12 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <StyledSidebar>
+      <StyledSidebar
+        className={!this.props.isSideBarVisible ? "close" : ""}
+        onAnimationEnd={
+          !this.props.isSideBarVisible && this.props.setSideBarClosed
+        }
+      >
         <Category>
           <h2>Your Games</h2>
           <NavButton onClick={() => this.props.setPageState("Wishlist")}>
@@ -976,6 +1027,9 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
 Sidebar.propTypes = {
   pageState: PropTypes.string,
   setPageState: PropTypes.func,
+  setSideBarVisible: PropTypes.func,
+  isSideBarVisible: PropTypes.bool,
+  setSideBarClosed: PropTypes.func,
 };
 
 export default Sidebar;
