@@ -219,16 +219,6 @@ const CartItems = styled.div`
   }
 `;
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-`;
-
 const CartItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -241,11 +231,17 @@ const CartItem = styled.div`
   border-width: 1px;
   box-shadow: 0px 0px 5px rgb(32, 32, 32);
   gap: 0.25rem;
-  animation: ${fadeIn} 500ms ease forwards;
   user-select: none;
+  transition: all 0.25s ease;
+  opacity: 1;
 
   &.hide-cart {
     display: none;
+  }
+
+  &.delete {
+    opacity: 0;
+    transform: translateX(-350px);
   }
 
   & > a {
@@ -321,6 +317,7 @@ class Cart extends Component {
 
     this.state = {
       hideCart: false,
+      isDeleted: null,
     };
     this.cartRef = createRef(null);
     this.callBackRef = createRef(null);
@@ -329,6 +326,7 @@ class Cart extends Component {
     this.removeItem = this.removeItem.bind(this);
     this.clearCart = this.clearCart.bind(this);
     this.getTotal = this.getTotal.bind(this);
+    this.cartClickRef = createRef(null);
   }
 
   static contextType = CartContext;
@@ -339,8 +337,14 @@ class Cart extends Component {
 
   removeItem(gameId) {
     const { cart, setCart, theme, setTheme } = this.context;
+    this.setState((state) => ({
+      ...state,
+      isDeleted: gameId,
+    }));
 
-    setCart(cart.filter((item) => item.id !== gameId));
+    setTimeout(() => {
+      setCart(cart.filter((item) => item.id !== gameId));
+    }, 450);
   }
 
   clearCart() {
@@ -370,11 +374,18 @@ class Cart extends Component {
       }
     };
 
-    document.addEventListener("click", handleClickOutside, true);
+    this.cartClickRef.current = handleClickOutside;
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
+    document.addEventListener("click", this.cartClickRef.current, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.cartClickRef.current, true);
+
+    this.setState((state) => ({
+      ...state,
+      isDeleted: null,
+    }));
   }
 
   render() {
@@ -393,7 +404,10 @@ class Cart extends Component {
           </CartHeader>
           <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
             {cart.map((game) => (
-              <CartItem key={game.id}>
+              <CartItem
+                key={game.id}
+                className={this.state.isDeleted === game.id ? "delete" : ""}
+              >
                 <RemoveButton
                   onClick={() => this.removeItem(game.id)}
                   viewBox="0 0 24 24"

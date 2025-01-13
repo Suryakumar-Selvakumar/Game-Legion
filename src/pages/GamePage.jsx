@@ -537,7 +537,7 @@ function GamePage() {
   }, []);
 
   useEffect(() => {
-    fetchGameData();
+    params.gameId !== undefined && fetchGameData();
   }, [params.gameId]);
 
   const existingItem = (cart) =>
