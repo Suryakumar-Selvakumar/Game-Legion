@@ -104,12 +104,15 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <StyledSidebar
-        className={!this.props.isSideBarVisible ? "close" : ""}
-      >
+      <StyledSidebar className={!this.props.isSideBarVisible ? "close" : ""}>
         <Category>
           <h2>Your Games</h2>
-          <NavButton onClick={() => this.props.setPageState("Wishlist")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Wishlist");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Wishlist" && "white",
@@ -130,7 +133,12 @@ class Sidebar extends Component {
         </Category>
         <Category>
           <h2>New Releases</h2>
-          <NavButton onClick={() => this.props.setPageState("Last 30 days")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Last 30 days");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -161,7 +169,13 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Last 30 days</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("This week")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("This week");
+              this.props.closeSideBar();
+            }}
+            c
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -178,7 +192,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>This week</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Next week")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Next week");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -199,7 +218,10 @@ class Sidebar extends Component {
         <Category>
           <h2>Top</h2>
           <NavButton
-            onClick={() => this.props.setPageState("Best of the year")}
+            onClick={() => {
+              this.props.setPageState("Best of the year");
+              this.props.closeSideBar();
+            }}
           >
             <NavIcon
               style={{
@@ -241,7 +263,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Best of the year</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Popular in 2026")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Popular in 2026");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -271,7 +298,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Popular in 2026</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("All time top")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("All time top");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -304,7 +336,12 @@ class Sidebar extends Component {
         </Category>
         <Category>
           <h2>Platforms</h2>
-          <NavButton onClick={() => this.props.setPageState("PC")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("PC");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "PC" && "white",
@@ -320,7 +357,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>PC</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("PlayStation")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("PlayStation");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -339,7 +381,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>PlayStation</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Xbox")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Xbox");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Xbox" && "white",
@@ -355,7 +402,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Xbox</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Nintendo Switch")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Nintendo Switch");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -374,7 +426,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Nintendo Switch</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("MacOS")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("MacOS");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "MacOS" && "white",
@@ -390,7 +447,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>MacOS</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Android")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Android");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Android" && "white",
@@ -409,7 +471,12 @@ class Sidebar extends Component {
         </Category>
         <Category>
           <h2>Genres</h2>
-          <NavButton onClick={() => this.props.setPageState("Action")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Action");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Action" && "white",
@@ -431,7 +498,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Action</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Strategy")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Strategy");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Strategy" && "white",
@@ -471,7 +543,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Strategy</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("RPG")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("RPG");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "RPG" && "white",
@@ -542,7 +619,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>RPG</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Shooter")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Shooter");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Shooter" && "white",
@@ -577,7 +659,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Shooter</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Adventure")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Adventure");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -618,7 +705,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Adventure</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Puzzle")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Puzzle");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Puzzle" && "white",
@@ -650,7 +742,12 @@ class Sidebar extends Component {
             </NavIcon>
             <span>Puzzle</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Racing")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Racing");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Racing" && "white",
@@ -714,7 +811,12 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
             </NavIcon>
             <span>Racing</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Sports")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Sports");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Sports" && "white",
@@ -730,7 +832,12 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
             </NavIcon>
             <span>Sports</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Indie")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Indie");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Indie" && "white",
@@ -752,7 +859,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Indie</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Casual")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Casual");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Casual" && "white",
@@ -786,7 +898,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Casual</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Simulation")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Simulation");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -811,7 +928,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Simulation</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Arcade")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Arcade");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Arcade" && "white",
@@ -835,7 +957,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Arcade</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Platformer")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Platformer");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -860,7 +987,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Platformer</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Multiplayer")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Multiplayer");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -897,7 +1029,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Multiplayer</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Fighting")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Fighting");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Fighting" && "white",
@@ -930,7 +1067,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Fighting</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Family")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Family");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Family" && "white",
@@ -946,7 +1088,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Family</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Board Games")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Board Games");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -967,7 +1114,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Board Games</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Educational")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Educational");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor:
@@ -998,7 +1150,12 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             </NavIcon>
             <span>Educational</span>
           </NavButton>
-          <NavButton onClick={() => this.props.setPageState("Card")}>
+          <NavButton
+            onClick={() => {
+              this.props.setPageState("Card");
+              this.props.closeSideBar();
+            }}
+          >
             <NavIcon
               style={{
                 backgroundColor: this.props.pageState === "Card" && "white",
@@ -1023,9 +1180,8 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
 Sidebar.propTypes = {
   pageState: PropTypes.string,
   setPageState: PropTypes.func,
-  setSideBarVisible: PropTypes.func,
+  closeSideBar: PropTypes.func,
   isSideBarVisible: PropTypes.bool,
-  setSideBarClosed: PropTypes.func,
 };
 
 export default Sidebar;

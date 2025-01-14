@@ -51,7 +51,7 @@ const FirstRow = styled.div`
 
   h1 {
     color: white;
-    font-family: myFontBold;
+    font-family: myFontBlack;
     font-size: 60px;
     line-height: 1;
     padding: 0rem 2rem 0rem 2rem;
@@ -112,6 +112,16 @@ class Shop extends Component {
     this.handleMediaChange = this.handleMediaChange.bind(this);
     this.setSideBarVisible = this.setSideBarVisible.bind(this);
     this.setSideBarClosed = this.setSideBarClosed.bind(this);
+    this.closeSideBar = this.closeSideBar.bind(this);
+    this.checkBoxRef = createRef(null);
+  }
+
+  closeSideBar() {
+    this.checkBoxRef.current.checked = false;
+    this.setState((state) => ({
+      ...state,
+      isSideBarVisible: this.checkBoxRef.current.checked,
+    }));
   }
 
   setSideBarClosed() {
@@ -331,6 +341,7 @@ class Shop extends Component {
                 id="navi-toggle"
                 value={this.state.isSideBarVisible}
                 onChange={this.setSideBarVisible}
+                ref={this.checkBoxRef}
               />
               <ButtonLabel htmlFor="navi-toggle">
                 <Icon></Icon>
@@ -343,7 +354,7 @@ class Shop extends Component {
               <Sidebar
                 pageState={this.state.pageState}
                 setPageState={this.setPageState}
-                setSideBarVisible={this.setSideBarVisible}
+                closeSideBar={this.closeSideBar}
                 isSideBarVisible={this.state.isSideBarVisible}
               />
             )
