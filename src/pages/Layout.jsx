@@ -6,7 +6,6 @@ const pageTransition = {
   initial: { opacity: 0, x: -50 },
   animate: { opacity: 1, x: 0 },
   exit: { opacity: 0, x: -50 },
-  home: { opacity: 0, x: 0 },
 };
 
 const Layout = ({ children }) => {
@@ -17,7 +16,7 @@ const Layout = ({ children }) => {
       <motion.div
         key={location.pathname}
         variants={pageTransition}
-        initial={"initial"}
+        initial="initial"
         animate="animate"
         exit="exit"
         transition={{ duration: 0.5 }}

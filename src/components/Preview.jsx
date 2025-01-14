@@ -15,7 +15,6 @@ import { getAPIURL } from "../utils/getAPIURL";
 
 // assets
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
-import { CartContext } from "./CartContext";
 import media from "../utils/breakpoints";
 
 const expand = keyframes`
@@ -99,8 +98,8 @@ const SearchCard = styled(Link)`
   @media ${media.mobile} {
     flex-direction: column;
     gap: 0.5rem;
-    padding-bottom: 2rem;
-    min-height: 150px;
+    padding-bottom: 1rem;
+    min-height: 175px;
 
     & ${GameName} {
       font-size: 1rem;
@@ -122,6 +121,7 @@ const ImageContainer = styled.div`
 
   @media ${media.mobile} {
     width: 100%;
+    height: 95px;
   }
 `;
 
@@ -144,11 +144,28 @@ class Preview extends Component {
       loading: true,
       error: null,
       imageLoading: true,
+      isMobileView: window.matchMedia(media.mobile).matches,
     };
 
     this.setLoading = this.setLoading.bind(this);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
     this.setImageLoading = this.setImageLoading.bind(this);
     this.signalRef = createRef(null);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   fetchGamesData = async () => {
@@ -168,7 +185,6 @@ class Preview extends Component {
       }));
     } catch (err) {
       if (err.name === "AbortError") {
-        console.log("Aborted");
         return;
       }
       this.setState((state) => ({
@@ -199,6 +215,11 @@ class Preview extends Component {
   }
 
   componentDidMount() {
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+
     this.fetchGamesData();
   }
 
@@ -215,12 +236,22 @@ class Preview extends Component {
 
   componentWillUnmount() {
     this.signalRef.current?.abort();
+
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
   }
 
   render() {
     return (
       <StyledPreview>
-        {this.state.loading && <Loading width="90px" height="90px" />}
+        {this.state.loading && (
+          <Loading
+            width={!this.state.isMobileView ? "90px" : "75px"}
+            height={!this.state.isMobileView ? "90px" : "75px"}
+            i
+          />
+        )}
         {this.state.gamesData &&
           !this.state.loading &&
           this.state.error === null &&
@@ -237,8 +268,8 @@ class Preview extends Component {
                 {this.state.imageLoading && (
                   <Skeleton
                     variant="rectangular"
-                    width="150px"
-                    height="100%"
+                    width={!this.state.isMobileView ? "150px" : "100%"}
+                    height={!this.state.isMobileView ? "100%" : "95px"}
                     animation="pulse"
                   />
                 )}

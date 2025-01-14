@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -100,6 +100,40 @@ const NavButton = styled(NavLink)`
 class Sidebar extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isMobileView: window.matchMedia(media.mobile).matches,
+    };
+
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
+  }
+
+  componentDidMount() {
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+  }
+
+  componentWillUnmount() {
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
   }
 
   render() {
@@ -110,7 +144,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Wishlist");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -136,7 +170,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Last 30 days");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -172,7 +206,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("This week");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -194,7 +228,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Next week");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -219,7 +253,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Best of the year");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -265,7 +299,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Popular in 2026");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -300,7 +334,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("All time top");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -338,7 +372,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("PC");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -359,7 +393,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("PlayStation");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -383,7 +417,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Xbox");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -404,7 +438,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Nintendo Switch");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -428,7 +462,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("MacOS");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -449,7 +483,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Android");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -473,7 +507,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Action");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -500,7 +534,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Strategy");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -545,7 +579,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("RPG");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -621,7 +655,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Shooter");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -661,7 +695,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Adventure");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -707,7 +741,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Puzzle");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -744,7 +778,7 @@ class Sidebar extends Component {
           <NavButton
             onClick={() => {
               this.props.setPageState("Racing");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -813,7 +847,7 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
           <NavButton
             onClick={() => {
               this.props.setPageState("Sports");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -834,7 +868,7 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
           <NavButton
             onClick={() => {
               this.props.setPageState("Indie");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -861,7 +895,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Casual");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -900,7 +934,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Simulation");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -930,7 +964,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Arcade");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -959,7 +993,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Platformer");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -989,7 +1023,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Multiplayer");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -1031,7 +1065,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Fighting");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -1069,7 +1103,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Family");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -1090,7 +1124,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Board Games");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -1116,7 +1150,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Educational");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon
@@ -1152,7 +1186,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
           <NavButton
             onClick={() => {
               this.props.setPageState("Card");
-              this.props.closeSideBar();
+              this.state.isMobileView && this.props.closeSideBar();
             }}
           >
             <NavIcon

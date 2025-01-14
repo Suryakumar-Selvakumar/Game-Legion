@@ -3,6 +3,7 @@ import { Component, createRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 // Context
 import { CartContext } from "./CartContext";
@@ -13,8 +14,8 @@ import media from "../utils/breakpoints";
 
 const CartPage = styled.div`
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100%;
+  width: 100dvw;
   top: 0vh;
   left: 0;
   z-index: 2;
@@ -78,15 +79,20 @@ const slideOutMobile = keyframes`
     }
 `;
 
-const StyledCart = styled.div`
+const StyledCart = styled(motion.div).attrs({
+  initial: { x: 360 },
+  animate: { x: 0 },
+  transition: { type: "spring", bounce: 0.35, duration: 0.7 },
+  exit: { x: 360 },
+})`
   position: fixed;
-  z-index: 5;
+  z-index: 6;
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
-  height: 100dvh;
-  top: 0vh;
-  animation: ${slideIn} 500ms ease forwards;
+  min-height: 100%;
+  background-color: rgb(32, 32, 32, 1);
+  top: 0dvh;
   color: white;
   right: 0;
   overflow: scroll;
