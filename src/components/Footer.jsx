@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 // assets
 import omegaNorseIcon from "../assets/icons/omega-norse.png";
 import omegaGreekIcon from "../assets/icons/omega-greek.png";
+import { CartContext } from "./CartContext";
 
 const StyledFooter = styled.div`
   display: flex;
@@ -113,12 +114,14 @@ export class Footer extends Component {
     this.props.handleRefresh();
   }
 
+  static contextType = CartContext;
+
   componentDidMount() {
-    const storedTheme = JSON.parse(localStorage.getItem("theme"));
+    const { cart, setCart, theme, setTheme } = this.context;
 
     this.setState((state) => ({
       ...state,
-      isChecked: storedTheme.currentTheme === "norse" ? true : false,
+      isChecked: theme.currentTheme === "norse" ? true : false,
     }));
   }
 

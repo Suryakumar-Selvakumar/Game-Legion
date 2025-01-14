@@ -6,17 +6,17 @@ import { ThemeProvider } from "styled-components";
 const CartProvider = ({ children }) => {
   const storedCart = JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState(
-    storedCart !== null || undefined ? storedCart : []
+    storedCart && typeof storedCart === "object" ? storedCart : []
   );
 
   const storedWishList = JSON.parse(localStorage.getItem("wish-list"));
   const [wishList, setWishList] = useState(
-    storedWishList !== null || undefined ? storedWishList : []
+    storedWishList && typeof storedWishList === "object" ? storedWishList : []
   );
 
   const storedTheme = JSON.parse(localStorage.getItem("theme"));
   const [theme, setTheme] = useState(
-    storedTheme !== undefined
+    storedTheme && typeof storedTheme === "object"
       ? storedTheme
       : {
           currentTheme: "norse",

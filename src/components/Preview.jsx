@@ -52,7 +52,7 @@ const StyledPreview = styled.div`
   border-radius: 10px;
   margin-top: 3rem;
   margin-left: -1.7rem;
-  transform-origin: top right;
+  transform-origin: top center;
   animation: ${expand} 375ms ease forwards;
   height: 405px;
   overflow: scroll;

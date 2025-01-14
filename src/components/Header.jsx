@@ -224,7 +224,7 @@ const SearchBar = styled.input.attrs({
   outline: none;
   border-radius: 10px;
   padding: 0.3rem 2.25rem 0.3rem 1rem;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   border: none;
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
