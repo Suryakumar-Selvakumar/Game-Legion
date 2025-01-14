@@ -41,7 +41,6 @@ const StyledQuickNavigation = styled.div`
     color: white;
     font-family: myFontBold;
     font-size: 2rem;
-    padding: 1rem 0;
   }
 
   @media ${media.mobile} {

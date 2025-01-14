@@ -89,7 +89,6 @@ const StyledCart = styled.div`
   animation: ${slideIn} 500ms ease forwards;
   color: white;
   right: 0;
-  box-shadow: 10px 0 10px black;
   overflow: scroll;
   scrollbar-width: none;
 
