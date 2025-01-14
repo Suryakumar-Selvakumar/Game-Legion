@@ -174,7 +174,6 @@ class Sidebar extends Component {
               this.props.setPageState("This week");
               this.props.closeSideBar();
             }}
-            c
           >
             <NavIcon
               style={{

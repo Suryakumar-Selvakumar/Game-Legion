@@ -98,7 +98,7 @@ const InfoLinks = styled.div`
     width: 350px;
     padding: 0.5rem 0;
     border-radius: 15px;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   @media ${media.tablet} {

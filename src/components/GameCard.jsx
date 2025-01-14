@@ -1,5 +1,5 @@
 // libs
-import { Component } from "react";
+import { Component, createRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Skeleton } from "@mui/material";
@@ -107,6 +107,10 @@ const StyledGameCard = styled.div`
 
   @media ${media.mobile} {
     grid-template-rows: 225px 125px;
+
+    &:hover {
+      transform: scale(1);
+    }
   }
 `;
 
@@ -141,12 +145,29 @@ class GameCard extends Component {
     this.state = {
       imageLoading: true,
       animateTap: false,
+      isMobileView: window.matchMedia(media.mobile).matches,
     };
 
     this.setImageLoading = this.setImageLoading.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.setAnimateTap = this.setAnimateTap.bind(this);
     this.updateWishList = this.updateWishList.bind(this);
+    this.setIsMobileView = this.setIsMobileView.bind(this);
+    this.mobileRef = createRef(null);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+  }
+
+  handleMediaChange(e, currentView) {
+    currentView === "mobile"
+      ? this.setIsMobileView(e.matches)
+      : this.setIsTabletView(e.matches);
+  }
+
+  setIsMobileView(currentState) {
+    this.setState((state) => ({
+      ...state,
+      isMobileView: currentState,
+    }));
   }
 
   setAnimateTap() {
@@ -204,6 +225,19 @@ class GameCard extends Component {
     }
   }
 
+  componentDidMount() {
+    this.mobileRef.current = window.matchMedia(media.mobile);
+    this.mobileRef.current.addEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+  }
+
+  componentWillUnmount() {
+    this.mobileRef.current.removeEventListener("change", (e) =>
+      this.handleMediaChange(e, "mobile")
+    );
+  }
+
   static contextType = CartContext;
 
   render() {
@@ -211,14 +245,20 @@ class GameCard extends Component {
 
     return (
       <motion.div
-        animate={this.state.animateTap ? { scale: 0.95 } : { scale: 1 }}
+        animate={
+          !this.state.isMobileView
+            ? this.state.animateTap
+              ? { scale: 0.95 }
+              : { scale: 1 }
+            : {}
+        }
         transition={{
           duration: 0.05,
           ease: "easeOut",
         }}
         onAnimationComplete={() => {
           if (this.state.animateTap) {
-            this.setAnimateTap();
+            !this.state.isMobileView && this.setAnimateTap();
           }
         }}
       >

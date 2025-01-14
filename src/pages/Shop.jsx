@@ -117,7 +117,7 @@ class Shop extends Component {
   }
 
   closeSideBar() {
-    this.checkBoxRef.current.checked = false;
+    this.checkBoxRef.current.checked = !this.checkBoxRef.current.checked;
     this.setState((state) => ({
       ...state,
       isSideBarVisible: this.checkBoxRef.current.checked,

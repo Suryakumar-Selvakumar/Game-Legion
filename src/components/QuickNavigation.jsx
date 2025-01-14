@@ -111,11 +111,16 @@ export const QuickNavButton = styled(Link)`
     padding-right: 1rem;
   }
 
+  ${StyledInfoCard} &:last-child > div > span {
+    position: relative;
+    top: 1px;
+  }
+
   @media ${media.mobile} {
     font-size: 1rem;
     padding: 0.5rem 0rem;
     border-radius: 15px;
-    width: 160px;
+    width: 175px;
 
     div > img {
       width: 20px;
@@ -130,9 +135,14 @@ export const QuickNavButton = styled(Link)`
       border-radius: 10px;
       font-size: 0.95rem;
       width: max-content;
-      padding: 0.5rem 0rem;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding: 0.4rem 0rem;
+      padding-left: 0.6rem;
+      padding-right: 0.6rem;
+    }
+
+    ${StyledInfoCard} &:first-child {
+      padding-left: 0.45rem;
+      padding-right: 0.45rem;
     }
   }
 
