@@ -132,7 +132,7 @@ export class InfoCard extends Component {
           >
             <div>
               <img src={githubIcon} alt="github icon" />
-              <span>suryakumar-selvakumar</span>
+              <span>Suryakumar-Selvakumar</span>
             </div>
           </QuickNavButton>
           <QuickNavButton

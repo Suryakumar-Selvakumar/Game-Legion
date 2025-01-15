@@ -245,7 +245,7 @@ class QuickNavigation extends Component {
             <span>{"Best of the year"}</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton data-testid="popular in 2026" to={"/shop"} state={{ pageState: "Popular in 2026" }}>
+        <QuickNavButton data-testid="popular-in-2026" to={"/shop"} state={{ pageState: "Popular in 2026" }}>
           <div>
             <img src={barChartIcon} alt="a bar chart icon" />
             <span>Popular in 2026</span>

@@ -366,7 +366,7 @@ class Shop extends Component {
           )}
           <FirstRow>
             {this.state.pageState && this.state.pageState !== "default" && (
-              <h1>
+              <h1 data-testid="page-state">
                 {this.state.pageState === "Results"
                   ? this.state.searchInput !== "" &&
                     `Results for "${this.state.searchInput}"`

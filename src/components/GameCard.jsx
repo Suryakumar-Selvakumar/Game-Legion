@@ -401,7 +401,9 @@ class GameCard extends Component {
               </svg>
             </SecondRow>
             <Link to={`game/${this.props.gameDetails.id}`}>
-              <GameName>{this.props.gameDetails.name}</GameName>
+              <GameName data-testid="game-card-name">
+                {this.props.gameDetails.name}
+              </GameName>
             </Link>
           </GameCardDetails>
         </StyledGameCard>

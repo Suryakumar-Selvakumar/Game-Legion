@@ -13,7 +13,7 @@ const Background = styled.div`
   transition: transform 1s ease;
 
   ${CheckBox}:checked ~ & {
-    transform: scale(50);
+    transform: scale(60);
   }
 `;
 
