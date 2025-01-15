@@ -128,13 +128,18 @@ export class InfoCard extends Component {
           <QuickNavButton
             to="https://github.com/Suryakumar-Selvakumar"
             target="_blank"
+            data-testid="github"
           >
             <div>
               <img src={githubIcon} alt="github icon" />
               <span>suryakumar-selvakumar</span>
             </div>
           </QuickNavButton>
-          <QuickNavButton to="https://rawg.io/apidocs" target="_blank">
+          <QuickNavButton
+            data-testid="rawg-api"
+            to="https://rawg.io/apidocs"
+            target="_blank"
+          >
             <div>
               <img src={rawgIcon} alt="github icon" />
               <span>RAWG API</span>

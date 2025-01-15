@@ -214,37 +214,44 @@ class QuickNavigation extends Component {
     return (
       <StyledQuickNavigation>
         <h2>Quick Navigation</h2>
-        <QuickNavButton onClick={this.handleNavigation}>
+        <QuickNavButton
+          onClick={this.handleNavigation}
+          data-testid="im-feeling-lucky"
+        >
           <div>
             <img src={cloverIcon} alt="a clover icon" />
             <span>I'm feeling lucky</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "This week" }}>
+        <QuickNavButton
+          data-testid="new-this-week"
+          to={"/shop"}
+          state={{ pageState: "This week" }}
+        >
           <div>
             <img src={fireIcon} alt="a star icon" />
             <span>New this week</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "Last 30 days" }}>
+        <QuickNavButton data-testid="last-30-days" to={"/shop"} state={{ pageState: "Last 30 days" }}>
           <div>
             <img src={starIcon} alt="a star icon" />
             <span>Last 30 days</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "Best of the year" }}>
+        <QuickNavButton data-testid="best-of-the-year" to={"/shop"} state={{ pageState: "Best of the year" }}>
           <div>
             <img src={trophyIcon} alt="a trophy icon" />
             <span>{"Best of the year"}</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "Popular in 2026" }}>
+        <QuickNavButton data-testid="popular in 2026" to={"/shop"} state={{ pageState: "Popular in 2026" }}>
           <div>
             <img src={barChartIcon} alt="a bar chart icon" />
             <span>Popular in 2026</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton to={"/shop"} state={{ pageState: "All time top" }}>
+        <QuickNavButton data-testid="all-time-top" to={"/shop"} state={{ pageState: "All time top" }}>
           <div>
             <img src={crownIcon} alt="a crown icon" />
             <span>All time top</span>

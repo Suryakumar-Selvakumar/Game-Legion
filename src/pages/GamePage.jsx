@@ -595,7 +595,7 @@ function GamePage() {
             </svg>
             <span>Legion</span>
           </BackButton>
-          <GameName>{gameData?.name}</GameName>
+          <GameName data-testid="game-name">{gameData?.name}</GameName>
         </TopRow>
         <BottomRow>
           {screenShotsData && (
