@@ -469,6 +469,7 @@ class Header extends Component {
           <Logo to="/">
             {!this.state.isMobileView && !this.state.isTabletView && "GAME"}
             <LogoIcon
+              data-testid="logo-icon"
               src={
                 theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
               }

@@ -130,6 +130,7 @@ export class Footer extends Component {
       <StyledFooter>
         <InputWrapper>
           <ThemeSwitcher
+            data-testid="theme-switcher"
             checked={this.state.isChecked}
             onChange={this.handleChange}
           />

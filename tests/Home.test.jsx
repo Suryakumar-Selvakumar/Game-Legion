@@ -11,9 +11,9 @@ import Layout from "../src/pages/Layout";
 import GamePage from "../src/pages/GamePage";
 import ShopWrapper from "../src/pages/ShopWrapper";
 
-function createFetchResponse(data) {
-  return { ok: true, json: () => new Promise((resolve) => resolve(data)) };
-}
+// utils
+import assertShopItems from "../src/utils/assertShopItems";
+import createFetchResponse from "../src/utils/createFetchResponse";
 
 describe("Home", () => {
   describe("Info Card", () => {
@@ -228,14 +228,7 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to Shop and our dummy new week data is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("page-state").textContent).toMatch(
-          "This week"
-        )
-      );
-      await waitFor(() =>
-        expect(screen.getByTestId("game-card-name").textContent).toEqual(
-          "Dummy new game this week"
-        )
+        assertShopItems("This week", "Dummy new game this week")
       );
     });
 
@@ -298,14 +291,7 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to Shop and our dummy last 30 days data is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("page-state").textContent).toMatch(
-          "Last 30 days"
-        )
-      );
-      await waitFor(() =>
-        expect(screen.getByTestId("game-card-name").textContent).toEqual(
-          "Dummy new game in last 30 days"
-        )
+        assertShopItems("Last 30 days", "Dummy new game in last 30 days")
       );
     });
 
@@ -368,14 +354,7 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to Shop and our dummy best game of the year data is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("page-state").textContent).toMatch(
-          "Best of the year"
-        )
-      );
-      await waitFor(() =>
-        expect(screen.getByTestId("game-card-name").textContent).toEqual(
-          "Dummy best game of the year"
-        )
+        assertShopItems("Best of the year", "Dummy best game of the year")
       );
     });
 
@@ -438,14 +417,7 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to Shop and our dummy popular game in 2026 data is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("page-state").textContent).toMatch(
-          "Popular in 2026"
-        )
-      );
-      await waitFor(() =>
-        expect(screen.getByTestId("game-card-name").textContent).toEqual(
-          "Dummy popular game in 2026"
-        )
+        assertShopItems("Popular in 2026", "Dummy popular game in 2026")
       );
     });
 
@@ -508,15 +480,59 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to Shop and our dummy top game of all time data is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("page-state").textContent).toMatch(
-          "All time top"
-        )
+        assertShopItems("All time top", "Dummy top game of all time")
       );
-      await waitFor(() =>
-        expect(screen.getByTestId("game-card-name").textContent).toEqual(
-          "Dummy top game of all time"
-        )
+    });
+  });
+
+  describe("Footer", () => {
+    beforeEach(() => {
+      Object.defineProperty(window, "matchMedia", {
+        writable: true,
+        value: vi.fn().mockImplementation((query) => ({
+          matches: false,
+          media: query,
+          onchange: null,
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          dispatchEvent: vi.fn(),
+        })),
+      });
+    });
+
+    it("Checkbox changes the theme of the app", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      render(
+        <BrowserRouter>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </BrowserRouter>
       );
+      const themeSwitcher = screen.getByTestId("theme-switcher");
+      const logoIcon = screen.getByTestId("logo-icon");
+
+      // Act
+
+      // Assert
+      await waitFor(() => {
+        expect(logoIcon).toHaveAttribute(
+          "src",
+          "/src/assets/icons/omega-norse.png"
+        );
+        expect(logoIcon).toHaveAttribute("alt", "Jormungandur icon");
+      });
+      user.click(themeSwitcher);
+      await waitFor(() => {
+        expect(logoIcon).toHaveAttribute(
+          "src",
+          "/src/assets/icons/omega-greek.png"
+        );
+        expect(logoIcon).toHaveAttribute("alt", "omega icon");
+      });
     });
   });
 });
