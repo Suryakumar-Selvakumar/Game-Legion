@@ -420,6 +420,7 @@ class Cart extends Component {
                 className={this.state.isDeleted === game.id ? "delete" : ""}
               >
                 <RemoveButton
+                  data-testid="remove"
                   onClick={() => this.removeItem(game.id)}
                   viewBox="0 0 24 24"
                   version="1.1"
@@ -484,12 +485,13 @@ class Cart extends Component {
           </CartItems>
           <Checkout>
             <p>
-              <span>Total:</span> <span>${this.getTotal()}</span>
+              <span>Total:</span>{" "}
+              <span data-testid="total">${this.getTotal()}</span>
             </p>
             <Shine>Checkout</Shine>
           </Checkout>
         </StyledCart>
-        <CartPage />
+        <CartPage data-testid="cart-page" />
       </>
     );
   }
