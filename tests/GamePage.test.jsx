@@ -43,6 +43,297 @@ describe("GamePage", () => {
     cleanup();
   });
 
+  describe("Header", () => {
+    it("search preview of a game leads to that game's page", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      fetch
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            name: "Search Game 1",
+            description_raw: "Dummy Game added for testing",
+            website: "dummy.com",
+            released: "2025-01-15",
+            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
+            parent_platforms: [
+              { platform: { name: "PF1" } },
+              { platform: { name: "PF2" } },
+              { platform: { name: "PF3" } },
+            ],
+            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
+            background_image: "dummyUrl",
+            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
+            ratings: [
+              { percent: 25 },
+              { percent: 35 },
+              { percent: 25 },
+              { percent: 15 },
+            ],
+            esrb_rating: { name: "M1" },
+            id: 1,
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                image: "dummy url 1",
+              },
+              {
+                image: "dummy url 2",
+              },
+              {
+                image: "dummy url 3",
+              },
+              {
+                image: "dummy url 4",
+              },
+            ],
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                name: "Search Game 1",
+                background_image: "dummyUrl",
+                id: 1,
+                parent_platforms: [
+                  { platform: { name: "PF1" } },
+                  { platform: { name: "PF2" } },
+                  { platform: { name: "PF3" } },
+                ],
+                ratings: [
+                  { percent: 25 },
+                  { percent: 35 },
+                  { percent: 25 },
+                  { percent: 15 },
+                ],
+              },
+              {
+                name: "Search Game 2",
+                background_image: "dummyUrl",
+                id: 2,
+                parent_platforms: [
+                  { platform: { name: "PF1" } },
+                  { platform: { name: "PF2" } },
+                  { platform: { name: "PF3" } },
+                ],
+                ratings: [
+                  { percent: 25 },
+                  { percent: 35 },
+                  { percent: 25 },
+                  { percent: 15 },
+                ],
+              },
+            ],
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            name: "Search Game 2",
+            description_raw: "Dummy Game added for testing",
+            website: "dummy.com",
+            released: "2025-01-15",
+            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
+            parent_platforms: [
+              { platform: { name: "PF1" } },
+              { platform: { name: "PF2" } },
+              { platform: { name: "PF3" } },
+            ],
+            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
+            background_image: "dummyUrl",
+            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
+            ratings: [
+              { percent: 10 },
+              { percent: 70 },
+              { percent: 10 },
+              { percent: 10 },
+            ],
+            esrb_rating: { name: "M1" },
+            id: 2,
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                image: "dummy url 1",
+              },
+              {
+                image: "dummy url 2",
+              },
+              {
+                image: "dummy url 3",
+              },
+              {
+                image: "dummy url 4",
+              },
+            ],
+          })
+        );
+      render(
+        <MemoryRouter initialEntries={["/shop/game/1"]}>
+          <Routes>
+            <Route
+              path="shop/game/:gameId"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <GamePage />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      );
+      const searchInput = screen.getByTestId("search-input");
+
+      // Act
+      await waitFor(() => {
+        expect(screen.queryByTestId("game-name").textContent).toEqual(
+          "Search Game 1"
+        );
+        expect(screen.queryByTestId("game-price").textContent).toEqual("$35");
+      });
+      await user.type(searchInput, "search");
+
+      // Assert
+      expect(searchInput).toHaveValue("search");
+      await screen.findByText("Search Game 1");
+      await screen.findByText("Search Game 2");
+      const searchCards = screen.getAllByTestId("search-card");
+
+      await user.click(searchCards[1]);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("game-name").textContent).toEqual(
+          "Search Game 2"
+        );
+        expect(screen.queryByTestId("game-price").textContent).toEqual("$70");
+      });
+      screen.debug(undefined, 300000);
+    });
+  });
+
+  describe("First Row", () => {
+    it("legion button leads to the shop", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      render(
+        <MemoryRouter initialEntries={["/shop/game/1"]}>
+          <Routes>
+            <Route
+              path="shop"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <ShopWrapper />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+            <Route
+              path="shop/game/:gameId"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <GamePage />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      );
+      const legionButton = screen.getByRole("link", { name: "Legion" });
+
+      // Act
+      await user.click(legionButton);
+
+      // Assert
+      // Shop-specific text
+      await screen.findByText("Your Games");
+      await screen.findByText("New Releases");
+      await screen.findByText("Top");
+      await screen.findByText("Platforms");
+      await screen.findByText("Genres");
+    });
+
+    it("renders the game name correctly", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      fetch
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            name: "Test Game",
+            description_raw: "Dummy Game added for testing",
+            website: "dummy.com",
+            released: "2025-01-15",
+            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
+            parent_platforms: [
+              { platform: { name: "PF1" } },
+              { platform: { name: "PF2" } },
+              { platform: { name: "PF3" } },
+            ],
+            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
+            background_image: "dummyUrl",
+            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
+            ratings: [
+              { percent: 25 },
+              { percent: 35 },
+              { percent: 25 },
+              { percent: 15 },
+            ],
+            esrb_rating: { name: "M1" },
+            id: 1,
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                image: "dummy url 1",
+              },
+              {
+                image: "dummy url 2",
+              },
+              {
+                image: "dummy url 3",
+              },
+              {
+                image: "dummy url 4",
+              },
+            ],
+          })
+        );
+      render(
+        <MemoryRouter initialEntries={["/shop/game/1"]}>
+          <Routes>
+            <Route
+              path="shop/game/:gameId"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <GamePage />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      );
+
+      // Assert
+      await waitFor(() =>
+        expect(screen.queryByTestId("game-name").textContent).toEqual(
+          "Test Game"
+        )
+      );
+    });
+  });
+
   describe("Drop down", () => {
     it("more button opens the dropdown with game details", async () => {
       // Arrange
@@ -279,123 +570,6 @@ describe("GamePage", () => {
 
       // Assert
       await screen.findByText("Added");
-    });
-  });
-
-  describe("First Row", () => {
-    it("legion button leads to the shop", async () => {
-      // Arrange
-      const user = userEvent.setup();
-      render(
-        <MemoryRouter initialEntries={["/shop/game/1"]}>
-          <Routes>
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop/game/:gameId"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <GamePage />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-          </Routes>
-        </MemoryRouter>
-      );
-      const legionButton = screen.getByRole("link", { name: "Legion" });
-
-      // Act
-      await user.click(legionButton);
-
-      // Assert
-      // Shop-specific text
-      await screen.findByText("Your Games");
-      await screen.findByText("New Releases");
-      await screen.findByText("Top");
-      await screen.findByText("Platforms");
-      await screen.findByText("Genres");
-    });
-
-    it("renders the game name correctly", async () => {
-      // Arrange
-      const user = userEvent.setup();
-      fetch
-        .mockResolvedValueOnce(
-          createFetchResponse({
-            name: "Test Game",
-            description_raw: "Dummy Game added for testing",
-            website: "dummy.com",
-            released: "2025-01-15",
-            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
-            parent_platforms: [
-              { platform: { name: "PF1" } },
-              { platform: { name: "PF2" } },
-              { platform: { name: "PF3" } },
-            ],
-            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
-            background_image: "dummyUrl",
-            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
-            ratings: [
-              { percent: 25 },
-              { percent: 35 },
-              { percent: 25 },
-              { percent: 15 },
-            ],
-            esrb_rating: { name: "M1" },
-            id: 1,
-          })
-        )
-        .mockResolvedValueOnce(
-          createFetchResponse({
-            results: [
-              {
-                image: "dummy url 1",
-              },
-              {
-                image: "dummy url 2",
-              },
-              {
-                image: "dummy url 3",
-              },
-              {
-                image: "dummy url 4",
-              },
-            ],
-          })
-        );
-      render(
-        <MemoryRouter initialEntries={["/shop/game/1"]}>
-          <Routes>
-            <Route
-              path="shop/game/:gameId"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <GamePage />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-          </Routes>
-        </MemoryRouter>
-      );
-
-      // Assert
-      await waitFor(() =>
-        expect(screen.queryByTestId("game-name").textContent).toEqual(
-          "Test Game"
-        )
-      );
     });
   });
 });

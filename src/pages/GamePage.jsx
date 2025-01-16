@@ -740,7 +740,7 @@ function GamePage() {
             </div>
           </GameDetails>
           <CartButton>
-            <span>${gameData?.price}</span>
+            <span data-testid="game-price">${gameData?.price}</span>
             <button
               onClick={addToCart}
               style={{

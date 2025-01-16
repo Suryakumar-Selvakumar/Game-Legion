@@ -257,6 +257,7 @@ class Preview extends Component {
           this.state.error === null &&
           this.state.gamesData.map((game) => (
             <SearchCard
+              data-testid="search-card"
               key={game.id}
               to={`/shop/game/${String(game.id)}`}
               onMouseDown={(e) => {
