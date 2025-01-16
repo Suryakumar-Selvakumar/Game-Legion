@@ -37,7 +37,7 @@ class Games extends Component {
         {this.props.gamesData &&
           !this.props.loading &&
           this.props.error === null && (
-            <StyledGames>
+            <StyledGames data-testid="games">
               {this.props.gamesData.map((game) => (
                 <GameCard key={game.id} gameDetails={game} />
               ))}

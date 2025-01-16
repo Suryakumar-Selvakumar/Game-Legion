@@ -213,7 +213,6 @@ describe("GamePage", () => {
         );
         expect(screen.queryByTestId("game-price").textContent).toEqual("$70");
       });
-      screen.debug(undefined, 300000);
     });
   });
 
@@ -570,6 +569,213 @@ describe("GamePage", () => {
 
       // Assert
       await screen.findByText("Added");
+    });
+  });
+
+  describe("Wishlist", () => {
+    afterEach(() => {
+      cleanup();
+    });
+
+    it("wishlist icon adds the game to the wishlist", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      fetch
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            name: "Wishlist Game",
+            description_raw: "Dummy Game added to Wishlist for testing",
+            website: "dummy.com",
+            released: "2025-01-15",
+            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
+            parent_platforms: [
+              { platform: { name: "PF1" } },
+              { platform: { name: "PF2" } },
+              { platform: { name: "PF3" } },
+            ],
+            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
+            background_image: "dummyUrl",
+            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
+            ratings: [
+              { percent: 25 },
+              { percent: 35 },
+              { percent: 25 },
+              { percent: 15 },
+            ],
+            esrb_rating: { name: "M1" },
+            id: 1,
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                image: "dummy url 1",
+              },
+              {
+                image: "dummy url 2",
+              },
+              {
+                image: "dummy url 3",
+              },
+              {
+                image: "dummy url 4",
+              },
+            ],
+          })
+        );
+      render(
+        <MemoryRouter initialEntries={["/shop/game/1"]}>
+          <Routes>
+            <Route
+              path="shop"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <ShopWrapper />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+            <Route
+              path="shop/game/:gameId"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <GamePage />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      );
+      const legionButton = screen.getByRole("link", { name: "Legion" });
+
+      // Act
+      await waitFor(() =>
+        expect(screen.queryByTestId("game-name").textContent).toEqual(
+          "Wishlist Game"
+        )
+      );
+      await user.click(screen.getByTestId("wishlist-icon"));
+      await user.click(legionButton);
+      await screen.findByText("Your Games");
+      const wishlistNavLink = screen.getByTestId("wishlist");
+      await user.click(wishlistNavLink);
+
+      // Assert
+      await waitFor(() =>
+        expect(screen.queryByTestId("game-card-name").textContent).toEqual(
+          "Wishlist Game"
+        )
+      );
+      screen.debug(undefined, 300000);
+    });
+
+    it("wishlist icon removes the added game from the wishlist", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      localStorage.setItem(
+        "wishlist",
+        JSON.stringify([
+          {
+            id: 1,
+            name: "Wishlist Game",
+            image: "dummyUrl",
+            price: 39.99,
+          },
+        ])
+      );
+      fetch
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            name: "Wishlist Game",
+            description_raw: "Dummy Game added to Wishlist for testing",
+            website: "dummy.com",
+            released: "2025-01-15",
+            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
+            parent_platforms: [
+              { platform: { name: "PF1" } },
+              { platform: { name: "PF2" } },
+              { platform: { name: "PF3" } },
+            ],
+            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
+            background_image: "dummyUrl",
+            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
+            ratings: [
+              { percent: 25 },
+              { percent: 35 },
+              { percent: 25 },
+              { percent: 15 },
+            ],
+            esrb_rating: { name: "M1" },
+            id: 1,
+          })
+        )
+        .mockResolvedValueOnce(
+          createFetchResponse({
+            results: [
+              {
+                image: "dummy url 1",
+              },
+              {
+                image: "dummy url 2",
+              },
+              {
+                image: "dummy url 3",
+              },
+              {
+                image: "dummy url 4",
+              },
+            ],
+          })
+        );
+      render(
+        <MemoryRouter initialEntries={["/shop/game/1"]}>
+          <Routes>
+            <Route
+              path="shop"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <ShopWrapper />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+            <Route
+              path="shop/game/:gameId"
+              element={
+                <CartProvider>
+                  <Layout>
+                    <GamePage />
+                  </Layout>
+                </CartProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      );
+      const legionButton = screen.getByRole("link", { name: "Legion" });
+
+      // Act
+      await waitFor(() =>
+        expect(screen.queryByTestId("game-name").textContent).toEqual(
+          "Wishlist Game"
+        )
+      );
+      await user.click(screen.getByTestId("wishlist-icon"));
+      await user.click(legionButton);
+      await screen.findByText("Your Games");
+      const wishlistNavLink = screen.getByTestId("wishlist");
+      await user.click(wishlistNavLink);
+
+      // Assert
+      await waitFor(() =>
+        expect(screen.queryByTestId("games").children).toHaveLength(0)
+      );
+      screen.debug(undefined, 300000);
     });
   });
 });

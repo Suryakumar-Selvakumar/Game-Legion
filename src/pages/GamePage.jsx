@@ -602,6 +602,8 @@ function GamePage() {
             <ImageCarousel>
               <SimpleSlider images={screenShotsData} />
               <WishListIcon
+                data-testid="wishlist-icon"
+                title="wishlist"
                 onClick={updateWishList}
                 viewBox="0 0 64 64"
                 xmlns="http://www.w3.org/2000/svg"

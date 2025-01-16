@@ -142,6 +142,7 @@ class Sidebar extends Component {
         <Category>
           <h2>Your Games</h2>
           <NavButton
+            data-testid="wishlist"
             onClick={() => {
               this.props.setPageState("Wishlist");
               this.state.isMobileView && this.props.closeSideBar();
