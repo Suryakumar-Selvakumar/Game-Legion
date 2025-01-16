@@ -169,6 +169,7 @@ class Sidebar extends Component {
         <Category>
           <h2>New Releases</h2>
           <NavButton
+            data-testid="last-30-days"
             onClick={() => {
               this.props.setPageState("Last 30 days");
               this.state.isMobileView && this.props.closeSideBar();
@@ -205,6 +206,7 @@ class Sidebar extends Component {
             <span>Last 30 days</span>
           </NavButton>
           <NavButton
+            data-testid="this-week"
             onClick={() => {
               this.props.setPageState("This week");
               this.state.isMobileView && this.props.closeSideBar();
@@ -227,6 +229,7 @@ class Sidebar extends Component {
             <span>This week</span>
           </NavButton>
           <NavButton
+            data-testid="next-week"
             onClick={() => {
               this.props.setPageState("Next week");
               this.state.isMobileView && this.props.closeSideBar();
@@ -252,6 +255,7 @@ class Sidebar extends Component {
         <Category>
           <h2>Top</h2>
           <NavButton
+            data-testid="best-of-the-year"
             onClick={() => {
               this.props.setPageState("Best of the year");
               this.state.isMobileView && this.props.closeSideBar();
@@ -298,6 +302,7 @@ class Sidebar extends Component {
             <span>Best of the year</span>
           </NavButton>
           <NavButton
+            data-testid="popular-in-2026"
             onClick={() => {
               this.props.setPageState("Popular in 2026");
               this.state.isMobileView && this.props.closeSideBar();
@@ -333,6 +338,7 @@ class Sidebar extends Component {
             <span>Popular in 2026</span>
           </NavButton>
           <NavButton
+            data-testid="all-time-top"
             onClick={() => {
               this.props.setPageState("All time top");
               this.state.isMobileView && this.props.closeSideBar();
@@ -371,6 +377,7 @@ class Sidebar extends Component {
         <Category>
           <h2>Platforms</h2>
           <NavButton
+            data-testid="pc"
             onClick={() => {
               this.props.setPageState("PC");
               this.state.isMobileView && this.props.closeSideBar();
@@ -392,6 +399,7 @@ class Sidebar extends Component {
             <span>PC</span>
           </NavButton>
           <NavButton
+            data-testid="playstation"
             onClick={() => {
               this.props.setPageState("PlayStation");
               this.state.isMobileView && this.props.closeSideBar();
@@ -416,6 +424,7 @@ class Sidebar extends Component {
             <span>PlayStation</span>
           </NavButton>
           <NavButton
+            data-testid="xbox"
             onClick={() => {
               this.props.setPageState("Xbox");
               this.state.isMobileView && this.props.closeSideBar();
@@ -437,6 +446,7 @@ class Sidebar extends Component {
             <span>Xbox</span>
           </NavButton>
           <NavButton
+            data-testid="nintendo-switch"
             onClick={() => {
               this.props.setPageState("Nintendo Switch");
               this.state.isMobileView && this.props.closeSideBar();
@@ -461,6 +471,7 @@ class Sidebar extends Component {
             <span>Nintendo Switch</span>
           </NavButton>
           <NavButton
+            data-testid="mac-os"
             onClick={() => {
               this.props.setPageState("MacOS");
               this.state.isMobileView && this.props.closeSideBar();
@@ -482,6 +493,7 @@ class Sidebar extends Component {
             <span>MacOS</span>
           </NavButton>
           <NavButton
+            data-testid="android"
             onClick={() => {
               this.props.setPageState("Android");
               this.state.isMobileView && this.props.closeSideBar();
@@ -506,6 +518,7 @@ class Sidebar extends Component {
         <Category>
           <h2>Genres</h2>
           <NavButton
+            data-testid="action"
             onClick={() => {
               this.props.setPageState("Action");
               this.state.isMobileView && this.props.closeSideBar();
@@ -533,6 +546,7 @@ class Sidebar extends Component {
             <span>Action</span>
           </NavButton>
           <NavButton
+            data-testid="strategy"
             onClick={() => {
               this.props.setPageState("Strategy");
               this.state.isMobileView && this.props.closeSideBar();
@@ -578,6 +592,7 @@ class Sidebar extends Component {
             <span>Strategy</span>
           </NavButton>
           <NavButton
+            data-testid="rpg"
             onClick={() => {
               this.props.setPageState("RPG");
               this.state.isMobileView && this.props.closeSideBar();
@@ -654,6 +669,7 @@ class Sidebar extends Component {
             <span>RPG</span>
           </NavButton>
           <NavButton
+            data-testid="shooter"
             onClick={() => {
               this.props.setPageState("Shooter");
               this.state.isMobileView && this.props.closeSideBar();
@@ -694,6 +710,7 @@ class Sidebar extends Component {
             <span>Shooter</span>
           </NavButton>
           <NavButton
+            data-testid="adventure"
             onClick={() => {
               this.props.setPageState("Adventure");
               this.state.isMobileView && this.props.closeSideBar();
@@ -740,6 +757,7 @@ class Sidebar extends Component {
             <span>Adventure</span>
           </NavButton>
           <NavButton
+            data-testid="puzzle"
             onClick={() => {
               this.props.setPageState("Puzzle");
               this.state.isMobileView && this.props.closeSideBar();
@@ -777,6 +795,7 @@ class Sidebar extends Component {
             <span>Puzzle</span>
           </NavButton>
           <NavButton
+            data-testid="racing"
             onClick={() => {
               this.props.setPageState("Racing");
               this.state.isMobileView && this.props.closeSideBar();
@@ -846,6 +865,7 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
             <span>Racing</span>
           </NavButton>
           <NavButton
+            data-testid="sports"
             onClick={() => {
               this.props.setPageState("Sports");
               this.state.isMobileView && this.props.closeSideBar();
@@ -867,6 +887,7 @@ c211 -457 379 -834 375 -838 -5 -5 -96 -18 -203 -29 -709 -72 -1379 -225
             <span>Sports</span>
           </NavButton>
           <NavButton
+            data-testid="indie"
             onClick={() => {
               this.props.setPageState("Indie");
               this.state.isMobileView && this.props.closeSideBar();
@@ -894,6 +915,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Indie</span>
           </NavButton>
           <NavButton
+            data-testid="casual"
             onClick={() => {
               this.props.setPageState("Casual");
               this.state.isMobileView && this.props.closeSideBar();
@@ -933,6 +955,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Casual</span>
           </NavButton>
           <NavButton
+            data-testid="simulation"
             onClick={() => {
               this.props.setPageState("Simulation");
               this.state.isMobileView && this.props.closeSideBar();
@@ -963,6 +986,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Simulation</span>
           </NavButton>
           <NavButton
+            data-testid="arcade"
             onClick={() => {
               this.props.setPageState("Arcade");
               this.state.isMobileView && this.props.closeSideBar();
@@ -992,6 +1016,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Arcade</span>
           </NavButton>
           <NavButton
+            data-testid="platformer"
             onClick={() => {
               this.props.setPageState("Platformer");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1022,6 +1047,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Platformer</span>
           </NavButton>
           <NavButton
+            data-testid="multiplayer"
             onClick={() => {
               this.props.setPageState("Multiplayer");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1064,6 +1090,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Multiplayer</span>
           </NavButton>
           <NavButton
+            data-testid="fighting"
             onClick={() => {
               this.props.setPageState("Fighting");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1102,6 +1129,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Fighting</span>
           </NavButton>
           <NavButton
+            data-testid="family"
             onClick={() => {
               this.props.setPageState("Family");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1123,6 +1151,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Family</span>
           </NavButton>
           <NavButton
+            data-testid="board-games"
             onClick={() => {
               this.props.setPageState("Board Games");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1149,6 +1178,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Board Games</span>
           </NavButton>
           <NavButton
+            data-testid="educational"
             onClick={() => {
               this.props.setPageState("Educational");
               this.state.isMobileView && this.props.closeSideBar();
@@ -1185,6 +1215,7 @@ q-14 9 -19 12q-9 5 -14 5t-12 -7q-5 -5 -16 -18q-30 -35 -53 -51q-41 -28 -89 -28zM4
             <span>Educational</span>
           </NavButton>
           <NavButton
+            data-testid="card"
             onClick={() => {
               this.props.setPageState("Card");
               this.state.isMobileView && this.props.closeSideBar();

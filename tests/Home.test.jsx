@@ -1,5 +1,5 @@
 // libs
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
@@ -14,8 +14,25 @@ import ShopWrapper from "../src/pages/ShopWrapper";
 // utils
 import assertShopItems from "../src/utils/assertShopItems";
 import createFetchResponse from "../src/utils/createFetchResponse";
+import setFakeShopData from "../src/utils/setFakeShopData";
 
 describe("Home", () => {
+  beforeEach(() => {
+    Object.defineProperty(window, "matchMedia", {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+  });
+
   describe("Header", () => {
     beforeEach(() => {
       globalThis.fetch = vi.fn();
@@ -62,44 +79,7 @@ describe("Home", () => {
     it("search preview shows a preview of items related to search input", async () => {
       // Arrange
       const user = userEvent.setup();
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              name: "Preview Game 1",
-              background_image: "dummyUrl",
-              id: 1,
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 25 },
-                { percent: 35 },
-                { percent: 25 },
-                { percent: 15 },
-              ],
-            },
-            {
-              name: "Preview Game 2",
-              background_image: "dummyUrl",
-              id: 2,
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 25 },
-                { percent: 35 },
-                { percent: 25 },
-                { percent: 15 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("Preview");
       render(
         <BrowserRouter>
           <CartProvider>
@@ -114,51 +94,14 @@ describe("Home", () => {
 
       // Assert
       expect(searchInput).toHaveValue("preview");
-      await screen.findByText("Preview Game 1");
-      await screen.findByText("Preview Game 2");
+      await screen.findByText("Dummy Preview Game - 1");
+      await screen.findByText("Dummy Preview Game - 2");
     });
 
     it("search icon leads to items related to search input", async () => {
       // Arrange
       const user = userEvent.setup();
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              name: "Search Game 1",
-              background_image: "dummyUrl",
-              id: 1,
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 25 },
-                { percent: 35 },
-                { percent: 25 },
-                { percent: 15 },
-              ],
-            },
-            {
-              name: "Search Game 2",
-              background_image: "dummyUrl",
-              id: 2,
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 25 },
-                { percent: 35 },
-                { percent: 25 },
-                { percent: 15 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("Search");
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -196,7 +139,7 @@ describe("Home", () => {
       // fireEvent.keyDown(searchInput, { key: "Enter", charCode: 13 });
       await user.click(searchIcon);
       await waitFor(() =>
-        assertShopItems("", ["Search Game 1", "Search Game 2"])
+        assertShopItems("", ["Dummy Search Game - 1", "Dummy Search Game - 2"])
       );
     });
 
@@ -383,7 +326,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const imFeelingLuckyButton = screen.getByTestId("im-feeling-lucky");
+      const imFeelingLuckyButton = screen.getByTestId("im-feeling-lucky-home");
 
       // Act
       user.click(imFeelingLuckyButton);
@@ -397,44 +340,7 @@ describe("Home", () => {
 
     it("New this week button shows games released this week to user", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              id: 1,
-              name: "Dummy new game this week - 1",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-            {
-              id: 2,
-              name: "Dummy new game this week - 2",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("New this week");
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
@@ -462,7 +368,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const newThisWeekButton = screen.getByTestId("new-this-week");
+      const newThisWeekButton = screen.getByTestId("new-this-week-home");
 
       // Act
       user.click(newThisWeekButton);
@@ -471,52 +377,15 @@ describe("Home", () => {
       // Check that the App goes to Shop and our dummy new week data is rendered
       await waitFor(() =>
         assertShopItems("This week", [
-          "Dummy new game this week - 1",
-          "Dummy new game this week - 2",
+          "Dummy New this week Game - 1",
+          "Dummy New this week Game - 2",
         ])
       );
     });
 
     it("Last 30 days button shows games released in the last 30 days", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              id: 1,
-              name: "Dummy new game in last 30 days - 1",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-            {
-              id: 2,
-              name: "Dummy new game in last 30 days - 2",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("Last 30 days");
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
@@ -544,7 +413,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const last30DaysButton = screen.getByTestId("last-30-days");
+      const last30DaysButton = screen.getByTestId("last-30-days-home");
 
       // Act
       user.click(last30DaysButton);
@@ -553,52 +422,15 @@ describe("Home", () => {
       // Check that the App goes to Shop and our dummy last 30 days data is rendered
       await waitFor(() =>
         assertShopItems("Last 30 days", [
-          "Dummy new game in last 30 days - 1",
-          "Dummy new game in last 30 days - 2",
+          "Dummy Last 30 days Game - 1",
+          "Dummy Last 30 days Game - 2",
         ])
       );
     });
 
     it("Best of the year button shows the best games released this year", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              id: 1,
-              name: "Dummy best game of the year - 1",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-            {
-              id: 2,
-              name: "Dummy best game of the year - 2",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("Best of the year");
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
@@ -626,7 +458,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const bestOfTheYearButton = screen.getByTestId("best-of-the-year");
+      const bestOfTheYearButton = screen.getByTestId("best-of-the-year-home");
 
       // Act
       user.click(bestOfTheYearButton);
@@ -635,52 +467,15 @@ describe("Home", () => {
       // Check that the App goes to Shop and our dummy best game of the year data is rendered
       await waitFor(() =>
         assertShopItems("Best of the year", [
-          "Dummy best game of the year - 1",
-          "Dummy best game of the year - 2",
+          "Dummy Best of the year Game - 1",
+          "Dummy Best of the year Game - 2",
         ])
       );
     });
 
     it("Popular in 2026 button shows popular games to release in 2026", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              id: 1,
-              name: "Dummy popular game in 2026 - 1",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-            {
-              id: 2,
-              name: "Dummy popular game in 2026 - 2",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("Popular in 2026");
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
@@ -708,7 +503,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const popularIn2026Button = screen.getByTestId("popular-in-2026");
+      const popularIn2026Button = screen.getByTestId("popular-in-2026-home");
 
       // Act
       user.click(popularIn2026Button);
@@ -717,52 +512,15 @@ describe("Home", () => {
       // Check that the App goes to Shop and our dummy popular game in 2026 data is rendered
       await waitFor(() =>
         assertShopItems("Popular in 2026", [
-          "Dummy popular game in 2026 - 1",
-          "Dummy popular game in 2026 - 2",
+          "Dummy Popular in 2026 Game - 1",
+          "Dummy Popular in 2026 Game - 2",
         ])
       );
     });
 
     it("All time top button shows top games of all time", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(
-        createFetchResponse({
-          results: [
-            {
-              id: 1,
-              name: "Dummy top game of all time - 1",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-            {
-              id: 2,
-              name: "Dummy top game of all time - 2",
-              image: "dummyUrl",
-              parent_platforms: [
-                { platform: { name: "PF1" } },
-                { platform: { name: "PF2" } },
-                { platform: { name: "PF3" } },
-              ],
-              ratings: [
-                { percent: 30 },
-                { percent: 40 },
-                { percent: 10 },
-                { percent: 20 },
-              ],
-            },
-          ],
-        })
-      );
+      setFakeShopData("All time top");
       const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
@@ -790,7 +548,7 @@ describe("Home", () => {
           </Routes>
         </MemoryRouter>
       );
-      const allTimeTopButton = screen.getByTestId("all-time-top");
+      const allTimeTopButton = screen.getByTestId("all-time-top-home");
 
       // Act
       user.click(allTimeTopButton);
@@ -799,30 +557,14 @@ describe("Home", () => {
       // Check that the App goes to Shop and our dummy top game of all time data is rendered
       await waitFor(() =>
         assertShopItems("All time top", [
-          "Dummy top game of all time - 1",
-          "Dummy top game of all time - 2",
+          "Dummy All time top Game - 1",
+          "Dummy All time top Game - 2",
         ])
       );
     });
   });
 
   describe("Footer", () => {
-    beforeEach(() => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: vi.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: vi.fn(),
-          removeListener: vi.fn(),
-          addEventListener: vi.fn(),
-          removeEventListener: vi.fn(),
-          dispatchEvent: vi.fn(),
-        })),
-      });
-    });
-
     it("Checkbox changes the theme of the app", async () => {
       // Arrange
       const user = userEvent.setup();

@@ -216,7 +216,7 @@ class QuickNavigation extends Component {
         <h2>Quick Navigation</h2>
         <QuickNavButton
           onClick={this.handleNavigation}
-          data-testid="im-feeling-lucky"
+          data-testid="im-feeling-lucky-home"
         >
           <div>
             <img src={cloverIcon} alt="a clover icon" />
@@ -224,7 +224,7 @@ class QuickNavigation extends Component {
           </div>
         </QuickNavButton>
         <QuickNavButton
-          data-testid="new-this-week"
+          data-testid="new-this-week-home"
           to={"/shop"}
           state={{ pageState: "This week" }}
         >
@@ -233,25 +233,41 @@ class QuickNavigation extends Component {
             <span>New this week</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton data-testid="last-30-days" to={"/shop"} state={{ pageState: "Last 30 days" }}>
+        <QuickNavButton
+          data-testid="last-30-days-home"
+          to={"/shop"}
+          state={{ pageState: "Last 30 days" }}
+        >
           <div>
             <img src={starIcon} alt="a star icon" />
             <span>Last 30 days</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton data-testid="best-of-the-year" to={"/shop"} state={{ pageState: "Best of the year" }}>
+        <QuickNavButton
+          data-testid="best-of-the-year-home"
+          to={"/shop"}
+          state={{ pageState: "Best of the year" }}
+        >
           <div>
             <img src={trophyIcon} alt="a trophy icon" />
             <span>{"Best of the year"}</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton data-testid="popular-in-2026" to={"/shop"} state={{ pageState: "Popular in 2026" }}>
+        <QuickNavButton
+          data-testid="popular-in-2026-home"
+          to={"/shop"}
+          state={{ pageState: "Popular in 2026" }}
+        >
           <div>
             <img src={barChartIcon} alt="a bar chart icon" />
             <span>Popular in 2026</span>
           </div>
         </QuickNavButton>
-        <QuickNavButton data-testid="all-time-top" to={"/shop"} state={{ pageState: "All time top" }}>
+        <QuickNavButton
+          data-testid="all-time-top-home"
+          to={"/shop"}
+          state={{ pageState: "All time top" }}
+        >
           <div>
             <img src={crownIcon} alt="a crown icon" />
             <span>All time top</span>

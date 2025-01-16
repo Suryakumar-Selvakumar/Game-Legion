@@ -1,13 +1,12 @@
 // libs
 import {
   cleanup,
-  fireEvent,
   render,
   screen,
   waitFor,
 } from "@testing-library/react";
-import { afterEach, beforeAll, beforeEach, describe, expect, vi } from "vitest";
-import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
+import { afterEach, beforeEach, describe, expect, vi } from "vitest";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 // components
@@ -17,7 +16,6 @@ import GamePage from "../src/pages/GamePage";
 import ShopWrapper from "../src/pages/ShopWrapper";
 
 // utils
-import assertShopItems from "../src/utils/assertShopItems";
 import createFetchResponse from "../src/utils/createFetchResponse";
 
 describe("GamePage", () => {
