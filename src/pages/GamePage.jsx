@@ -634,7 +634,7 @@ function GamePage() {
             <div>
               <Description>
                 <span>Description</span>
-                <p>
+                <p data-testid="game-desc">
                   {gameData?.description}
                   {gameData?.description &&
                     !gameData?.description.endsWith(".") &&
