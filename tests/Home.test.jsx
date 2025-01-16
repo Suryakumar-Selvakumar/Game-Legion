@@ -1,15 +1,11 @@
 // libs
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
-import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 // components
-import App from "../src/App";
-import CartProvider from "../src/components/CartProvider";
-import Layout from "../src/pages/Layout";
-import GamePage from "../src/pages/GamePage";
-import ShopWrapper from "../src/pages/ShopWrapper";
+import { HomeRoute, ShopRoute, GamePageRoute } from "../src/utils/routes";
 
 // utils
 import assertShopItems from "../src/utils/assertShopItems";
@@ -18,6 +14,8 @@ import setFakeShopData from "../src/utils/setFakeShopData";
 
 describe("Home", () => {
   beforeEach(() => {
+    globalThis.user = userEvent.setup();
+    globalThis.fetch = vi.fn();
     Object.defineProperty(window, "matchMedia", {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -33,37 +31,18 @@ describe("Home", () => {
     });
   });
 
-  describe("Header", () => {
-    beforeEach(() => {
-      globalThis.fetch = vi.fn();
-    });
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
+  describe("Header", () => {
     it("logo brings the user back home when clicked", async () => {
       // Arrange
-      const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/shop"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -78,14 +57,11 @@ describe("Home", () => {
 
     it("search preview shows a preview of items related to search input", async () => {
       // Arrange
-      const user = userEvent.setup();
       setFakeShopData("Preview");
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
       const searchInput = screen.getByTestId("search-input");
 
@@ -100,31 +76,12 @@ describe("Home", () => {
 
     it("search icon leads to items related to search input", async () => {
       // Arrange
-      const user = userEvent.setup();
       setFakeShopData("Search");
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -145,13 +102,10 @@ describe("Home", () => {
 
     it("cart opens when the cart button is clicked", async () => {
       // Arrange
-      const user = userEvent.setup();
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
       const cartButton = screen.getByAltText("a cart icon");
 
@@ -164,13 +118,10 @@ describe("Home", () => {
 
     it("cart closes when area outside cart is clicked", async () => {
       // Arrange
-      const user = userEvent.setup();
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
       const cartButton = screen.getByAltText("a cart icon");
 
@@ -188,13 +139,10 @@ describe("Home", () => {
   describe("Info Card", () => {
     it("Suryakumar-Selvakumar button takes the user to my GitHub profile", () => {
       // Arrange
-      const user = userEvent.setup();
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
 
       // Act
@@ -210,13 +158,10 @@ describe("Home", () => {
 
     it("RAWG API button takes the user to its documentation", () => {
       // Arrange
-      const user = userEvent.setup();
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
 
       // Act
@@ -228,32 +173,8 @@ describe("Home", () => {
   });
 
   describe("Quick Navigation", () => {
-    // Mock fetch with global scope
-    beforeEach(() => {
-      globalThis.fetch = vi.fn();
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: vi.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: vi.fn(),
-          removeListener: vi.fn(),
-          addEventListener: vi.fn(),
-          removeEventListener: vi.fn(),
-          dispatchEvent: vi.fn(),
-        })),
-      });
-    });
-
-    // Reset Mocks after each test
-    afterEach(() => {
-      vi.resetAllMocks();
-    });
-
     it("I'm feeling lucky button takes the user to a random game's page", async () => {
       // Arrange
-      // Setup dummy data for all three fetches
       fetch
         .mockResolvedValueOnce(
           createFetchResponse({
@@ -298,31 +219,13 @@ describe("Home", () => {
             ],
           })
         );
-      const user = userEvent.setup();
+
       // Render app with routes
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop/game/:gameId"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <GamePage />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {GamePageRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -341,33 +244,15 @@ describe("Home", () => {
     it("New this week button shows games released this week to user", async () => {
       // Arrange
       setFakeShopData("New this week");
-      const user = userEvent.setup();
-      render(
+      const router = (
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
+      render(router);
       const newThisWeekButton = screen.getByTestId("new-this-week-home");
 
       // Act
@@ -386,30 +271,11 @@ describe("Home", () => {
     it("Last 30 days button shows games released in the last 30 days", async () => {
       // Arrange
       setFakeShopData("Last 30 days");
-      const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -431,30 +297,11 @@ describe("Home", () => {
     it("Best of the year button shows the best games released this year", async () => {
       // Arrange
       setFakeShopData("Best of the year");
-      const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -476,30 +323,11 @@ describe("Home", () => {
     it("Popular in 2026 button shows popular games to release in 2026", async () => {
       // Arrange
       setFakeShopData("Popular in 2026");
-      const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -521,30 +349,11 @@ describe("Home", () => {
     it("All time top button shows top games of all time", async () => {
       // Arrange
       setFakeShopData("All time top");
-      const user = userEvent.setup();
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <App />
-                  </Layout>
-                </CartProvider>
-              }
-            />
-            <Route
-              path="shop"
-              element={
-                <CartProvider>
-                  <Layout>
-                    <ShopWrapper />
-                  </Layout>
-                </CartProvider>
-              }
-            />
+            {HomeRoute}
+            {ShopRoute}
           </Routes>
         </MemoryRouter>
       );
@@ -567,13 +376,10 @@ describe("Home", () => {
   describe("Footer", () => {
     it("Checkbox changes the theme of the app", async () => {
       // Arrange
-      const user = userEvent.setup();
       render(
-        <BrowserRouter>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Routes>{HomeRoute}</Routes>
+        </MemoryRouter>
       );
       const themeSwitcher = screen.getByTestId("theme-switcher");
       const logoIcon = screen.getByTestId("logo-icon");
