@@ -374,6 +374,7 @@ class GameCard extends Component {
               </Icons>
               <svg
                 onClick={this.updateWishList}
+                data-testid="wishlist-card-icon"
                 viewBox="0 0 64 64"
                 xmlns="http://www.w3.org/2000/svg"
                 strokeWidth="3"

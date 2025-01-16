@@ -8,7 +8,6 @@ import userEvent from "@testing-library/user-event";
 import { ShopRoute, GamePageRoute } from "../src/utils/routes";
 
 // utils
-import createFetchResponse from "../src/utils/createFetchResponse";
 import setFakeGamePageData from "../src/utils/setFakeGamePageData";
 import setFakeImageData from "../src/utils/setFakeImageData";
 import setFakeShopData from "../src/utils/setFakeShopData";
