@@ -1,9 +1,8 @@
 // libs
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
-import { act } from "@testing-library/react";
 
 // components
 import App from "../src/App";
@@ -190,10 +189,11 @@ describe("Home", () => {
       const searchIcon = screen.getByTestId("search-icon-link");
 
       // Act
-      await user.type(searchInput, "search");
+      await user.type(searchInput, `search`);
 
       // Assert
       await expect(searchInput).toHaveValue("search");
+      // fireEvent.keyDown(searchInput, { key: "Enter", charCode: 13 });
       await user.click(searchIcon);
       await waitFor(() =>
         assertShopItems("", ["Search Game 1", "Search Game 2"])

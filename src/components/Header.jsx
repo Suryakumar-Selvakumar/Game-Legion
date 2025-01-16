@@ -321,7 +321,6 @@ class Header extends Component {
     this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
     this.tabletRef = createRef(null);
-    this.searchBarRef = createRef(null);
   }
 
   handleMediaChange(e, currentView) {
@@ -411,6 +410,12 @@ class Header extends Component {
       this.props.navigate("/shop", {
         state: { pageState: "Results", searchInput: this.state.searchInput },
       });
+
+      if (this.props.isInShop) {
+        this.props.setShopSearchInput(this.state.searchInput);
+        this.props.setPageState("Results");
+        document.activeElement.blur();
+      }
     }
   }
 
@@ -449,7 +454,7 @@ class Header extends Component {
   }
 
   setSearchInput(e) {
-    const id = setTimeout(
+    setTimeout(
       () =>
         this.setState((state) => ({
           ...state,
@@ -457,7 +462,6 @@ class Header extends Component {
         })),
       1000
     );
-    console.log(id);
   }
 
   render() {
@@ -486,7 +490,6 @@ class Header extends Component {
           <SearchBarContainer>
             <SearchInputContainer className="search-icon">
               <SearchBar
-                ref={this.searchBarRef}
                 data-testid="search-input"
                 onFocus={this.setPreviewVisible}
                 onBlur={this.handleBlur}
@@ -523,7 +526,6 @@ class Header extends Component {
               this.state.isHeaderVisible && (
                 <Preview
                   searchInput={this.state.searchInput}
-                  setPreviewVisible={this.setPreviewVisible}
                 />
               )}
           </SearchBarContainer>

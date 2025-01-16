@@ -723,7 +723,10 @@ function GamePage() {
                     </a>
                   </Detail>
                 </Details>
-                <Opener onClick={() => setDropDownOpen(!dropDownOpen)}>
+                <Opener
+                  data-testid="opener"
+                  onClick={() => setDropDownOpen(!dropDownOpen)}
+                >
                   More
                   <svg
                     className={dropDownOpen ? "open" : ""}
