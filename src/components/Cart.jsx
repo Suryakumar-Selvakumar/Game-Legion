@@ -476,8 +476,10 @@ class Cart extends Component {
                     src={game.image !== null ? game.image : placeHolderImage}
                   />
                   <div>
-                    <GameName>{game.name}</GameName>
-                    <GamePrice>${game.price}</GamePrice>
+                    <GameName data-testid="game-cart-name">
+                      {game.name}
+                    </GameName>
+                    <GamePrice data-testid="game-cart-price">${game.price}</GamePrice>
                   </div>
                 </Link>
               </CartItem>
