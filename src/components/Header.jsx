@@ -321,6 +321,7 @@ class Header extends Component {
     this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
     this.tabletRef = createRef(null);
+    this.searchBarRef = createRef(null);
   }
 
   handleMediaChange(e, currentView) {
@@ -448,7 +449,7 @@ class Header extends Component {
   }
 
   setSearchInput(e) {
-    setTimeout(
+    const id = setTimeout(
       () =>
         this.setState((state) => ({
           ...state,
@@ -456,6 +457,7 @@ class Header extends Component {
         })),
       1000
     );
+    console.log(id);
   }
 
   render() {
@@ -466,7 +468,7 @@ class Header extends Component {
         <StyledHeader
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
-          <Logo to="/">
+          <Logo to="/" data-testid="logo">
             {!this.state.isMobileView && !this.state.isTabletView && "GAME"}
             <LogoIcon
               data-testid="logo-icon"
@@ -484,6 +486,8 @@ class Header extends Component {
           <SearchBarContainer>
             <SearchInputContainer className="search-icon">
               <SearchBar
+                ref={this.searchBarRef}
+                data-testid="search-input"
                 onFocus={this.setPreviewVisible}
                 onBlur={this.handleBlur}
                 onAnimationEnd={this.handleAnimationEnd}
@@ -493,6 +497,7 @@ class Header extends Component {
               />
               {!this.props.isInShop ? (
                 <SearchIcon
+                  data-testid="search-icon-link"
                   to={"/shop"}
                   state={{
                     pageState: "Results",
@@ -525,6 +530,7 @@ class Header extends Component {
           <CartContainer>
             <CartIcon onClick={this.handleCartClick} />
             <svg
+              data-testid="dot-icon"
               viewBox="0 0 16 16"
               xmlns="http://www.w3.org/2000/svg"
               style={{

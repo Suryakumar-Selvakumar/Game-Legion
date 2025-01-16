@@ -282,7 +282,7 @@ class Preview extends Component {
                   }}
                 />
               </ImageContainer>
-              <GameName>{game.name}</GameName>
+              <GameName data-testid="game-preview-name">{game.name}</GameName>
             </SearchCard>
           ))}
       </StyledPreview>
@@ -292,7 +292,6 @@ class Preview extends Component {
 
 Preview.propTypes = {
   searchInput: PropTypes.string,
-  setPreviewVisible: PropTypes.func,
 };
 
 export default Preview;

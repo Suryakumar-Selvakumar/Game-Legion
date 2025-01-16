@@ -50,6 +50,39 @@ describe("Cart", () => {
     waitFor(() => expect(screen.queryByText("Total:")).not.toBeInTheDocument());
   });
 
+  it("indicates when there are items in the cart using a dot icon", () => {
+    // Arrange
+    const user = userEvent.setup();
+    localStorage.setItem(
+      "cart",
+      JSON.stringify([
+        {
+          id: 1,
+          name: "Test Game 1",
+          image: "dummyUrl",
+          price: 39.99,
+        },
+        {
+          id: 2,
+          name: "Test Game 2",
+          image: "dummyUrl",
+          price: 29.99,
+        },
+      ])
+    );
+    render(
+      <BrowserRouter>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </BrowserRouter>
+    );
+    const dotIcon = screen.getByTestId("dot-icon");
+
+    // Assert
+    expect(dotIcon).toBeInTheDocument();
+  });
+
   it("displays the count of the items correctly", async () => {
     // Arrange
     const user = userEvent.setup();
