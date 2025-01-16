@@ -11,6 +11,8 @@ import { HomeRoute, ShopRoute, GamePageRoute } from "../src/utils/routes";
 import assertShopItems from "../src/utils/assertShopItems";
 import createFetchResponse from "../src/utils/createFetchResponse";
 import setFakeShopData from "../src/utils/setFakeShopData";
+import setFakeGamePageData from "../src/utils/setFakeGamePageData";
+import setFakeImageData from "../src/utils/setFakeImageData";
 
 describe("Home", () => {
   beforeEach(() => {
@@ -57,7 +59,7 @@ describe("Home", () => {
 
     it("search preview shows a preview of items related to search input", async () => {
       // Arrange
-      setFakeShopData("Preview");
+      fetch.mockResolvedValueOnce(setFakeShopData("Preview"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>{HomeRoute}</Routes>
@@ -76,7 +78,7 @@ describe("Home", () => {
 
     it("search icon leads to items related to search input", async () => {
       // Arrange
-      setFakeShopData("Search");
+      fetch.mockResolvedValueOnce(setFakeShopData("Search"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -185,40 +187,8 @@ describe("Home", () => {
             ],
           })
         )
-        .mockResolvedValueOnce(
-          createFetchResponse({
-            name: "Test Game",
-            description_raw: "Dummy Game added for testing",
-            website: "dummy.com",
-            released: "2025-01-15",
-            genres: [{ name: "G1" }, { name: "G2" }, { name: "G3" }],
-            parent_platforms: [
-              { platform: { name: "PF1" } },
-              { platform: { name: "PF2" } },
-              { platform: { name: "PF3" } },
-            ],
-            developers: [{ name: "D1" }, { name: "D2" }, { name: "D3" }],
-            background_image: "dummyUrl",
-            publishers: [{ name: "PB1" }, { name: "PB2" }, { name: "PB3" }],
-            ratings: [
-              { percent: 25 },
-              { percent: 35 },
-              { percent: 25 },
-              { percent: 15 },
-            ],
-            esrb_rating: "M1",
-            id: 1,
-          })
-        )
-        .mockResolvedValueOnce(
-          createFetchResponse({
-            results: [
-              {
-                image: "dummyUrl",
-              },
-            ],
-          })
-        );
+        .mockResolvedValueOnce(setFakeGamePageData(1, "Test", [25, 35, 25, 15]))
+        .mockResolvedValueOnce(setFakeImageData());
 
       // Render app with routes
       render(
@@ -237,13 +207,15 @@ describe("Home", () => {
       // Assert
       // Check that the App goes to GamePage and our dummy random game is rendered
       await waitFor(() =>
-        expect(screen.getByTestId("game-name").textContent).toMatch("Test Game")
+        expect(screen.getByTestId("game-name").textContent).toMatch(
+          "Test Game - 1"
+        )
       );
     });
 
     it("New this week button shows games released this week to user", async () => {
       // Arrange
-      setFakeShopData("New this week");
+      fetch.mockResolvedValueOnce(setFakeShopData("New this week"));
       const router = (
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -270,7 +242,7 @@ describe("Home", () => {
 
     it("Last 30 days button shows games released in the last 30 days", async () => {
       // Arrange
-      setFakeShopData("Last 30 days");
+      fetch.mockResolvedValueOnce(setFakeShopData("Last 30 days"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -296,7 +268,7 @@ describe("Home", () => {
 
     it("Best of the year button shows the best games released this year", async () => {
       // Arrange
-      setFakeShopData("Best of the year");
+      fetch.mockResolvedValueOnce(setFakeShopData("Best of the year"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -322,7 +294,7 @@ describe("Home", () => {
 
     it("Popular in 2026 button shows popular games to release in 2026", async () => {
       // Arrange
-      setFakeShopData("Popular in 2026");
+      fetch.mockResolvedValueOnce(setFakeShopData("Popular in 2026"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -348,7 +320,7 @@ describe("Home", () => {
 
     it("All time top button shows top games of all time", async () => {
       // Arrange
-      setFakeShopData("All time top");
+      fetch.mockResolvedValueOnce(setFakeShopData("All time top"));
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
