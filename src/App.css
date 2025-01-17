@@ -102,14 +102,24 @@ h6 {
   src: url("./assets/fonts/GTWalsheimPro-Black.woff2");
 }
 
+head {
+  display: flex;
+  align-items: center;
+}
+
 body {
   font-family: myFontRegular;
   background-color: rgb(15, 16, 17);
-  min-height: 100dvh;
-  min-width: 100dvw;
 }
 
-#root {
-  min-height: 100dvh;
-  min-width: 100dvw;
+@media (max-width: 600px) {
+  body {
+    min-height: 100dvh;
+    min-width: 100dvw;
+  }
+
+  #root {
+    min-height: 100dvh;
+    min-width: 100dvw;
+  }
 }
