@@ -274,6 +274,7 @@ class GameCard extends Component {
             )}
             <Link to={`game/${String(this.props.gameDetails.id)}`}>
               <GameImage
+                data-testid="game-card-image"
                 src={
                   this.props.gameDetails.image !== null
                     ? this.props.gameDetails.image

@@ -9,9 +9,9 @@ import { ShopRoute, GamePageRoute } from "../src/utils/routes";
 
 // utils
 import assertShopItems from "../src/utils/assertShopItems";
-import createFetchResponse from "../src/utils/createFetchResponse";
 import setFakeShopData from "../src/utils/setFakeShopData";
-import { transform } from "@babel/core";
+import setFakeGamePageData from "../src/utils/setFakeGamePageData";
+import setFakeImageData from "../src/utils/setFakeImageData";
 
 describe("Shop", () => {
   beforeEach(() => {
@@ -375,6 +375,10 @@ describe("Shop", () => {
   });
 
   describe("Sidebar", () => {
+    afterEach(() => {
+      localStorage.clear();
+    });
+
     it("Wishlist button shows games added to wishlist", async () => {
       // Arrange
       fetch.mockResolvedValueOnce(setFakeShopData("Wishlist"));
@@ -408,7 +412,7 @@ describe("Shop", () => {
 
     it("Last 30 days button shows games released in last 30 days", async () => {
       // Arrange
-      fetch.mockResolvedValueOnce(setFakeShopData("Last 30 days"));
+      fetch.mockResolvedValue(setFakeShopData("Last 30 days"));
       render(
         <MemoryRouter initialEntries={["/shop"]}>
           <Routes>{ShopRoute}</Routes>
@@ -1074,6 +1078,175 @@ describe("Shop", () => {
       await waitFor(() =>
         assertShopItems("Card", ["Dummy Card Game - 1", "Dummy Card Game - 2"])
       );
+    });
+  });
+
+  describe("GameCard", () => {
+    afterEach(() => {
+      localStorage.clear();
+    });
+
+    it("Wishlist button adds games to the wishlist", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Wishlist"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByText("Your Games");
+      await waitFor(() =>
+        assertShopItems(
+          "",
+          ["Dummy Wishlist Game - 1", "Dummy Wishlist Game - 2"],
+          true
+        )
+      );
+      const wishListCardIcons = screen.getAllByTestId("wishlist-card-icon");
+      await wishListCardIcons.forEach((icon) => user.click(icon));
+      user.click(screen.getByTestId("wishlist"));
+
+      // Assert
+      await screen.findByTestId("games");
+
+      await waitFor(() =>
+        assertShopItems("Wishlist", [
+          "Dummy Wishlist Game - 1",
+          "Dummy Wishlist Game - 2",
+        ])
+      );
+    });
+
+    it("Wishlist button removes games from the wishlist", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Wishlist"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByText("Your Games");
+      await waitFor(() =>
+        assertShopItems(
+          "",
+          ["Dummy Wishlist Game - 1", "Dummy Wishlist Game - 2"],
+          true
+        )
+      );
+      const wishListCardIcons = screen.getAllByTestId("wishlist-card-icon");
+      await wishListCardIcons.forEach((icon) => user.click(icon));
+      user.click(screen.getByTestId("wishlist"));
+      await screen.findByTestId("games");
+      await waitFor(() =>
+        assertShopItems("Wishlist", [
+          "Dummy Wishlist Game - 1",
+          "Dummy Wishlist Game - 2",
+        ])
+      );
+
+      // Assert
+      await waitFor(() =>
+        expect(screen.queryByTestId("games").children).toHaveLength(2)
+      );
+      await wishListCardIcons.forEach((icon) => user.click(icon));
+      await waitFor(() =>
+        expect(screen.queryByTestId("games").children).toHaveLength(0)
+      );
+    });
+    it("Add to cart button adds games to the cart", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Cart"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByText("Your Games");
+      await waitFor(() =>
+        assertShopItems(
+          "",
+          ["Dummy Cart Game - 1", "Dummy Cart Game - 2"],
+          true
+        )
+      );
+      const addToCartButton = screen.getAllByTestId("add-to-cart");
+      await addToCartButton.forEach((button) => user.click(button));
+      const cartIcon = screen.getByAltText("a cart icon");
+      await user.click(cartIcon);
+
+      // Assert
+      await screen.findByText("2 Games");
+      const gameCartNames = screen.getAllByTestId("game-cart-name");
+      expect(gameCartNames[0].textContent).toEqual("Dummy Cart Game - 1");
+      expect(gameCartNames[1].textContent).toEqual("Dummy Cart Game - 2");
+    });
+    it("Game name leads to the game's page", async () => {
+      // Arrange
+      fetch
+        .mockResolvedValueOnce(setFakeShopData("Page"))
+        .mockResolvedValueOnce(
+          setFakeGamePageData(2, "Dummy Page", [25, 35, 25, 15])
+        )
+        .mockResolvedValueOnce(setFakeImageData());
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+          <Routes>{GamePageRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      screen.findByText("Your Games");
+      await waitFor(() =>
+        assertShopItems(
+          "",
+          ["Dummy Page Game - 1", "Dummy Page Game - 2"],
+          true
+        )
+      );
+      const GameNames = screen.getAllByTestId("game-card-name");
+      user.click(GameNames[1]);
+
+      // Assert
+      await screen.findByText("Dummy Page Game - 2");
+      await screen.findByText("$35");
+    });
+    it("Game image leads to the game's page", async () => {
+      // Arrange
+      fetch
+        .mockResolvedValueOnce(setFakeShopData("Page"))
+        .mockResolvedValueOnce(
+          setFakeGamePageData(1, "Dummy Page", [10, 70, 10, 10])
+        )
+        .mockResolvedValueOnce(setFakeImageData());
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+          <Routes>{GamePageRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      screen.findByText("Your Games");
+      await waitFor(() =>
+        assertShopItems(
+          "",
+          ["Dummy Page Game - 1", "Dummy Page Game - 2"],
+          true
+        )
+      );
+      const GameImages = screen.getAllByTestId("game-card-image");
+      user.click(GameImages[0]);
+
+      // Assert
+      await screen.findByText("Dummy Page Game - 1");
+      await screen.findByText("$70");
     });
   });
 });
