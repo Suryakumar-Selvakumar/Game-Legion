@@ -112,14 +112,18 @@ body {
   background-color: rgb(15, 16, 17);
 }
 
-@media (max-width: 600px) {
+@media (min-width: 360px) and (max-width: 1366px) {
   body {
-    min-height: 100dvh;
-    min-width: 100dvw;
+    height: 100dvh;
+    width: 100dvw;
   }
 
   #root {
-    min-height: 100dvh;
-    min-width: 100dvw;
+    height: 100dvh;
+    width: 100dvw;
+  }
+
+  html {
+    height: -webkit-fill-available;
   }
 }
