@@ -291,6 +291,7 @@ class GameCard extends Component {
             <div>
               <button
                 onClick={this.addToCart}
+                data-testid="add-to-cart"
                 style={{
                   color: this.existingItem(cart)
                     ? theme.currentTheme === "norse"

@@ -5,7 +5,7 @@ import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 // components
-import { HomeRoute, ShopRoute, GamePageRoute } from "../src/utils/routes";
+import { ShopRoute, GamePageRoute } from "../src/utils/routes";
 
 // utils
 import assertShopItems from "../src/utils/assertShopItems";
@@ -34,6 +34,205 @@ describe("Shop", () => {
   afterEach(() => {
     vi.resetAllMocks();
     cleanup();
+  });
+
+  describe("header", () => {
+    it("Search operation updates the shop with results related to search", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Search"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const searchInput = screen.getByTestId("search-input");
+      const searchIcon = screen.getByTestId("search-icon-link");
+
+      // Act
+      await user.type(searchInput, `search`);
+      await expect(searchInput).toHaveValue("search");
+
+      // Assert
+      await user.click(searchIcon);
+      await waitFor(() =>
+        assertShopItems("", ["Dummy Search Game - 1", "Dummy Search Game - 2"])
+      );
+    });
+
+    describe("Cart", () => {
+      it("opens when the cart button is clicked", async () => {
+        // Arrange
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartButton = screen.getByAltText("a cart icon");
+
+        // Act
+        await user.click(cartButton);
+
+        // Assert
+        await screen.findByText("Total:");
+      });
+
+      it("closes when area outside cart is clicked", async () => {
+        // Arrange
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartButton = screen.getByAltText("a cart icon");
+
+        // Act
+        await user.click(cartButton);
+        await user.click(screen.getByTestId("cart-page"));
+
+        // Assert
+        waitFor(() => {
+          expect(screen.queryByText("Total:")).not.toBeInTheDocument();
+          screen.findByText("Your Games");
+        });
+      });
+
+      it("indicates when there are items in the cart using a dot icon", async () => {
+        // Arrange
+        fetch.mockResolvedValue(setFakeShopData("Cart"));
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const dotIcon = screen.getByTestId("dot-icon");
+
+        // Act
+        await waitFor(() =>
+          assertShopItems("", ["Dummy Cart Game - 1", "Dummy Cart Game - 2"])
+        );
+        const addToCartButton = screen.getAllByTestId("add-to-cart");
+        await addToCartButton.forEach((button) => user.click(button));
+
+        // Assert
+        expect(dotIcon).toBeInTheDocument();
+      });
+
+      it("displays the count of the items correctly", async () => {
+        // Arrange
+        fetch.mockResolvedValue(setFakeShopData("Cart"));
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartIcon = screen.getByAltText("a cart icon");
+
+        // Act
+        await waitFor(() =>
+          assertShopItems("", ["Dummy Cart Game - 1", "Dummy Cart Game - 2"])
+        );
+        const addToCartButton = screen.getAllByTestId("add-to-cart");
+        await addToCartButton.forEach((button) => user.click(button));
+
+        await user.click(cartIcon);
+
+        // Assert
+        // Check that the count of the items matches the dummy data provided
+        await waitFor(() => {
+          const gamesCount = screen.getByRole("heading", { name: "2 Games" });
+          expect(gamesCount).toBeInTheDocument();
+        });
+      });
+
+      it("displays the total price of the items correctly", async () => {
+        // Arrange
+        fetch.mockResolvedValue(setFakeShopData("Cart"));
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartIcon = screen.getByAltText("a cart icon");
+
+        // Act
+        await waitFor(() =>
+          assertShopItems("", ["Dummy Cart Game - 1", "Dummy Cart Game - 2"])
+        );
+        const addToCartButton = screen.getAllByTestId("add-to-cart");
+        await addToCartButton.forEach((button) => user.click(button));
+        await user.click(cartIcon);
+
+        // Assert
+        // Check that the count of the items matches the dummy data provided
+        await waitFor(() => {
+          const total = screen.getByTestId("total");
+          expect(total.textContent).toMatch("$110");
+        });
+      });
+
+      it("deletes an item when its remove button is pressed", async () => {
+        // Arrange
+        fetch.mockResolvedValue(setFakeShopData("Cart"));
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartIcon = screen.getByAltText("a cart icon");
+
+        // Act
+        await waitFor(() =>
+          assertShopItems("", ["Dummy Cart Game - 1", "Dummy Cart Game - 2"])
+        );
+        const addToCartButtons = screen.getAllByTestId("add-to-cart");
+        await addToCartButtons.forEach((button) => user.click(button));
+        await user.click(cartIcon);
+
+        // Assert
+        await waitFor(() => {
+          const gamesCount = screen.getByRole("heading", { name: "2 Games" });
+          expect(gamesCount).toBeInTheDocument();
+        });
+        await user.click(screen.getAllByTestId("remove")[0]);
+        await waitFor(() => {
+          const gamesCount = screen.getByRole("heading", { name: "1 Games" });
+          expect(gamesCount).toBeInTheDocument();
+        });
+      });
+
+      it("clears all items when the clear button is pressed", async () => {
+        // Arrange
+        fetch.mockResolvedValue(setFakeShopData("Cart"));
+        render(
+          <MemoryRouter initialEntries={["/shop"]}>
+            <Routes>{ShopRoute}</Routes>
+          </MemoryRouter>
+        );
+        const cartIcon = screen.getByAltText("a cart icon");
+
+        // Act
+        await waitFor(() =>
+          assertShopItems("", ["Dummy Cart Game - 1", "Dummy Cart Game - 2"])
+        );
+        const addToCartButtons = screen.getAllByTestId("add-to-cart");
+        await addToCartButtons.forEach((button) => user.click(button));
+        await user.click(cartIcon);
+
+        // Assert
+        // Check that the games exist
+        await waitFor(() => {
+          const gamesCount = screen.getByRole("heading", { name: "2 Games" });
+          expect(gamesCount).toBeInTheDocument();
+        });
+        // Click the Clear button
+        await user.click(screen.getByRole("button", { name: "Clear" }));
+        // Check that the games are gone
+        await waitFor(() => {
+          const gamesCount = screen.getByRole("heading", { name: "0 Games" });
+          expect(gamesCount).toBeInTheDocument();
+        });
+      });
+    });
   });
 
   describe("Sidebar", () => {
@@ -126,7 +325,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("next-week"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Next week", [
           "Dummy Next week Game - 1",
@@ -149,7 +347,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("best-of-the-year"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Best of the year", [
           "Dummy Best of the year Game - 1",
@@ -172,7 +369,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("popular-in-2026"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Popular in 2026", [
           "Dummy Popular in 2026 Game - 1",
@@ -195,7 +391,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("all-time-top"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("All time top", [
           "Dummy All time top Game - 1",
@@ -218,7 +413,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("pc"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("PC", ["Dummy PC Game - 1", "Dummy PC Game - 2"])
       );
@@ -238,7 +432,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("playstation"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("PlayStation", [
           "Dummy PlayStation Game - 1",
@@ -261,7 +454,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("xbox"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Xbox", ["Dummy Xbox Game - 1", "Dummy Xbox Game - 2"])
       );
@@ -281,7 +473,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("nintendo-switch"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Nintendo Switch", [
           "Dummy Nintendo Switch Game - 1",
@@ -304,7 +495,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("mac-os"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("MacOS", [
           "Dummy MacOS Game - 1",
@@ -327,7 +517,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("android"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Android", [
           "Dummy Android Game - 1",
@@ -350,7 +539,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("action"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Action", [
           "Dummy Action Game - 1",
@@ -373,7 +561,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("strategy"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Strategy", [
           "Dummy Strategy Game - 1",
@@ -396,7 +583,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("rpg"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("RPG", ["Dummy RPG Game - 1", "Dummy RPG Game - 2"])
       );
@@ -416,7 +602,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("shooter"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Shooter", [
           "Dummy Shooter Game - 1",
@@ -439,7 +624,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("adventure"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Adventure", [
           "Dummy Adventure Game - 1",
@@ -462,7 +646,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("puzzle"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Puzzle", [
           "Dummy Puzzle Game - 1",
@@ -485,7 +668,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("racing"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Racing", [
           "Dummy Racing Game - 1",
@@ -508,7 +690,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("sports"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Sports", [
           "Dummy Sports Game - 1",
@@ -531,7 +712,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("indie"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Indie", [
           "Dummy Indie Game - 1",
@@ -554,7 +734,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("casual"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Casual", [
           "Dummy Casual Game - 1",
@@ -577,7 +756,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("simulation"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Simulation", [
           "Dummy Simulation Game - 1",
@@ -600,7 +778,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("arcade"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Arcade", [
           "Dummy Arcade Game - 1",
@@ -623,7 +800,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("platformer"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Platformer", [
           "Dummy Platformer Game - 1",
@@ -646,7 +822,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("multiplayer"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Multiplayer", [
           "Dummy Multiplayer Game - 1",
@@ -669,7 +844,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("fighting"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Fighting", [
           "Dummy Fighting Game - 1",
@@ -692,7 +866,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("family"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Family", [
           "Dummy Family Game - 1",
@@ -715,7 +888,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("board-games"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Board Games", [
           "Dummy Board Games Game - 1",
@@ -738,7 +910,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("educational"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Educational", [
           "Dummy Educational Game - 1",
@@ -761,7 +932,6 @@ describe("Shop", () => {
       await user.click(screen.getByTestId("card"));
 
       // Assert
-
       await waitFor(() =>
         assertShopItems("Card", ["Dummy Card Game - 1", "Dummy Card Game - 2"])
       );

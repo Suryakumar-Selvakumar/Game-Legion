@@ -512,6 +512,7 @@ class Header extends Component {
                 </SearchIcon>
               ) : (
                 <img
+                  data-testid="search-icon-link"
                   src={searchIcon}
                   alt="a search icon"
                   onMouseDown={() => {
@@ -524,9 +525,7 @@ class Header extends Component {
             {this.state.searchInput !== "" &&
               this.state.isPreviewVisible &&
               this.state.isHeaderVisible && (
-                <Preview
-                  searchInput={this.state.searchInput}
-                />
+                <Preview searchInput={this.state.searchInput} />
               )}
           </SearchBarContainer>
           <CartContainer>
