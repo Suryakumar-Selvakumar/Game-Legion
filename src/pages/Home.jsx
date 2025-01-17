@@ -1,6 +1,7 @@
 // libs
 import { Component, createRef } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 // components
 import Header from "../components/Header";
@@ -66,21 +67,22 @@ const Body = styled.div`
   }
 `;
 
+const HomeVideo = styled(motion.video)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: -2;
+  object-fit: cover;
+  object-position: 100% 25%;
+`;
+
 const VideoBackground = styled.div`
   position: relative;
   width: 100%;
   height: 100dvh;
   overflow: hidden;
-
-  & video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 100% 25%;
-  }
 
   & ${Content} {
     position: absolute;
@@ -94,7 +96,7 @@ const VideoBackground = styled.div`
   @media ${media.mobile} {
     overflow: auto;
 
-    & video {
+    & ${HomeVideo} {
       object-position: ${(props) =>
         props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
     }
@@ -103,7 +105,7 @@ const VideoBackground = styled.div`
   @media ${media.tablet} {
     overflow: auto;
 
-    & video {
+    & ${HomeVideo} {
       object-position: ${(props) =>
         props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
     }
@@ -184,7 +186,17 @@ class Home extends Component {
     return (
       <StyledHome>
         <VideoBackground>
-          <video key={this.state.refreshKey} autoPlay loop muted>
+          <HomeVideo
+            key={this.state.refreshKey}
+            autoPlay
+            loop
+            muted
+            playsInline
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0 }}
+          >
             <source
               src={
                 theme.currentTheme === "norse"
@@ -193,7 +205,7 @@ class Home extends Component {
               }
               type="video/mp4"
             />
-          </video>
+          </HomeVideo>
           <Content>
             <Header />
             <Body>
