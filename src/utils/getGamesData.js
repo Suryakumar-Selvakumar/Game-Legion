@@ -12,8 +12,6 @@ export const getGamesData = async (url, signal = null, state) => {
 
   const games = await response.json();
 
-  console.log("API Response:", games);
-
   if (state !== "game")
     if (!games.results || !Array.isArray(games.results)) {
       return [];

@@ -216,10 +216,22 @@ class DropDown extends Component {
                 : "157px"
               : "",
           }}
+          data-testid={
+            this.props.menuName === "Order by: " ? "order-by" : "sort-by"
+          }
         >
           <span>
             {this.props.menuName}
-            <b key={crypto.randomUUID()}>{this.props.menuItem}</b>
+            <b
+              data-testid={
+                this.props.menuName === "Order by: "
+                  ? "order-by-block"
+                  : "sort-by-block"
+              }
+              key={crypto.randomUUID()}
+            >
+              {this.props.menuItem}
+            </b>
           </span>
           <svg
             className={
@@ -240,6 +252,11 @@ class DropDown extends Component {
         </MenuOpener>
 
         <Menu
+          data-testid={
+            this.props.menuName === "Order by: "
+              ? "order-by-menu"
+              : "sort-by-menu"
+          }
           className={
             this.state.firstLoad
               ? ""
@@ -258,6 +275,11 @@ class DropDown extends Component {
           {this.props.menuItems &&
             this.props.menuItems.map((item, index) => (
               <MenuItem
+                data-testid={
+                  this.props.menuName === "Order by: "
+                    ? "order-by-options"
+                    : "sort-by-options"
+                }
                 key={index}
                 onClick={() => {
                   this.props.setMenuItem(item);

@@ -644,7 +644,10 @@ function GamePage() {
                 </p>
               </Description>
               <DetailsDropDown className={dropDownOpen ? "" : "closed"}>
-                <Details className={dropDownOpen ? "" : "closed"}>
+                <Details
+                  className={dropDownOpen ? "" : "closed"}
+                  data-testid="details"
+                >
                   <DetailPair>
                     <Detail>
                       <span>Platforms</span>

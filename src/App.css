@@ -106,8 +106,10 @@ body {
   font-family: myFontRegular;
   background-color: rgb(15, 16, 17);
   min-height: 100dvh;
+  min-width: 100dvw;
 }
 
 #root {
   min-height: 100dvh;
+  min-width: 100dvw;
 }

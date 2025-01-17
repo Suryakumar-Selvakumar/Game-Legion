@@ -11,6 +11,7 @@ import { ShopRoute, GamePageRoute } from "../src/utils/routes";
 import assertShopItems from "../src/utils/assertShopItems";
 import createFetchResponse from "../src/utils/createFetchResponse";
 import setFakeShopData from "../src/utils/setFakeShopData";
+import { transform } from "@babel/core";
 
 describe("Shop", () => {
   beforeEach(() => {
@@ -36,7 +37,7 @@ describe("Shop", () => {
     cleanup();
   });
 
-  describe("header", () => {
+  describe("Header", () => {
     it("Search operation updates the shop with results related to search", async () => {
       // Arrange
       fetch.mockResolvedValue(setFakeShopData("Search"));
@@ -232,6 +233,144 @@ describe("Shop", () => {
           expect(gamesCount).toBeInTheDocument();
         });
       });
+    });
+  });
+
+  describe("Dropdown", () => {
+    it("Order by dropdown opens when clicked", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const dropDownMenu = screen.getByTestId("order-by-menu");
+
+      // Act
+      await waitFor(() => expect(dropDownMenu).not.toHaveClass("open"));
+      const menuOpener = screen.getByTestId("order-by");
+      await user.click(menuOpener);
+
+      // Assert
+      await waitFor(() => expect(dropDownMenu).toHaveClass("open"));
+    });
+
+    it("Sort by dropdown opens when clicked", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const dropDownMenu = screen.getByTestId("sort-by-menu");
+
+      // Act
+      await waitFor(() => expect(dropDownMenu).not.toHaveClass("open"));
+      const menuOpener = screen.getByTestId("sort-by");
+      await user.click(menuOpener);
+
+      // Assert
+      await waitFor(() => expect(dropDownMenu).toHaveClass("open"));
+    });
+
+    it("Order by options close the dropdown & update the opener", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const orderByOptions = screen.getAllByTestId("order-by-options");
+      const orderByMenu = screen.getByTestId("order-by-menu");
+
+      // Act
+      const menuOpener = screen.getByTestId("order-by");
+      await user.click(menuOpener);
+      expect(orderByMenu).toHaveClass("open");
+      await user.click(orderByOptions[0]);
+
+      // Assert
+      await waitFor(() => {
+        expect(orderByMenu).toHaveClass("close");
+        expect(screen.getByTestId("order-by-block").textContent).toEqual(
+          "Name"
+        );
+      });
+    });
+
+    it("Sort by options close the dropdown & update the opener", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const sortByOptions = screen.getAllByTestId("sort-by-options");
+      const orderByOptions = screen.getAllByTestId("order-by-options");
+      const sortByMenu = screen.getByTestId("sort-by-menu");
+
+      // Act
+      await user.click(screen.getByTestId("order-by"));
+      await user.click(orderByOptions[2]);
+      await user.click(screen.getByTestId("sort-by"));
+      expect(sortByMenu).toHaveClass("open");
+      await user.click(sortByOptions[0]);
+
+      // Assert
+      await waitFor(() => {
+        expect(sortByMenu).toHaveClass("close");
+        expect(screen.getByTestId("sort-by-block").textContent).toEqual(
+          "Low to High"
+        );
+      });
+    });
+
+    it("Order by options update the shop items according to their order", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Name"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const orderByOptions = screen.getAllByTestId("order-by-options");
+
+      // Act
+      await user.click(screen.getByTestId("order-by"));
+      await user.click(orderByOptions[0]);
+
+      // Assert
+      await waitFor(() =>
+        assertShopItems(
+          "Name",
+          ["Dummy Name Game - 1", "Dummy Name Game - 2"],
+          true
+        )
+      );
+    });
+
+    it("Sort by options update the shop items according to their sort order", async () => {
+      // Arrange
+      fetch.mockResolvedValue(setFakeShopData("Z to A"));
+      render(
+        <MemoryRouter initialEntries={["/shop"]}>
+          <Routes>{ShopRoute}</Routes>
+        </MemoryRouter>
+      );
+      const sortByOptions = screen.getAllByTestId("sort-by-options");
+
+      // Act
+      await user.click(screen.getByTestId("sort-by"));
+      await user.click(sortByOptions[1]);
+
+      // Assert
+      await waitFor(() =>
+        assertShopItems(
+          "Z to A",
+          ["Dummy Z to A Game - 1", "Dummy Z to A Game - 2"],
+          true
+        )
+      );
     });
   });
 

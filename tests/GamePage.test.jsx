@@ -139,18 +139,18 @@ describe("GamePage", () => {
         </MemoryRouter>
       );
       const opener = screen.getByTestId("opener");
+      const details = screen.getByTestId("details");
 
       // Act
+      expect(
+        window.getComputedStyle(details).getPropertyValue("max-height")
+      ).toBe("0");
       await user.click(opener);
 
       // Assert
-      await screen.findByText("PF1,");
-      await screen.findByText("G1,");
-      await screen.findByText("Jan 15, 2025");
-      await screen.findByText("D1,");
-      await screen.findByText("PB1,");
-      await screen.findByText("M1");
-      await screen.findByText("dummy.com");
+      expect(
+        window.getComputedStyle(details).getPropertyValue("max-height")
+      ).toBe("500px");
     });
   });
 
