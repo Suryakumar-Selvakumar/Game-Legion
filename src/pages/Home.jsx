@@ -35,7 +35,7 @@ export const StyledHome = styled.div`
   min-height: 100vh;
 
   @media ${media.mobile} {
-    overflow: auto;
+    overflow: visible;
 
     & ${HomeVideo} {
       object-position: ${(props) =>
