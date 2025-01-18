@@ -57,7 +57,6 @@ const Info = styled.div`
 
     h1 {
       font-size: 3rem;
-      text-shadow: 0 0 1px black;
     }
   }
 
@@ -72,7 +71,6 @@ const Info = styled.div`
 
     h1 {
       font-size: 3.5rem;
-      text-shadow: 0 0 1px black;
     }
   }
 `;

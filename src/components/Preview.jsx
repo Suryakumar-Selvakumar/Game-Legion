@@ -99,7 +99,7 @@ const SearchCard = styled(Link)`
     flex-direction: column;
     gap: 0.5rem;
     padding-bottom: 1rem;
-    min-height: 175px;
+    min-height: max-content;
 
     & ${GameName} {
       font-size: 1rem;

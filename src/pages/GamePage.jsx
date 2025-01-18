@@ -49,9 +49,9 @@ const Body = styled.div`
   box-sizing: border-box;
 
   @media ${media.mobile} {
-    width: calc(100dvw - 2rem) !important;
+    width: calc(100dvw - 2.5rem) !important;
     padding: 0;
-    margin-left: 1rem;
+    margin: 0 auto;
     padding-bottom: 2rem;
     gap: 0.25rem;
   }
@@ -63,9 +63,10 @@ const TopRow = styled.div`
   align-items: center;
 
   @media ${media.mobile} {
-    width: calc(100dvw - 2rem);
-    gap: 2rem;
-    padding: 0;
+    width: calc(100dvw - 2.5rem);
+    padding: 0.75rem 0;
+    padding-top: 2rem;
+    gap: 1.5rem;
   }
 `;
 
@@ -131,7 +132,7 @@ const BottomRow = styled.div`
   height: 100% !important;
 
   @media ${media.mobile} {
-    grid-template-columns: calc(100dvw - 2rem);
+    grid-template-columns: calc(100dvw - 2.5rem);
     grid-template-rows: 500px min-content min-content;
     grid-template-areas:
       "image-carousel"
