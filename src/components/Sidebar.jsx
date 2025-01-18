@@ -42,6 +42,7 @@ export const StyledSidebar = styled.div`
     overflow: auto;
     animation: ${sideBarPopIn} 1.5s ease forwards;
     animation-delay: 500ms;
+    padding: 2rem 2rem 3rem 2rem;
 
     &.close {
       animation: ${sideBarPopOut} 300ms ease forwards;
