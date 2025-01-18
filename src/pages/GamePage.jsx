@@ -166,7 +166,7 @@ const ImageCarousel = styled.div`
 
   .slick-slider {
     height: 100% !important;
-    width: 99.85%;
+    width: 100%;
     display: flex;
     justify-content: center;
   }
