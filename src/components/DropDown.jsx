@@ -29,6 +29,7 @@ const MenuOpener = styled.div`
   user-select: none;
 
   svg {
+    user-select: none;
     width: 25px;
     transition: 250ms cubic-bezier(0.61, -0.53, 0.43, 1.43);
   }
@@ -122,6 +123,10 @@ const MenuItem = styled.li`
 
   svg {
     width: 25px;
+  }
+
+  @media ${media.mobile} {
+    padding: 1px 0px 1px 5px;
   }
 `;
 
