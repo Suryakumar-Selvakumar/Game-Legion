@@ -249,7 +249,6 @@ class Preview extends Component {
           <Loading
             width={!this.state.isMobileView ? "90px" : "75px"}
             height={!this.state.isMobileView ? "90px" : "75px"}
-            i
           />
         )}
         {this.state.gamesData &&
@@ -260,6 +259,9 @@ class Preview extends Component {
               data-testid="search-card"
               key={game.id}
               to={`/shop/game/${String(game.id)}`}
+              state={{
+                currentPath: !this.props.isInShop ? "home" : undefined,
+              }}
               onMouseDown={(e) => {
                 e.preventDefault();
                 setTimeout(() => document.activeElement.blur(), 100);
@@ -293,6 +295,7 @@ class Preview extends Component {
 
 Preview.propTypes = {
   searchInput: PropTypes.string,
+  isInShop: PropTypes.bool,
 };
 
 export default Preview;

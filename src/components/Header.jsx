@@ -460,7 +460,7 @@ class Header extends Component {
           ...state,
           searchInput: e.target.value,
         })),
-      1000
+      500
     );
   }
 
@@ -525,7 +525,10 @@ class Header extends Component {
             {this.state.searchInput !== "" &&
               this.state.isPreviewVisible &&
               this.state.isHeaderVisible && (
-                <Preview searchInput={this.state.searchInput} />
+                <Preview
+                  searchInput={this.state.searchInput}
+                  isInShop={this.props.isInShop}
+                />
               )}
           </SearchBarContainer>
           <CartContainer>

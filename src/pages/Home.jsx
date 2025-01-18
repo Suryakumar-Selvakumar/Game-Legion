@@ -197,7 +197,7 @@ class Home extends Component {
           />
         </HomeVideo>
         <Content>
-          <Header />
+          <Header isInShop={false} />
           <Body>
             <InfoCard />
             <QuickNavigation />

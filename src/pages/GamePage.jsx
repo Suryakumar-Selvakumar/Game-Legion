@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // hooks
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 // utils
 import { getAPIURL } from "../utils/getAPIURL";
@@ -70,7 +70,7 @@ const TopRow = styled.div`
   }
 `;
 
-const BackButton = styled(Link)`
+const BackButton = styled.div`
   text-decoration: none;
   color: rgb(204, 204, 204);
   display: flex;
@@ -79,6 +79,7 @@ const BackButton = styled(Link)`
   font-family: myFontBold;
   font-size: 1.375rem;
   transition: all 250ms ease;
+  cursor: pointer;
 
   svg {
     width: 25px;
@@ -480,7 +481,10 @@ const CartButton = styled.div`
 function GamePage() {
   // route data
   let params = useParams();
+
+  // hooks
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   // states
   const [gameData, setGameData] = useState(null);
@@ -512,11 +516,6 @@ function GamePage() {
       fetchedScreenShotsData.unshift(fetchedGameData.background_image);
       setScreenShotsData(fetchedScreenShotsData);
     } catch (err) {
-      if (err.name === "AbortError") {
-        console.log("Aborted");
-        return;
-      }
-      console.log(err);
       setGameData(null);
     }
   };
@@ -554,8 +553,6 @@ function GamePage() {
   }
 
   function updateWishList() {
-    console.log(1);
-
     const wishListGameDetails = {
       id: gameData?.id,
       name: gameData?.name,
@@ -571,15 +568,22 @@ function GamePage() {
     }
   }
 
+  function handleLegionPress() {
+    state?.currentPath === "home"
+      ? navigate("/shop", {
+          state: {
+            pageState: "default",
+          },
+        })
+      : navigate(-1);
+  }
+
   return (
     <StyledGamePage>
       <Header />
       <Body>
         <TopRow>
-          <BackButton
-            to={"/shop"}
-            state={state?.currentPath === "home" && { pageState: "default" }}
-          >
+          <BackButton onClick={handleLegionPress}>
             <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g
