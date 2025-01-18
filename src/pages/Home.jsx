@@ -32,7 +32,7 @@ const HomeVideo = styled(motion.video)`
 export const StyledHome = styled.div`
   position: relative;
   width: 100%;
-  height: 100dvh;
+  min-height: 100dvh;
 
   @media ${media.mobile} {
     overflow: auto;
