@@ -122,6 +122,7 @@ class Shop extends Component {
       ...state,
       isSideBarVisible: this.checkBoxRef.current.checked,
     }));
+    window.scrollTo(0, 0);
   }
 
   setSideBarClosed() {
