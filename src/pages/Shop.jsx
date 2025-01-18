@@ -74,8 +74,9 @@ const DropDownsContainer = styled.div`
   height: min-content;
 
   @media ${media.mobile} {
+    width: calc(100dvw - 3.5rem);
     justify-content: space-evenly;
-    padding: 0 2rem;
+    margin: 0 auto;
   }
 `;
 class Shop extends Component {

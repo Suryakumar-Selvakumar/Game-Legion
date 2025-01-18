@@ -43,9 +43,10 @@ const MenuOpener = styled.div`
   }
 
   @media ${media.mobile} {
-    font-size: 0.825rem;
+    font-size: 0.75rem;
     gap: 0rem;
-    padding-right: 7.5px;
+    padding: 4.5px 7.5px;
+    padding-right: 5px;
 
     svg {
       width: 20px;
@@ -215,14 +216,17 @@ class DropDown extends Component {
             this.setFirstLoad();
           }}
           style={{
-            width: this.state.isMobileView && "145px",
+            width:
+              this.state.isMobileView && this.props.count === 1
+                ? "160px"
+                : "145px",
           }}
           data-testid={
             this.props.menuName === "Order by: " ? "order-by" : "sort-by"
           }
         >
           <span>
-            {!this.state.isMobileView && this.props.menuName}
+            {this.props.menuName}
             <b
               data-testid={
                 this.props.menuName === "Order by: "
@@ -266,7 +270,10 @@ class DropDown extends Component {
               : "close"
           }
           style={{
-            width: this.state.isMobileView && "145px",
+            width:
+              this.state.isMobileView && this.props.count === 1
+                ? "160px"
+                : "145px",
           }}
         >
           {this.props.menuItems &&
