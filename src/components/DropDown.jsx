@@ -8,7 +8,7 @@ const StyledDropDown = styled.div`
   padding: 1.5rem 0rem 0rem 1rem;
   position: relative;
   margin-left: 1rem;
-  width: min-content;
+  width: max-content;
 
   @media ${media.mobile} {
     padding: 0;
@@ -216,10 +216,11 @@ class DropDown extends Component {
             this.setFirstLoad();
           }}
           style={{
-            width:
-              this.state.isMobileView && this.props.count === 1
+            width: this.state.isMobileView
+              ? this.props.count === 1
                 ? "160px"
-                : "145px",
+                : "145px"
+              : "",
           }}
           data-testid={
             this.props.menuName === "Order by: " ? "order-by" : "sort-by"
@@ -270,10 +271,11 @@ class DropDown extends Component {
               : "close"
           }
           style={{
-            width:
-              this.state.isMobileView && this.props.count === 1
+            width: this.state.isMobileView
+              ? this.props.count === 1
                 ? "160px"
-                : "145px",
+                : "145px"
+              : "",
           }}
         >
           {this.props.menuItems &&
