@@ -121,7 +121,7 @@ const LogoIcon = styled.img`
     height: ${(props) =>
       props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
     width: ${(props) =>
-      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
+      props.theme.currentTheme === "norse" ? "60px" : "47.5px"};
     top: ${(props) =>
       props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
   }
@@ -170,6 +170,8 @@ const SearchInputContainer = styled.div`
   }
 
   @media ${media.mobile} {
+    margin-left: ${(props) =>
+      props.theme.currentTheme === "norse" ? "-5px" : "0"};
     & > img {
       display: none;
     }
