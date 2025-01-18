@@ -210,18 +210,14 @@ class DropDown extends Component {
             this.setFirstLoad();
           }}
           style={{
-            width: this.state.isMobileView
-              ? this.props.count === 1
-                ? "175px"
-                : "157px"
-              : "",
+            width: this.state.isMobileView && "145px",
           }}
           data-testid={
             this.props.menuName === "Order by: " ? "order-by" : "sort-by"
           }
         >
           <span>
-            {this.props.menuName}
+            {!this.state.isMobileView && this.props.menuName}
             <b
               data-testid={
                 this.props.menuName === "Order by: "
@@ -265,11 +261,7 @@ class DropDown extends Component {
               : "close"
           }
           style={{
-            width: this.state.isMobileView
-              ? this.props.count === 1
-                ? "175px"
-                : "157px"
-              : "",
+            width: this.state.isMobileView && "145px",
           }}
         >
           {this.props.menuItems &&

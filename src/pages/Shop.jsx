@@ -74,7 +74,7 @@ const DropDownsContainer = styled.div`
   height: min-content;
 
   @media ${media.mobile} {
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 0 2rem;
   }
 `;

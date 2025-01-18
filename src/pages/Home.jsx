@@ -18,14 +18,50 @@ import { CartContext } from "../components/CartContext";
 // utils
 import media from "../utils/breakpoints";
 
-export const StyledHome = styled.div`
+const HomeVideo = styled(motion.video)`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  z-index: -2;
+  object-fit: cover;
+  object-position: 100% 25%;
+`;
+
+export const StyledHome = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  @media ${media.mobile} {
+    overflow: auto;
+
+    & ${HomeVideo} {
+      object-position: ${(props) =>
+        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
+    }
+  }
+
+  @media ${media.tablet} {
+    overflow: auto;
+
+    & ${HomeVideo} {
+      object-position: ${(props) =>
+        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
+    }
+  }
 `;
 
 const Content = styled.div`
   display: grid;
   grid-template-rows: min-content 1fr;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 
   & > ${StyledHeader} {
     background-color: rgb(255, 255, 255, 0);
@@ -64,51 +100,6 @@ const Body = styled.div`
   @media ${media.tablet} {
     padding: 0;
     justify-content: space-evenly;
-  }
-`;
-
-const HomeVideo = styled(motion.video)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100dvh;
-  z-index: -2;
-  object-fit: cover;
-  object-position: 100% 25%;
-`;
-
-const VideoBackground = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100dvh;
-  overflow: hidden;
-
-  & ${Content} {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-
-  @media ${media.mobile} {
-    overflow: auto;
-
-    & ${HomeVideo} {
-      object-position: ${(props) =>
-        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
-    }
-  }
-
-  @media ${media.tablet} {
-    overflow: auto;
-
-    & ${HomeVideo} {
-      object-position: ${(props) =>
-        props.theme.currentTheme === "norse" ? "80% 0%" : "100% 50%"};
-    }
   }
 `;
 
@@ -185,36 +176,34 @@ class Home extends Component {
 
     return (
       <StyledHome>
-        <VideoBackground>
-          <HomeVideo
-            key={this.state.refreshKey}
-            autoPlay
-            loop
-            muted
-            playsInline
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            exit={{ opacity: 0 }}
-          >
-            <source
-              src={
-                theme.currentTheme === "norse"
-                  ? backgroundVideoNorse
-                  : backgroundVideoGreek
-              }
-              type="video/mp4"
-            />
-          </HomeVideo>
-          <Content>
-            <Header />
-            <Body>
-              <InfoCard />
-              <QuickNavigation />
-            </Body>
-            <Footer setTheme={setTheme} handleRefresh={this.handleRefresh} />
-          </Content>
-        </VideoBackground>
+        <HomeVideo
+          key={this.state.refreshKey}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0 }}
+        >
+          <source
+            src={
+              theme.currentTheme === "norse"
+                ? backgroundVideoNorse
+                : backgroundVideoGreek
+            }
+            type="video/mp4"
+          />
+        </HomeVideo>
+        <Content>
+          <Header />
+          <Body>
+            <InfoCard />
+            <QuickNavigation />
+          </Body>
+          <Footer setTheme={setTheme} handleRefresh={this.handleRefresh} />
+        </Content>
       </StyledHome>
     );
   }

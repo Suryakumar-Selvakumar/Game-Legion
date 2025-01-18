@@ -21,7 +21,7 @@ const StyledGamePage = styled.div`
   display: grid;
   background-color: rgb(15, 16, 17);
   width: 100%;
-  height: 100dvh !important;
+  height: 100vh !important;
   box-sizing: border-box;
   grid-template-rows: min-content 1fr;
 
@@ -36,10 +36,6 @@ const StyledGamePage = styled.div`
   ${StyledHeader}.hidden {
     animation: none;
   }
-
-  @media ${media.mobile} {
-    width: 100dvw;
-  }
 `;
 
 const Body = styled.div`
@@ -53,8 +49,9 @@ const Body = styled.div`
   box-sizing: border-box;
 
   @media ${media.mobile} {
-    width: 100dvw;
+    width: calc(100dvw - 2rem) !important;
     padding: 0;
+    margin-left: 1rem;
     padding-bottom: 2rem;
     gap: 0.25rem;
   }
@@ -66,8 +63,9 @@ const TopRow = styled.div`
   align-items: center;
 
   @media ${media.mobile} {
+    width: calc(100dvw - 2rem);
     gap: 2rem;
-    padding: 0 1rem;
+    padding: 0;
   }
 `;
 
@@ -118,7 +116,7 @@ const GameName = styled.span`
   }
 
   @media ${media.tablet} {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -133,14 +131,14 @@ const BottomRow = styled.div`
   height: 100% !important;
 
   @media ${media.mobile} {
-    grid-template-columns: 100%;
+    grid-template-columns: calc(100dvw - 2rem);
     grid-template-rows: 500px min-content min-content;
     grid-template-areas:
       "image-carousel"
       "cart-button"
       "game-details";
     gap: 1.5rem;
-    padding: 0 1rem;
+    padding: 0;
   }
 `;
 
@@ -239,7 +237,7 @@ const ImageCarousel = styled.div`
 
   @media ${media.mobile} {
     .slick-slider {
-      width: 99.8%;
+      width: 100%;
     }
 
     .slick-next::before {
