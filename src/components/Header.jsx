@@ -84,7 +84,8 @@ const Logo = styled(Link)`
     props.theme.currentTheme === "norse"
       ? "myFontLogoNorse"
       : "myFontLogoGreek"};
-  font-size: 2.25rem;
+  font-size: ${(props) =>
+    props.theme.currentTheme === "norse" ? "2.25rem" : "2.19rem"};
   color: white;
   display: flex;
   align-items: end;
@@ -112,8 +113,9 @@ const Logo = styled(Link)`
 
 const LogoIcon = styled.img`
   height: ${(props) =>
-    props.theme.currentTheme === "norse" ? "60px" : "55px"};
-  width: ${(props) => (props.theme.currentTheme === "norse" ? "75px" : "70px")};
+    props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
+  width: ${(props) =>
+    props.theme.currentTheme === "norse" ? "75px" : "72.5px"};
   position: relative;
   top: -0.25rem;
 
