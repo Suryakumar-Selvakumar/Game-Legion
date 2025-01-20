@@ -115,6 +115,7 @@ class Shop extends Component {
     this.setSideBarClosed = this.setSideBarClosed.bind(this);
     this.closeSideBar = this.closeSideBar.bind(this);
     this.checkBoxRef = createRef(null);
+    this.setOnlyOrderBy = this.setOnlyOrderBy.bind(this);
   }
 
   closeSideBar() {
@@ -164,6 +165,13 @@ class Shop extends Component {
       ...state,
       orderBy: newOrderBy,
       sortBy: setCurrentSortBy(newOrderBy, state.sortBy),
+    }));
+  }
+
+  setOnlyOrderBy(newOrderBy) {
+    this.setState((state) => ({
+      ...state,
+      orderBy: newOrderBy,
     }));
   }
 
@@ -242,7 +250,7 @@ class Shop extends Component {
     this.setSortBy(storedSortBy || "High to Low");
 
     const storedOrderBy = JSON.parse(localStorage.getItem("order-by"));
-    this.setOrderBy(storedOrderBy || "Popularity");
+    this.setOnlyOrderBy(storedOrderBy || "Popularity");
 
     if (this.state.pageState === state?.pageState) {
       localStorage.setItem("page-state", JSON.stringify(this.state.pageState));
