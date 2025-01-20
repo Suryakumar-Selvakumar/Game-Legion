@@ -1,6 +1,6 @@
 // libs
 import { Component, createRef } from "react";
-import styled, { keyframes, ThemeContext } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Skeleton } from "@mui/material";

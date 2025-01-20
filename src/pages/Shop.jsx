@@ -163,6 +163,7 @@ class Shop extends Component {
     this.setState((state) => ({
       ...state,
       orderBy: newOrderBy,
+      sortBy: setCurrentSortBy(newOrderBy, state.sortBy),
     }));
   }
 
@@ -192,15 +193,12 @@ class Shop extends Component {
   fetchGamesData = async () => {
     const controller = new AbortController();
     this.signalRef.current = controller;
+    const { pageState, orderBy, sortBy, searchInput } = this.state;
+    const apiURL = getAPIURL(pageState, orderBy, sortBy, searchInput);
 
     try {
       const fetchedGamesData = await getGamesData(
-        getAPIURL(
-          this.state.pageState,
-          this.state.orderBy,
-          this.state.sortBy,
-          this.state.searchInput
-        ),
+        apiURL,
         controller.signal,
         "games"
       );
@@ -272,6 +270,10 @@ class Shop extends Component {
     const { cart, setCart, theme, setTheme, wishList, setWishList } =
       this.context;
 
+    if (this.state.orderBy !== prevState.orderBy) {
+      localStorage.setItem("order-by", JSON.stringify(this.state.orderBy));
+    }
+
     if (
       this.state.pageState !== prevState.pageState ||
       this.state.orderBy !== prevState.orderBy ||
@@ -309,11 +311,6 @@ class Shop extends Component {
 
     if (this.state.sortBy !== prevState.sortBy) {
       localStorage.setItem("sort-by", JSON.stringify(this.state.sortBy));
-    }
-
-    if (this.state.orderBy !== prevState.orderBy) {
-      this.setSortBy(setCurrentSortBy(this.state.orderBy, this.state.sortBy));
-      localStorage.setItem("order-by", JSON.stringify(this.state.orderBy));
     }
   }
 
