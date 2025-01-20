@@ -79,7 +79,7 @@ const Logo = styled(Link)`
   text-decoration: none;
   width: min-content;
   padding-top: ${(props) =>
-    props.theme.currentTheme === "norse" ? "0px" : "5px"};
+    props.theme.currentTheme === "norse" ? "0px" : "7.5px"};
   font-family: ${(props) =>
     props.theme.currentTheme === "norse"
       ? "myFontLogoNorse"
