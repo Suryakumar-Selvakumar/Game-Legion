@@ -62,7 +62,8 @@ const StyledPreview = styled.div`
   @media ${media.mobile} {
     width: 200px;
     animation: none;
-    margin-left: 0;
+    margin-left: ${(props) =>
+      props.theme.currentTheme === "norse" ? "-5px" : "0"};
     margin-top: 2.75rem;
     height: 300px;
   }
