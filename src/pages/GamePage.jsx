@@ -61,6 +61,7 @@ const TopRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 77.5px;
 
   @media ${media.mobile} {
     width: calc(100dvw - 2.5rem);

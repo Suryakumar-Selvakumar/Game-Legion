@@ -79,13 +79,13 @@ const Logo = styled(Link)`
   text-decoration: none;
   width: min-content;
   padding-top: ${(props) =>
-    props.theme.currentTheme === "norse" ? "0px" : "7.5px"};
+    props.theme.currentTheme === "norse" ? "0px" : "2.75px"};
   font-family: ${(props) =>
     props.theme.currentTheme === "norse"
       ? "myFontLogoNorse"
       : "myFontLogoGreek"};
   font-size: ${(props) =>
-    props.theme.currentTheme === "norse" ? "2.25rem" : "2.19rem"};
+    props.theme.currentTheme === "norse" ? "2rem" : "1.95rem"};
   color: white;
   display: flex;
   align-items: end;
@@ -113,9 +113,9 @@ const Logo = styled(Link)`
 
 const LogoIcon = styled.img`
   height: ${(props) =>
-    props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
+    props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
   width: ${(props) =>
-    props.theme.currentTheme === "norse" ? "75px" : "72.5px"};
+    props.theme.currentTheme === "norse" ? "65px" : "62.5px"};
   position: relative;
   top: -0.25rem;
 
@@ -192,25 +192,25 @@ const expand = keyframes`
   }
 
   50% {
-    width: 600px
+    width: 550px
   }
 
   75% {
-    width: 590px;
+    width: 540px;
   }
 
   100% {
-    width: 600px;
+    width: 550px;
   }
 `;
 
 const shrink = keyframes`
   0% {
-    width: 600px;
+    width: 550px;
   }
 
   50% {
-    width: 350px
+    width: 350px;
   }
 
   75% {
@@ -227,8 +227,8 @@ const SearchBar = styled.input.attrs({
 })`
   outline: none;
   border-radius: 10px;
-  padding: 0.3rem 2.25rem 0.3rem 1rem;
-  font-size: 1.1rem;
+  padding: 0.275rem 2.25rem 0.275rem 1rem;
+  font-size: 1rem;
   border: none;
   width: 350px;
   box-shadow: 0 0 2.5px rgb(115, 115, 115);
@@ -265,7 +265,7 @@ const CartIcon = styled.img.attrs({
   src: cartIcon,
   alt: "a cart icon",
 })`
-  height: 40px;
+  height: 35px;
   cursor: pointer;
 
   @media ${media.mobile} {
@@ -280,9 +280,9 @@ const CartContainer = styled.div`
   place-self: center end;
 
   svg {
-    width: 12.5px;
+    width: 11.5px;
     position: relative;
-    top: -20px;
+    top: -18px;
     right: 0px;
   }
 

@@ -25,18 +25,18 @@ const expand = keyframes`
   }
 
   50% {
-    width: 600px;
+    width: 550px;
     transform: scaleY(1);
     opacity: 1;
   }
 
   75% {
-    width: 590px;
+    width: 540px;
     transform: scaleY(0.98);
   }
 
   100% {
-    width: 600px;
+    width: 550px;
     transform: scaleY(1);
     opacity: 1;
   }
@@ -50,7 +50,7 @@ const StyledPreview = styled.div`
   position: absolute;
   z-index: 3;
   border-radius: 10px;
-  margin-top: 3rem;
+  margin-top: 2.65rem;
   margin-left: -1.7rem;
   transform-origin: top center;
   animation: ${expand} 375ms ease forwards;
