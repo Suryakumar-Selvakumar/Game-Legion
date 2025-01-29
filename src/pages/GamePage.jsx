@@ -570,8 +570,6 @@ function GamePage() {
   }
 
   function handleLegionPress() {
-    console.log(state);
-
     if (state?.currentPath === "home")
       navigate("/shop", {
         state: {
