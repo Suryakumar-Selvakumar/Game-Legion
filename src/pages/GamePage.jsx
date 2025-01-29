@@ -570,13 +570,17 @@ function GamePage() {
   }
 
   function handleLegionPress() {
-    state?.currentPath === "home"
-      ? navigate("/shop", {
-          state: {
-            pageState: "default",
-          },
-        })
-      : navigate(-1);
+    console.log(state);
+
+    if (state?.currentPath === "home")
+      navigate("/shop", {
+        state: {
+          pageState: "default",
+        },
+      });
+    else {
+      navigate(-1);
+    }
   }
 
   return (

@@ -469,8 +469,12 @@ class Cart extends Component {
                   to={
                     this.props.isInShop
                       ? `game/${String(game.id)}`
-                      : `shop/game/${String(game.id)}`
+                      : `/shop/game/${String(game.id)}`
                   }
+                  state={{
+                    currentPath: !this.props.isInShop ? "home" : "shop",
+                  }}
+                  replace={!this.props.isInShop && true}
                 >
                   <GameImage
                     src={game.image !== null ? game.image : placeHolderImage}
@@ -479,7 +483,9 @@ class Cart extends Component {
                     <GameName data-testid="game-cart-name">
                       {game.name}
                     </GameName>
-                    <GamePrice data-testid="game-cart-price">${game.price}</GamePrice>
+                    <GamePrice data-testid="game-cart-price">
+                      ${game.price}
+                    </GamePrice>
                   </div>
                 </Link>
               </CartItem>
