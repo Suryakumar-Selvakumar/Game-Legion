@@ -90,13 +90,14 @@ const StyledCart = styled(motion.div).attrs({
   display: grid;
   grid-template-rows: max-content 1fr max-content;
   width: 400px;
-  min-height: 100%;
+  height: 100vh;
   background-color: rgb(32, 32, 32, 1);
   top: 0dvh;
   color: white;
   right: 0;
   overflow: scroll;
   scrollbar-width: none;
+  will-change: transform;
 
   &.hide-cart {
     animation: ${slideOut} 250ms ease forwards;
