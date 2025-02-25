@@ -524,6 +524,8 @@ function GamePage() {
   useEffect(() => {
     const mediaQuery = window.matchMedia(media.mobile);
 
+    if (mediaQuery.matches) document.body.style.overflow = "auto";
+
     const handleMediaChange = (e) => {
       setIsMobileView(e.matches);
     };
