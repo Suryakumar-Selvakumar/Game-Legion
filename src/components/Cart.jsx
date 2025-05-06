@@ -105,6 +105,7 @@ const StyledCart = styled(motion.div).attrs({
 
   @media ${media.mobile} {
     width: 275px;
+    height: 100dvh;
     animation: ${slideInMobile} 500ms ease forwards;
 
     &.hide-cart {
