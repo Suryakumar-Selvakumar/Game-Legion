@@ -20,12 +20,12 @@ https://game-legion.vercel.app
 - Client-side routing with Exclusive pages - Facilitated by [React Router](https://reactrouter.com/)
 - Boundless Customization - Use Filters, Ordering, & Sorting to find any games you want
 - Divergent Storage - Cart to store games the user wants to "buy" & Wishlist to store games the user "likes".
-- Impeccable Integration - Holistic Integration Testing was carried out using [Vitest](https://vitest.dev/) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- God of War themed - Choose between Greek & Norse variants 
+- Impeccable Integration - Holistic Integration Testing was carried out using [Vitest](https://vitest.dev/) & [Testing Library](https://testing-library.com/)
+- God of War themed - Choose between Greek & Norse variants
 
 ## Technologies
 
-[![My Skills](https://skillicons.dev/icons?i=react,styledcomponents,vite,vitest,vercel)](https://skillicons.dev)
+![My Skills](https://go-skill-icons.vercel.app/api/icons?i=js,react,styledcomponents,vite,vitest,testinglibrary,vercel&theme=dark)
 
 ## Screenshots
 
