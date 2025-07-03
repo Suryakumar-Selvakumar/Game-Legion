@@ -29,7 +29,7 @@ const HomeVideo = styled(motion.video)`
   object-position: 100% 25%;
 `;
 
-export const StyledHome = styled.main`
+export const StyledHome = styled.div`
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -84,7 +84,7 @@ const Content = styled.div`
   }
 `;
 
-const Body = styled.div`
+const Body = styled.main`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -175,8 +175,9 @@ class Home extends Component {
     const { theme, setTheme } = this.context;
 
     return (
-      <StyledHome aria-labelledby="info-heading">
+      <StyledHome role="presentation">
         <HomeVideo
+          role="presentation"
           key={this.state.refreshKey}
           autoPlay
           loop
@@ -196,9 +197,9 @@ class Home extends Component {
             type="video/mp4"
           />
         </HomeVideo>
-        <Content>
+        <Content role="presentation">
           <Header isInShop={false} />
-          <Body>
+          <Body aria-labelledby="info-heading">
             <InfoCard />
             <QuickNavigation />
           </Body>

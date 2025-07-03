@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // hooks
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 // utils
 import { getAPIURL } from "../utils/getAPIURL";
@@ -38,7 +38,7 @@ const StyledGamePage = styled.div`
   }
 `;
 
-const Body = styled.div`
+const Body = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -57,7 +57,7 @@ const Body = styled.div`
   }
 `;
 
-const TopRow = styled.div`
+const TopRow = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,9 +71,11 @@ const TopRow = styled.div`
   }
 `;
 
-const BackButton = styled.div`
+const BackButton = styled.button`
   text-decoration: none;
   color: rgb(204, 204, 204);
+  background-color: transparent;
+  border: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -107,10 +109,11 @@ const BackButton = styled.div`
   }
 `;
 
-const GameName = styled.span`
+const GameName = styled.h1`
   font-family: myFontBlack;
   color: white;
   font-size: 3rem;
+  font-weight: normal;
 
   @media ${media.mobile} {
     font-size: 1.5rem;
@@ -145,7 +148,7 @@ const BottomRow = styled.div`
   }
 `;
 
-const ImageCarousel = styled.div`
+const ImageCarousel = styled.section`
   position: relative;
   height: 100% !important;
   grid-area: image-carousel;
@@ -214,23 +217,44 @@ const ImageCarousel = styled.div`
   }
 
   .slick-dots {
-    bottom: 20px;
+    bottom: 10px;
     background-color: rgb(15, 16, 17);
-    padding: 0.25rem 0.75rem 0rem 0.75rem;
+    padding: 0 0.75rem;
     border-radius: 10px;
+    height: max-content;
     width: max-content;
+    display: flex;
+    align-items: start;
   }
 
   .slick-dots > li {
     margin: 0;
+    height: 25px;
+    position: relative;
+    top: 9px;
+  }
+
+  .slick-dots li button {
+    padding: 0;
+    height: min-content;
+
+    &:focus-visible {
+      &::before {
+        box-shadow: 0 0 0 1.5px white;
+      }
+    }
   }
 
   .slick-dots li button:before {
     color: rgb(153, 153, 153);
     font-size: 0.65rem;
     line-height: 1;
+    position: relative;
+    top: -5px;
+    border-radius: 100%;
     opacity: 1;
-    height: min-content;
+    height: 20px;
+    width: min-content;
   }
 
   .slick-dots li.slick-active button:before {
@@ -244,11 +268,11 @@ const ImageCarousel = styled.div`
     }
 
     .slick-next::before {
-      font-size: 3rem;
+      font-size: 3.5rem;
     }
 
     .slick-prev::before {
-      font-size: 3rem;
+      font-size: 3.5rem;
     }
 
     .slick-next {
@@ -260,10 +284,20 @@ const ImageCarousel = styled.div`
     }
 
     .slick-dots {
-      bottom: 10px;
-      padding: 0rem 0.5rem 0rem 0.5rem;
       border-radius: 10px;
       width: max-content;
+    }
+
+    .slick-dots > li {
+      margin: 0;
+      height: 15px;
+      width: 17.5px;
+      position: relative;
+      top: 4px;
+    }
+
+    .slick-dots > li:last-child {
+      width: 8.55px;
     }
 
     .slick-dots li button {
@@ -272,31 +306,37 @@ const ImageCarousel = styled.div`
     }
 
     .slick-dots li button:before {
-      font-size: 0.6rem;
+      font-size: 0.55rem;
     }
   }
 `;
 
-const WishListIcon = styled.svg`
-  min-width: 30px !important;
-  height: 30px;
-  cursor: pointer;
+const WishListIcon = styled.button`
   position: relative;
   bottom: 15px;
   left: -45px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+
+  svg {
+    min-width: 30px !important;
+    height: 30px;
+    cursor: pointer;
+  }
 
   @media ${media.mobile} {
-    min-width: 25px !important;
-    height: 25px;
-    bottom: 15px;
     left: -40px;
+    bottom: 10px;
+
+    svg {
+      min-width: 25px !important;
+      height: 25px;
+    }
   }
 `;
 
-const GameDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+const GameDetails = styled.section`
   grid-area: game-details;
 `;
 
@@ -317,9 +357,10 @@ const Description = styled.div`
   border-top-left-radius: 12px;
   padding: 2rem 1.5rem 1.5rem 1rem;
 
-  span {
+  h3 {
     font-family: myFontBold;
     font-size: 1.375rem;
+    font-weight: normal;
   }
 
   p {
@@ -352,9 +393,9 @@ const DetailsDropDown = styled.div`
   }
 `;
 
-const Details = styled.div`
-  display: flex;
-  flex-direction: column;
+const Details = styled.dl`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   max-height: 500px;
   overflow: hidden;
@@ -367,24 +408,18 @@ const Details = styled.div`
   }
 `;
 
-const DetailPair = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-`;
-
 const Detail = styled.div`
   display: flex;
   flex-direction: column;
   width: 250px;
 
-  span {
+  dt {
     color: white;
     font-family: myFontBold;
   }
 
-  div > span,
-  div {
+  div > dt,
+  dd {
     color: rgb(204, 204, 204);
     font-family: myFontRegular;
   }
@@ -395,10 +430,12 @@ const Detail = styled.div`
   }
 `;
 
-const Opener = styled.div`
+const Opener = styled.button`
   display: flex;
   color: rgb(204, 204, 204);
   transition: all 250ms ease;
+  background-color: transparent;
+  border: none;
   align-items: center;
   gap: 0.25rem;
   justify-content: end;
@@ -423,7 +460,7 @@ const Opener = styled.div`
   }
 `;
 
-const CartButton = styled.div`
+const CartButton = styled.section`
   grid-area: cart-button;
   display: flex;
   justify-content: space-between;
@@ -433,11 +470,11 @@ const CartButton = styled.div`
     rgb(26, 26, 26) 100%
   );
   border-radius: 12px;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.5rem 0.75rem 1rem;
   height: 55px;
   align-items: center;
 
-  span {
+  p {
     color: white;
     font-size: 1.125rem;
   }
@@ -449,6 +486,7 @@ const CartButton = styled.div`
       rgb(26, 26, 26) 100%
     );
     border: none;
+    padding: 0.5rem;
     outline: none;
     color: rgb(153, 153, 153);
     cursor: pointer;
@@ -457,6 +495,11 @@ const CartButton = styled.div`
     align-items: center;
     font-size: 1.375rem;
     font-family: myFontBold;
+    border-radius: 12px;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 1.5px white;
+    }
   }
 
   button > svg {
@@ -491,12 +534,9 @@ function GamePage() {
   const [gameData, setGameData] = useState(null);
   const [screenShotsData, setScreenShotsData] = useState(null);
   const [dropDownOpen, setDropDownOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(
-    window.matchMedia(media.mobile).matches
-  );
 
   // context
-  const { cart, setCart, theme, setTheme, wishList, setWishList } =
+  const { cart, setCart, theme, wishList, setWishList } =
     useContext(CartContext);
 
   const fetchGameData = async () => {
@@ -520,20 +560,6 @@ function GamePage() {
       setGameData(null);
     }
   };
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(media.mobile);
-
-    if (mediaQuery.matches) document.body.style.overflow = "auto";
-
-    const handleMediaChange = (e) => {
-      setIsMobileView(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleMediaChange);
-
-    return () => mediaQuery.removeEventListener("change", handleMediaChange);
-  }, []);
 
   useEffect(() => {
     params.gameId !== undefined && fetchGameData();
@@ -584,12 +610,16 @@ function GamePage() {
   }
 
   return (
-    <StyledGamePage>
+    <StyledGamePage role="presentation">
       <Header />
-      <Body>
+      <Body aria-describedby="game-heading">
         <TopRow>
           <BackButton onClick={handleLegionPress}>
-            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 1024 1024"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g
                 id="SVGRepo_tracerCarrier"
@@ -603,166 +633,138 @@ function GamePage() {
             </svg>
             <span>Legion</span>
           </BackButton>
-          <GameName data-testid="game-name">{gameData?.name}</GameName>
+          <GameName id="game-heading" data-testid="game-name">
+            {gameData?.name}
+          </GameName>
         </TopRow>
-        <BottomRow>
+        <BottomRow role="grid">
           {screenShotsData && (
-            <ImageCarousel>
-              <SimpleSlider images={screenShotsData} />
+            <ImageCarousel aria-label="Image carousel" role="region">
+              <SimpleSlider
+                images={screenShotsData}
+                gameName={gameData?.name}
+              />
+
               <WishListIcon
-                data-testid="wishlist-icon"
-                title="wishlist"
                 onClick={updateWishList}
-                viewBox="0 0 64 64"
-                xmlns="http://www.w3.org/2000/svg"
-                strokeWidth="3"
-                stroke="#ffffff"
-                fill={
-                  existingItem(wishList)
-                    ? theme.currentTheme === "norse"
-                      ? "#46afe8"
-                      : "#ff5a5a"
-                    : "none"
-                }
+                data-testid="wishlist-icon"
               >
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                <svg
+                  title="wishlist"
+                  viewBox="0 0 64 64"
+                  xmlns="http://www.w3.org/2000/svg"
+                  strokeWidth="3"
+                  stroke="#ffffff"
+                  fill={
+                    existingItem(wishList)
+                      ? theme.currentTheme === "norse"
+                        ? "#46afe8"
+                        : "#ff5a5a"
+                      : "none"
+                  }
+                >
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
                     strokeLinecap="round"
-                  ></path>
-                </g>
+                    strokeLinejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                      strokeLinecap="round"
+                    ></path>
+                  </g>
+                </svg>
               </WishListIcon>
             </ImageCarousel>
           )}
-          <GameDetails>
-            <div>
-              <Description>
-                <span>Description</span>
-                <p data-testid="game-desc">
-                  {gameData?.description}
-                  {gameData?.description &&
-                    !gameData?.description.endsWith(".") &&
-                    "."}
-                </p>
-              </Description>
-              <DetailsDropDown className={dropDownOpen ? "" : "closed"}>
-                <Details
-                  className={dropDownOpen ? "" : "closed"}
-                  data-testid="details"
-                >
-                  <DetailPair>
-                    <Detail>
-                      <span>Platforms</span>
-                      <div>
-                        {gameData?.platforms.map((platform, index) => (
-                          <span key={index}>
-                            {platform}
-                            {gameData?.platforms.length > 1 &&
-                              gameData?.platforms.indexOf(platform) !==
-                                gameData?.platforms.length - 1 &&
-                              ", "}
-                          </span>
-                        ))}
-                      </div>
-                    </Detail>
-                    <Detail>
-                      <span>Genre</span>
-                      <div>
-                        {gameData?.genres.map((genre, index) => (
-                          <span key={index}>
-                            {genre}
-                            {gameData?.genres.length > 1 &&
-                              gameData?.genres.indexOf(genre) !==
-                                gameData?.genres.length - 1 &&
-                              ", "}
-                          </span>
-                        ))}
-                      </div>
-                    </Detail>
-                  </DetailPair>
-                  <DetailPair>
-                    <Detail>
-                      <span>Release date</span>
-                      <div>
-                        {gameData?.released &&
-                          getFormattedDate(gameData?.released)}
-                      </div>
-                    </Detail>
-                    <Detail>
-                      <span>Developers</span>
-                      <div>
-                        {gameData?.developers.map((dev, index) => (
-                          <span key={index}>
-                            {dev}
-                            {gameData?.developers.length > 1 &&
-                              gameData?.developers.indexOf(dev) !==
-                                gameData?.developers.length - 1 &&
-                              ", "}
-                          </span>
-                        ))}
-                      </div>
-                    </Detail>
-                  </DetailPair>
-                  <DetailPair>
-                    <Detail>
-                      <span>Publishers</span>
-                      <div>
-                        {gameData?.publishers.map((pub, index) => (
-                          <span key={index}>
-                            {pub}
-                            {gameData?.publishers.length > 1 &&
-                              gameData?.publishers.indexOf(pub) !==
-                                gameData?.publishers.length - 1 &&
-                              ", "}
-                          </span>
-                        ))}
-                      </div>
-                    </Detail>
-                    <Detail>
-                      <span>Age Rating</span>
-                      <div>{gameData?.ageRating}</div>
-                    </Detail>
-                  </DetailPair>
-                  <Detail>
-                    <span>Website</span>
-                    <a href={gameData?.website} target="_blank">
-                      {gameData?.website}
-                    </a>
-                  </Detail>
-                </Details>
-                <Opener
-                  data-testid="opener"
-                  onClick={() => setDropDownOpen(!dropDownOpen)}
-                >
-                  More
-                  <svg
-                    className={dropDownOpen ? "open" : ""}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
+          <GameDetails role="region" aria-label="Game details">
+            <Description>
+              <h3>Description</h3>
+              <p data-testid="game-desc">
+                {gameData?.description}
+                {gameData?.description &&
+                  !gameData?.description.endsWith(".") &&
+                  "."}
+              </p>
+            </Description>
+            <DetailsDropDown className={dropDownOpen ? "" : "closed"}>
+              <Details
+                className={dropDownOpen ? "" : "closed"}
+                data-testid="details"
+              >
+                <Detail>
+                  <dt>Platforms</dt>
+                  <dd>{gameData?.platforms.join(", ")}</dd>
+                </Detail>
+                <Detail>
+                  <dt>Genre</dt>
+                  <dd>{gameData?.genres.join(", ")}</dd>
+                </Detail>
+                <Detail>
+                  <dt>Release date</dt>
+                  <dd>
+                    {gameData?.released && getFormattedDate(gameData?.released)}
+                  </dd>
+                </Detail>
+                <Detail>
+                  <dt>Developers</dt>
+                  <dd>{gameData?.developers.join(", ")}</dd>
+                </Detail>
+                <Detail>
+                  <dt>Publishers</dt>
+                  <dd>{gameData?.publishers.join(", ")}</dd>
+                </Detail>
+                <Detail>
+                  <dt>Age Rating</dt>
+                  <dd>{gameData?.ageRating}</dd>
+                </Detail>
+                <Detail>
+                  <dt>Website</dt>
+                  <a
+                    tabIndex={dropDownOpen ? 0 : -1}
+                    href={gameData?.website}
+                    target="_blank"
                   >
-                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                  </svg>
-                </Opener>
-              </DetailsDropDown>
-            </div>
+                    {gameData?.website}
+                  </a>
+                </Detail>
+              </Details>
+              <Opener
+                data-testid="opener"
+                onClick={() => setDropDownOpen(!dropDownOpen)}
+              >
+                More
+                <svg
+                  className={dropDownOpen ? "open" : ""}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                </svg>
+              </Opener>
+            </DetailsDropDown>
           </GameDetails>
-          <CartButton>
-            <span data-testid="game-price">${gameData?.price}</span>
+          <CartButton role="region" aria-label="Cart actions">
+            <p data-testid="game-price">${gameData?.price}</p>
             <button
-              onClick={addToCart}
+              onClick={() => {
+                addToCart();
+                document.activeElement.blur();
+              }}
               style={{
                 color: existingItem(cart)
                   ? theme.currentTheme === "norse"
                     ? "#46afe8"
                     : "#ff5a5a"
                   : "white",
+                cursor: existingItem(cart) ? "default" : "pointer",
               }}
+              onFocus={() => {
+                if (existingItem(cart)) document.activeElement.blur();
+              }}
+              tabIndex={existingItem(cart) ? -1 : 0}
             >
               {!existingItem(cart) ? (
                 "Add to cart +"

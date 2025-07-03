@@ -40,25 +40,26 @@ const StyledQuickNavigation = styled.section`
   h2 {
     color: white;
     font-family: myFontBold;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
   }
 
   @media ${media.mobile} {
-    padding: 1.25rem 1rem 1.25rem 1rem;
+    padding: 1rem;
     gap: 0.8rem;
 
     h2 {
-      font-size: 1.5rem;
-      width: 200px;
+      font-size: 1.25rem;
       padding-top: 0;
       padding-bottom: 0;
     }
   }
 
   @media ${media.tablet} {
+    padding: 1.25rem;
+
     h2 {
-      font-size: 2rem;
-      width: 225px;
+      font-size: 1.375rem;
       text-align: center;
       padding-top: 0;
       padding-bottom: 0;
@@ -71,10 +72,10 @@ export const NavButton = styled(Link)`
   text-decoration: none;
   background-color: white;
   padding: 0.5rem 0rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   cursor: pointer;
-  border-radius: 20px;
-  width: 225px;
+  border-radius: 1rem;
+  width: 175px;
   transition: transform 250ms ease-out;
   display: flex;
   align-items: center;
@@ -116,7 +117,7 @@ export const NavButton = styled(Link)`
     font-size: 1rem;
     padding: 0.5rem 0rem;
     border-radius: 15px;
-    width: 175px;
+    width: 150px;
     gap: 0.25rem;
     align-items: center;
 
@@ -141,12 +142,11 @@ export const NavButton = styled(Link)`
 
   @media ${media.tablet} {
     border-radius: 15px;
-    width: 200px;
     align-items: center;
 
     ${StyledInfoCard} & {
       border-radius: 10px;
-      font-size: 1.09rem;
+      font-size: 1rem;
       width: max-content;
       padding: 0.5rem;
     }

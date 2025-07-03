@@ -281,15 +281,22 @@ const GamePrice = styled.p`
   color: rgb(153, 153, 153);
 `;
 
-const RemoveButton = styled.svg`
-  width: 22.5px;
+const RemoveButton = styled.button`
   align-self: end;
   background-color: rgb(15, 16, 17);
   border-radius: 5px;
+  border: none;
+  padding: 0;
   cursor: pointer;
 
+  svg {
+    width: 22.5px;
+  }
+
   @media ${media.mobile} {
-    width: 20px;
+    svg {
+      width: 20px;
+    }
   }
 `;
 
@@ -417,55 +424,52 @@ class Cart extends Component {
                   <RemoveButton
                     data-testid="remove"
                     onClick={() => this.removeItem(game.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ")
-                        this.removeItem(game.id);
-                    }}
-                    role="button"
                     aria-label="Remove item"
-                    tabIndex={0}
-                    viewBox="0 0 24 24"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g
-                      id="Page-1"
-                      stroke="none"
-                      strokeWidth="1"
-                      fill="none"
-                      fillRule="evenodd"
+                    <svg
+                      viewBox="0 0 24 24"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g id="Close">
-                        <rect
-                          id="Rectangle"
-                          fillRule="nonzero"
-                          x="0"
-                          y="0"
-                          width="24"
-                          height="24"
-                        ></rect>
-                        <line
-                          x1="16.9999"
-                          y1="7"
-                          x2="7.00001"
-                          y2="16.9999"
-                          id="Path"
-                          stroke="rgb(153, 153, 153)"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        ></line>
-                        <line
-                          x1="7.00006"
-                          y1="7"
-                          x2="17"
-                          y2="16.9999"
-                          id="Path"
-                          stroke="rgb(153, 153, 153)"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        ></line>
+                      <g
+                        id="Page-1"
+                        stroke="none"
+                        strokeWidth="1"
+                        fill="none"
+                        fillRule="evenodd"
+                      >
+                        <g id="Close">
+                          <rect
+                            id="Rectangle"
+                            fillRule="nonzero"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="24"
+                          ></rect>
+                          <line
+                            x1="16.9999"
+                            y1="7"
+                            x2="7.00001"
+                            y2="16.9999"
+                            id="Path"
+                            stroke="rgb(153, 153, 153)"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          ></line>
+                          <line
+                            x1="7.00006"
+                            y1="7"
+                            x2="17"
+                            y2="16.9999"
+                            id="Path"
+                            stroke="rgb(153, 153, 153)"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          ></line>
+                        </g>
                       </g>
-                    </g>
+                    </svg>
                   </RemoveButton>
                   <Link
                     to={

@@ -31,7 +31,7 @@ const GameImage = styled.img`
   animation: ${waveLoading} 3s linear infinite;
 `;
 
-export default function SimpleSlider({ images }) {
+export default function SimpleSlider({ images, gameName }) {
   const sliderRef = useRef(null);
 
   useEffect(() => {
@@ -46,15 +46,26 @@ export default function SimpleSlider({ images }) {
     speed: 350,
     slidesToShow: 1,
     slidesToScroll: 1,
+
+    beforeChange: (_, newIndex) => {
+      const active = document.activeElement;
+      if (!active) return;
+
+      const slide = active.closest(".slick-slide");
+      if (!slide) return;
+
+      const idx = Number(slide.getAttribute("data-index"));
+      if (idx !== newIndex) {
+        active.blur();
+      }
+    },
   };
 
   return (
     <Slider {...settings} ref={sliderRef}>
       {images?.length > 0 &&
         images.map((image, index) => (
-          <div key={index}>
-            <GameImage src={image} alt="a game screenshot" />
-          </div>
+          <GameImage key={index} src={image} alt={`a ${gameName} screenshot`} />
         ))}
     </Slider>
   );
@@ -62,4 +73,5 @@ export default function SimpleSlider({ images }) {
 
 SimpleSlider.propTypes = {
   images: PropTypes.array,
+  gameName: PropTypes.string,
 };

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Shop from "./Shop";
 
 const ShopWrapper = (props) => {

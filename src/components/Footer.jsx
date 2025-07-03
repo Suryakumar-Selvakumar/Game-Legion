@@ -47,7 +47,7 @@ const ThemeSwitcher = styled.input.attrs({
     transition: all 0.35s;
   }
 
-  &:focus {
+  &:focus-visible {
     &::after {
       box-shadow: inset 0 0 0 1.5px black, 0 0 0 1.5px white;
     }

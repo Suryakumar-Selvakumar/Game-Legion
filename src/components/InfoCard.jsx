@@ -27,22 +27,22 @@ const Info = styled.div`
   color: white;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 600px;
+  gap: 0.5rem;
+  width: 500px;
   align-items: center;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   p {
-    font-size: 1.25rem;
+    font-size: 1rem;
     text-align: center;
   }
 
   h1 {
-    font-size: 5rem;
-    font-weight: 900;
+    font-size: 3.5rem;
+    font-weight: 500;
     font-family: myFontBold;
   }
 
@@ -56,7 +56,7 @@ const Info = styled.div`
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2rem;
     }
   }
 
@@ -70,13 +70,13 @@ const Info = styled.div`
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 2.5rem;
     }
   }
 `;
 
 const InfoLinks = styled.div`
-  width: 600px;
+  width: 500px;
   background-color: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.1),
@@ -85,9 +85,8 @@ const InfoLinks = styled.div`
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  padding: 1rem 0;
+  justify-content: space-evenly;
+  padding: 0.75rem 0;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -103,6 +102,7 @@ const InfoLinks = styled.div`
     width: 425px;
     padding: 0.75rem 0.75rem;
     border-radius: 15px;
+    gap: 1rem;
   }
 `;
 

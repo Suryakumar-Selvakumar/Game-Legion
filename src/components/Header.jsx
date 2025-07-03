@@ -122,8 +122,12 @@ const LogoIcon = styled.img`
   top: -0.25rem;
 
   @media ${media.mobile} {
+    min-height: ${(props) =>
+      props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
     height: ${(props) =>
       props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
+    min-width: ${(props) =>
+      props.theme.currentTheme === "norse" ? "60px" : "47.5px"};
     width: ${(props) =>
       props.theme.currentTheme === "norse" ? "60px" : "47.5px"};
     top: ${(props) =>
@@ -131,9 +135,11 @@ const LogoIcon = styled.img`
   }
 
   @media ${media.tablet} {
+    min-height: ${(props) =>
+      props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
     height: ${(props) =>
       props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
-    width: ${(props) =>
+    min-width: ${(props) =>
       props.theme.currentTheme === "norse" ? "65px" : "57.5px"};
     top: ${(props) =>
       props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
@@ -147,6 +153,7 @@ const SearchIcon = styled(Link)`
   left: -2rem;
   display: flex;
   align-items: center;
+  height: max-content;
 
   img {
     width: 25px;
@@ -165,6 +172,7 @@ const SearchIcon = styled(Link)`
 
 const SearchInputContainer = styled.div`
   display: flex;
+  align-items: center;
 
   & > img {
     width: 25px;
