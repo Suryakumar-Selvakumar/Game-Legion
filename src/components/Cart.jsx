@@ -12,6 +12,9 @@ import { CartContext } from "./CartContext";
 import placeHolderImage from "../assets/icons/placeholder-image.jpg";
 import media from "../utils/breakpoints";
 
+// Components
+import { FocusTrap } from "focus-trap-react";
+
 const CartPage = styled.div`
   position: fixed;
   min-height: 100%;
@@ -20,23 +23,6 @@ const CartPage = styled.div`
   left: 0;
   z-index: 2;
   background-color: rgb(0, 0, 0, 0.5);
-`;
-
-const slideIn = keyframes`
-    0%{
-        background-color: rgb(32, 32, 32, 1);
-        transform: translateX(400px);
-
-    }
-
-    60% {
-      transform: translateX(-30px);
-    }
-
-    100% {
-      background-color: rgb(32, 32, 32, 1);
-        transform: translateX(0);
-    }
 `;
 
 const slideOut = keyframes`
@@ -48,22 +34,6 @@ const slideOut = keyframes`
     100% {
         transform: translateX(400px);
         background-color: rgb(32, 32, 32, 1);
-    }
-`;
-
-const slideInMobile = keyframes`
-    0%{
-        background-color: rgb(32, 32, 32, 1);
-        transform: translateX(275px);
-    }
-
-    60% {
-      transform: translateX(-20px);
-    }
-
-    100% {
-      background-color: rgb(32, 32, 32, 1);
-        transform: translateX(0);
     }
 `;
 
@@ -79,7 +49,7 @@ const slideOutMobile = keyframes`
     }
 `;
 
-const StyledCart = styled(motion.div).attrs({
+const StyledCart = styled(motion.main).attrs({
   initial: { x: 360 },
   animate: { x: 0 },
   transition: { type: "spring", bounce: 0.35, duration: 0.7 },
@@ -106,7 +76,6 @@ const StyledCart = styled(motion.div).attrs({
   @media ${media.mobile} {
     width: 275px;
     height: 100dvh;
-    animation: ${slideInMobile} 500ms ease forwards;
 
     &.hide-cart {
       animation: ${slideOutMobile} 250ms ease forwards;
@@ -114,7 +83,7 @@ const StyledCart = styled(motion.div).attrs({
   }
 `;
 
-const CartHeader = styled.div`
+const CartHeader = styled.header`
   display: flex;
   justify-content: space-between;
   width: inherit;
@@ -142,7 +111,7 @@ const CartHeader = styled.div`
   }
 `;
 
-const Checkout = styled.div`
+const Checkout = styled.footer`
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -212,7 +181,7 @@ const Shine = styled.button`
   }
 `;
 
-const CartItems = styled.div`
+const CartItems = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -224,7 +193,7 @@ const CartItems = styled.div`
   }
 `;
 
-const CartItem = styled.div`
+const CartItem = styled.article`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -349,7 +318,7 @@ class Cart extends Component {
   }
 
   removeItem(gameId) {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart, setCart } = this.context;
     this.setState((state) => ({
       ...state,
       isDeleted: gameId,
@@ -361,13 +330,13 @@ class Cart extends Component {
   }
 
   clearCart() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { setCart } = this.context;
 
     setCart([]);
   }
 
   getTotal() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart } = this.context;
     let total = 0;
 
     cart.forEach((item) => (total += item.price));
@@ -376,7 +345,18 @@ class Cart extends Component {
 
   componentDidMount() {
     const handleClickOutside = (e) => {
+      if (e.type === "keydown") {
+        if (e.key === "Escape") {
+          this.setState((state) => ({
+            ...state,
+            hideCart: true,
+          }));
+        }
+        return;
+      }
+
       if (
+        e.type === "click" &&
         !this.cartRef?.current?.contains(e.target) &&
         this.callBackRef.current
       ) {
@@ -390,10 +370,12 @@ class Cart extends Component {
     this.cartClickRef.current = handleClickOutside;
 
     document.addEventListener("click", this.cartClickRef.current, true);
+    document.addEventListener("keydown", this.cartClickRef.current, true);
   }
 
   componentWillUnmount() {
     document.removeEventListener("click", this.cartClickRef.current, true);
+    document.removeEventListener("keydown", this.cartClickRef.current, true);
 
     this.setState((state) => ({
       ...state,
@@ -402,106 +384,128 @@ class Cart extends Component {
   }
 
   render() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart } = this.context;
 
     return (
       <>
-        <StyledCart
-          ref={this.cartRef}
-          className={this.state.hideCart ? "hide-cart" : ""}
-          onAnimationEnd={this.handleAnimationEnd}
+        <FocusTrap
+          focusTrapOptions={{
+            clickOutsideDeactivates: true,
+          }}
         >
-          <CartHeader>
-            <h2>{cart.length} Games</h2>
-            <button onClick={this.clearCart}>Clear</button>
-          </CartHeader>
-          <CartItems className={this.state.hideCart ? "hide-cart" : ""}>
-            {cart.map((game) => (
-              <CartItem
-                key={game.id}
-                className={this.state.isDeleted === game.id ? "delete" : ""}
-              >
-                <RemoveButton
-                  data-testid="remove"
-                  onClick={() => this.removeItem(game.id)}
-                  viewBox="0 0 24 24"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
+          <StyledCart
+            ref={this.cartRef}
+            className={this.state.hideCart ? "hide-cart" : ""}
+            onAnimationEnd={this.handleAnimationEnd}
+            aria-label="Cart"
+            role="dialog"
+          >
+            <CartHeader>
+              <h2 role="status">{cart.length} Games</h2>
+              <button onClick={this.clearCart}>Clear</button>
+            </CartHeader>
+            <CartItems
+              role="group"
+              aria-label="Cart items"
+              className={this.state.hideCart ? "hide-cart" : ""}
+            >
+              {cart.map((game) => (
+                <CartItem
+                  key={game.id}
+                  className={this.state.isDeleted === game.id ? "delete" : ""}
                 >
-                  <g
-                    id="Page-1"
-                    stroke="none"
-                    strokeWidth="1"
-                    fill="none"
-                    fillRule="evenodd"
+                  <RemoveButton
+                    data-testid="remove"
+                    onClick={() => this.removeItem(game.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ")
+                        this.removeItem(game.id);
+                    }}
+                    role="button"
+                    aria-label="Remove item"
+                    tabIndex={0}
+                    viewBox="0 0 24 24"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g id="Close">
-                      <rect
-                        id="Rectangle"
-                        fillRule="nonzero"
-                        x="0"
-                        y="0"
-                        width="24"
-                        height="24"
-                      ></rect>
-                      <line
-                        x1="16.9999"
-                        y1="7"
-                        x2="7.00001"
-                        y2="16.9999"
-                        id="Path"
-                        stroke="rgb(153, 153, 153)"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      ></line>
-                      <line
-                        x1="7.00006"
-                        y1="7"
-                        x2="17"
-                        y2="16.9999"
-                        id="Path"
-                        stroke="rgb(153, 153, 153)"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      ></line>
+                    <g
+                      id="Page-1"
+                      stroke="none"
+                      strokeWidth="1"
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <g id="Close">
+                        <rect
+                          id="Rectangle"
+                          fillRule="nonzero"
+                          x="0"
+                          y="0"
+                          width="24"
+                          height="24"
+                        ></rect>
+                        <line
+                          x1="16.9999"
+                          y1="7"
+                          x2="7.00001"
+                          y2="16.9999"
+                          id="Path"
+                          stroke="rgb(153, 153, 153)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        ></line>
+                        <line
+                          x1="7.00006"
+                          y1="7"
+                          x2="17"
+                          y2="16.9999"
+                          id="Path"
+                          stroke="rgb(153, 153, 153)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        ></line>
+                      </g>
                     </g>
-                  </g>
-                </RemoveButton>
-                <Link
-                  to={
-                    this.props.isInShop
-                      ? `game/${String(game.id)}`
-                      : `/shop/game/${String(game.id)}`
-                  }
-                  state={{
-                    currentPath: !this.props.isInShop ? "home" : "shop",
-                  }}
-                  replace={!this.props.isInShop && true}
-                >
-                  <GameImage
-                    src={game.image !== null ? game.image : placeHolderImage}
-                  />
-                  <div>
-                    <GameName data-testid="game-cart-name">
-                      {game.name}
-                    </GameName>
-                    <GamePrice data-testid="game-cart-price">
-                      ${game.price}
-                    </GamePrice>
-                  </div>
-                </Link>
-              </CartItem>
-            ))}
-          </CartItems>
-          <Checkout>
-            <p>
-              <span>Total:</span>{" "}
-              <span data-testid="total">${this.getTotal()}</span>
-            </p>
-            <Shine>Checkout</Shine>
-          </Checkout>
-        </StyledCart>
-        <CartPage data-testid="cart-page" />
+                  </RemoveButton>
+                  <Link
+                    to={
+                      this.props.isInShop
+                        ? `game/${String(game.id)}`
+                        : `/shop/game/${String(game.id)}`
+                    }
+                    state={{
+                      currentPath: !this.props.isInShop ? "home" : "shop",
+                    }}
+                    replace={!this.props.isInShop && true}
+                    aria-label={`View ${game.name}`}
+                  >
+                    <GameImage
+                      src={game.image !== null ? game.image : placeHolderImage}
+                      aria-hidden="true"
+                      alt=""
+                    />
+                    <div>
+                      <GameName data-testid="game-cart-name">
+                        {game.name}
+                      </GameName>
+                      <GamePrice data-testid="game-cart-price">
+                        ${game.price}
+                      </GamePrice>
+                    </div>
+                  </Link>
+                </CartItem>
+              ))}
+            </CartItems>
+            <Checkout>
+              <p>
+                <span>Total:</span>{" "}
+                <span data-testid="total">${this.getTotal()}</span>
+              </p>
+              <Shine>Checkout</Shine>
+            </Checkout>
+          </StyledCart>
+        </FocusTrap>
+        <CartPage role="generic" data-testid="cart-page" />
       </>
     );
   }

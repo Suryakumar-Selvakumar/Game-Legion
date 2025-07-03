@@ -267,6 +267,7 @@ class Preview extends Component {
                 e.preventDefault();
                 setTimeout(() => document.activeElement.blur(), 100);
               }}
+              aria-label={`View ${game.name}`}
             >
               <ImageContainer>
                 {this.state.imageLoading && (
@@ -279,7 +280,8 @@ class Preview extends Component {
                 )}
                 <GameImage
                   src={game.image !== null ? game.image : placeHolderImage}
-                  alt={game.name}
+                  alt=""
+                  aria-hidden="true"
                   onLoad={this.setImageLoading}
                   style={{
                     display: this.state.imageLoading ? "none" : "block",

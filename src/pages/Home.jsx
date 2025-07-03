@@ -29,7 +29,7 @@ const HomeVideo = styled(motion.video)`
   object-position: 100% 25%;
 `;
 
-export const StyledHome = styled.div`
+export const StyledHome = styled.main`
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -172,10 +172,10 @@ class Home extends Component {
   }
 
   render() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { theme, setTheme } = this.context;
 
     return (
-      <StyledHome>
+      <StyledHome aria-labelledby="info-heading">
         <HomeVideo
           key={this.state.refreshKey}
           autoPlay

@@ -15,6 +15,8 @@ import Cart from "./Cart";
 import Preview from "./Preview";
 import { CartContext } from "./CartContext";
 import withRouter from "./withRouter";
+
+// utils
 import media from "../utils/breakpoints";
 
 const dropDown = keyframes`
@@ -37,7 +39,7 @@ const moveUp = keyframes`
   }
 `;
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled.header`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 1rem;
@@ -180,7 +182,7 @@ const SearchInputContainer = styled.div`
   }
 `;
 
-const SearchBarContainer = styled.div`
+const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -469,32 +471,31 @@ class Header extends Component {
   }
 
   render() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart, theme } = this.context;
 
     return (
       <>
         <StyledHeader
           className={this.state.isHeaderVisible ? "visible" : "hidden"}
         >
-          <Logo to="/" data-testid="logo">
+          <Logo role="banner" to="/" data-testid="logo">
             {!this.state.isMobileView && !this.state.isTabletView && "GAME"}
             <LogoIcon
+              aria-hidden="true"
               data-testid="logo-icon"
               src={
                 theme.currentTheme === "norse" ? omegaNorseIcon : omegaGreekIcon
               }
-              alt={
-                theme.currentTheme === "norse"
-                  ? "Jormungandur icon"
-                  : "omega icon"
-              }
+              alt=""
             />
             {!this.state.isMobileView && !this.state.isTabletView && "LEGION"}
           </Logo>
-          <SearchBarContainer>
-            <SearchInputContainer className="search-icon">
+          <SearchContainer role="search">
+            <SearchInputContainer>
               <SearchBar
+                id="search-input"
                 data-testid="search-input"
+                aria-label="Search games"
                 onFocus={this.setPreviewVisible}
                 onBlur={this.handleBlur}
                 onAnimationEnd={this.handleAnimationEnd}
@@ -505,6 +506,7 @@ class Header extends Component {
               {!this.props.isInShop ? (
                 <SearchIcon
                   data-testid="search-icon-link"
+                  aria-label="Submit search input"
                   to={"/shop"}
                   state={{
                     pageState: "Results",
@@ -512,13 +514,22 @@ class Header extends Component {
                   }}
                   onMouseDown={(e) => e.preventDefault()}
                 >
-                  <img src={searchIcon} alt="a search icon" />
+                  <img src={searchIcon} alt="" aria-hidden="true" />
                 </SearchIcon>
               ) : (
                 <img
                   data-testid="search-icon-link"
                   src={searchIcon}
                   alt="a search icon"
+                  aria-label="Submit search input"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      this.props.setShopSearchInput(this.state.searchInput);
+                      this.props.setPageState("Results");
+                    }
+                  }}
                   onMouseDown={() => {
                     this.props.setShopSearchInput(this.state.searchInput);
                     this.props.setPageState("Results");
@@ -534,12 +545,23 @@ class Header extends Component {
                   isInShop={this.props.isInShop}
                 />
               )}
-          </SearchBarContainer>
+          </SearchContainer>
           <CartContainer>
-            <CartIcon onClick={this.handleCartClick} />
+            <CartIcon
+              aria-label="Open cart"
+              role="button"
+              tabIndex={0}
+              onClick={this.handleCartClick}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.handleCartClick();
+                }
+              }}
+            />
             <svg
               data-testid="dot-icon"
               viewBox="0 0 16 16"
+              role="presentation"
               xmlns="http://www.w3.org/2000/svg"
               style={{
                 visibility: cart.length >= 1 ? "visible" : "hidden",

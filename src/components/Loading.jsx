@@ -20,10 +20,10 @@ class Loading extends Component {
   static contextType = CartContext;
 
   render() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { theme } = this.context;
 
     return (
-      <StyledLoading>
+      <StyledLoading role="presentation">
         <CircularProgress
           color={theme?.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"}
           duration="2s"

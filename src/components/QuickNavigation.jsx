@@ -20,7 +20,7 @@ import { getAPIURL } from "../utils/getAPIURL";
 import media from "../utils/breakpoints";
 import withRouter from "./withRouter";
 
-const StyledQuickNavigation = styled.div`
+const StyledQuickNavigation = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +66,7 @@ const StyledQuickNavigation = styled.div`
   }
 `;
 
-export const QuickNavButton = styled(Link)`
+export const NavButton = styled(Link)`
   color: black;
   text-decoration: none;
   background-color: white;
@@ -76,6 +76,10 @@ export const QuickNavButton = styled(Link)`
   border-radius: 20px;
   width: 225px;
   transition: transform 250ms ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 
   &:hover {
     background-color: ${(props) =>
@@ -83,14 +87,7 @@ export const QuickNavButton = styled(Link)`
     transform: scale(1.05);
   }
 
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  &:nth-child(3) > div {
+  &:nth-child(3) {
     position: relative;
     top: 1px;
 
@@ -100,7 +97,7 @@ export const QuickNavButton = styled(Link)`
     }
   }
 
-  div > img {
+  img {
     width: 25px;
   }
 
@@ -110,7 +107,7 @@ export const QuickNavButton = styled(Link)`
     padding-right: 1rem;
   }
 
-  ${StyledInfoCard} &:last-child > div > span {
+  ${StyledInfoCard} &:last-child > span {
     position: relative;
     top: 1px;
   }
@@ -120,14 +117,11 @@ export const QuickNavButton = styled(Link)`
     padding: 0.5rem 0rem;
     border-radius: 15px;
     width: 175px;
+    gap: 0.25rem;
+    align-items: center;
 
-    div > img {
+    img {
       width: 20px;
-    }
-
-    div {
-      gap: 0.25rem;
-      align-items: center;
     }
 
     ${StyledInfoCard} & {
@@ -148,10 +142,7 @@ export const QuickNavButton = styled(Link)`
   @media ${media.tablet} {
     border-radius: 15px;
     width: 200px;
-
-    div {
-      align-items: center;
-    }
+    align-items: center;
 
     ${StyledInfoCard} & {
       border-radius: 10px;
@@ -173,8 +164,6 @@ class QuickNavigation extends Component {
   }
 
   getGameId = async () => {
-    const gameIds = [];
-
     try {
       const fetchedGenresData = await getGamesData(
         getAPIURL("genres", "", "", ""),
@@ -212,67 +201,55 @@ class QuickNavigation extends Component {
 
   render() {
     return (
-      <StyledQuickNavigation>
-        <h2>Quick Navigation</h2>
-        <QuickNavButton
+      <StyledQuickNavigation role="region" aria-labelledby="quick-nav-heading">
+        <h2 id="quick-nav-heading">Quick Navigation</h2>
+        <NavButton
           onClick={this.handleNavigation}
           data-testid="im-feeling-lucky-home"
         >
-          <div>
-            <img src={cloverIcon} alt="a clover icon" />
-            <span>I'm feeling lucky</span>
-          </div>
-        </QuickNavButton>
-        <QuickNavButton
+          <img src={cloverIcon} alt="" aria-hidden="true" />
+          <span>I'm feeling lucky</span>
+        </NavButton>
+        <NavButton
           data-testid="new-this-week-home"
           to={"/shop"}
           state={{ pageState: "This week" }}
         >
-          <div>
-            <img src={fireIcon} alt="a star icon" />
-            <span>New this week</span>
-          </div>
-        </QuickNavButton>
-        <QuickNavButton
+          <img src={fireIcon} alt="" aria-hidden="true" />
+          <span>New this week</span>
+        </NavButton>
+        <NavButton
           data-testid="last-30-days-home"
           to={"/shop"}
           state={{ pageState: "Last 30 days" }}
         >
-          <div>
-            <img src={starIcon} alt="a star icon" />
-            <span>Last 30 days</span>
-          </div>
-        </QuickNavButton>
-        <QuickNavButton
+          <img src={starIcon} alt="" aria-hidden="true" />
+          <span>Last 30 days</span>
+        </NavButton>
+        <NavButton
           data-testid="best-of-the-year-home"
           to={"/shop"}
           state={{ pageState: "Best of the year" }}
         >
-          <div>
-            <img src={trophyIcon} alt="a trophy icon" />
-            <span>{"Best of the year"}</span>
-          </div>
-        </QuickNavButton>
-        <QuickNavButton
+          <img src={trophyIcon} alt="" aria-hidden="true" />
+          <span>{"Best of the year"}</span>
+        </NavButton>
+        <NavButton
           data-testid="popular-in-2026-home"
           to={"/shop"}
           state={{ pageState: "Popular in 2026" }}
         >
-          <div>
-            <img src={barChartIcon} alt="a bar chart icon" />
-            <span>Popular in 2026</span>
-          </div>
-        </QuickNavButton>
-        <QuickNavButton
+          <img src={barChartIcon} alt="" aria-hidden="true" />
+          <span>Popular in 2026</span>
+        </NavButton>
+        <NavButton
           data-testid="all-time-top-home"
           to={"/shop"}
           state={{ pageState: "All time top" }}
         >
-          <div>
-            <img src={crownIcon} alt="a crown icon" />
-            <span>All time top</span>
-          </div>
-        </QuickNavButton>
+          <img src={crownIcon} alt="" aria-hidden="true" />
+          <span>All time top</span>
+        </NavButton>
       </StyledQuickNavigation>
     );
   }

@@ -8,9 +8,6 @@ import "slick-carousel/slick/slick-theme.css";
 import PropTypes from "prop-types";
 import { styled, keyframes } from "styled-components";
 
-// components
-import { shine } from "./Cart";
-
 const waveLoading = keyframes`
   0%{
     background-position: -240% 0;

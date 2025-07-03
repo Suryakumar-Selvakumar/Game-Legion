@@ -8,7 +8,7 @@ import omegaNorseIcon from "../assets/icons/omega-norse.png";
 import omegaGreekIcon from "../assets/icons/omega-greek.png";
 import { CartContext } from "./CartContext";
 
-const StyledFooter = styled.div`
+const StyledFooter = styled.footer`
   display: flex;
   justify-content: center;
   padding: 1rem 0;
@@ -45,6 +45,12 @@ const ThemeSwitcher = styled.input.attrs({
     z-index: 2;
     border-radius: 10px;
     transition: all 0.35s;
+  }
+
+  &:focus {
+    &::after {
+      box-shadow: inset 0 0 0 1.5px black, 0 0 0 1.5px white;
+    }
   }
 
   &:checked:after {
@@ -117,7 +123,7 @@ export class Footer extends Component {
   static contextType = CartContext;
 
   componentDidMount() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { theme } = this.context;
 
     this.setState((state) => ({
       ...state,
@@ -130,16 +136,24 @@ export class Footer extends Component {
       <StyledFooter>
         <InputWrapper>
           <ThemeSwitcher
+            id="theme-switcher"
             data-testid="theme-switcher"
             checked={this.state.isChecked}
             onChange={this.handleChange}
+            aria-label="Switch theme"
           />
           <img
             src={omegaNorseIcon}
-            alt="Jormungandur icon"
+            alt=""
+            aria-hidden="true"
             className="is-checked"
           />
-          <img src={omegaGreekIcon} alt="omega icon" className="is-unchecked" />
+          <img
+            src={omegaGreekIcon}
+            alt=""
+            aria-hidden="true"
+            className="is-unchecked"
+          />
         </InputWrapper>
       </StyledFooter>
     );
