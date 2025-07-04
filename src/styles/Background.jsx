@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CheckBox from "./CheckBox";
+import media from "../utils/breakpoints";
 
 const Background = styled.div`
   height: 2.75rem;
@@ -12,8 +13,16 @@ const Background = styled.div`
   z-index: 2;
   transition: transform 1s ease;
 
-  ${CheckBox}:checked ~ & {
-    transform: scale(60);
+  @media ${media.mobile} and (pointer: coarse) {
+    ${CheckBox}:checked ~ & {
+      transform: scale(60);
+    }
+  }
+
+  @media ${media.mobile} and (pointer: fine) {
+    ${CheckBox}:checked ~ & {
+      transform: scale(67.5);
+    }
   }
 `;
 

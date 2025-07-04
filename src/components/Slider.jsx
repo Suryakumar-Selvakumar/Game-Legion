@@ -46,6 +46,7 @@ export default function SimpleSlider({ images, gameName }) {
     speed: 350,
     slidesToShow: 1,
     slidesToScroll: 1,
+    draggable: images?.length > 1 ? true : false,
 
     beforeChange: (_, newIndex) => {
       const active = document.activeElement;

@@ -154,12 +154,11 @@ const ImageCarousel = styled.section`
   grid-area: image-carousel;
   width: 100%;
   overflow: hidden;
-  cursor: grab;
   border-radius: 30px;
   display: flex;
   align-items: end;
 
-  &:active {
+  &:active &.grab-on {
     cursor: grabbing;
   }
 
@@ -639,7 +638,14 @@ function GamePage() {
         </TopRow>
         <BottomRow role="grid">
           {screenShotsData && (
-            <ImageCarousel aria-label="Image carousel" role="region">
+            <ImageCarousel
+              style={{
+                cursor: screenShotsData?.length > 1 && "grab",
+              }}
+              className={screenShotsData?.length > 1 ? "grab-on" : ""}
+              aria-label="Image carousel"
+              role="region"
+            >
               <SimpleSlider
                 images={screenShotsData}
                 gameName={gameData?.name}
@@ -648,8 +654,11 @@ function GamePage() {
               <WishListIcon
                 onClick={updateWishList}
                 data-testid="wishlist-icon"
+                aria-label={`Add to wishlist`}
               >
                 <svg
+                  aria-hidden="true"
+                  focusable="false"
                   title="wishlist"
                   viewBox="0 0 64 64"
                   xmlns="http://www.w3.org/2000/svg"
@@ -761,10 +770,8 @@ function GamePage() {
                   : "white",
                 cursor: existingItem(cart) ? "default" : "pointer",
               }}
-              onFocus={() => {
-                if (existingItem(cart)) document.activeElement.blur();
-              }}
-              tabIndex={existingItem(cart) ? -1 : 0}
+              disabled={existingItem(cart)}
+              aria-disabled={existingItem(cart)}
             >
               {!existingItem(cart) ? (
                 "Add to cart +"

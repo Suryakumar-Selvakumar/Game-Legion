@@ -9,7 +9,7 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import media from "../utils/breakpoints";
 
-const StyledGames = styled.div`
+const StyledGames = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-auto-rows: 400px;
@@ -36,12 +36,14 @@ class Games extends Component {
   render() {
     return (
       <>
-        {this.props.loading && <Loading width="100px" height="100px" />}
+        {this.props.loading && (
+          <Loading width="100px" height="100px" />
+        )}
         {this.props.error && <Error error={this.props.error} />}
         {this.props.gamesData &&
           !this.props.loading &&
           this.props.error === null && (
-            <StyledGames data-testid="games">
+            <StyledGames aria-label="Game results" data-testid="games">
               {this.props.gamesData.map((game) => (
                 <GameCard key={game.id} gameDetails={game} />
               ))}

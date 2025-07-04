@@ -44,6 +44,7 @@ export const StyledHeader = styled.header`
   grid-template-columns: 1fr 1fr 1fr;
   padding: 1rem;
   align-items: center;
+  height: 77px;
   position: fixed;
   width: 100%;
   z-index: 1;
@@ -64,35 +65,24 @@ export const StyledHeader = styled.header`
     justify-content: space-between;
     gap: 1.5rem;
   }
-
-  @media ${media.tablet} {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  @media ${media.tabletPro} {
-    display: flex;
-    justify-content: space-between;
-  }
 `;
 
 const Logo = styled(Link)`
   display: flex;
   text-decoration: none;
   width: min-content;
-  padding-top: ${(props) =>
-    props.theme.currentTheme === "norse" ? "0px" : "2.75px"};
   font-family: ${(props) =>
     props.theme.currentTheme === "norse"
       ? "myFontLogoNorse"
       : "myFontLogoGreek"};
   font-size: ${(props) =>
-    props.theme.currentTheme === "norse" ? "2rem" : "1.95rem"};
+    props.theme.currentTheme === "norse" ? "1.75rem" : "1.70625rem"};
   color: white;
+  text-shadow: 1px 1px 3px black;
   display: flex;
   align-items: end;
   gap: ${(props) => (props.theme.currentTheme === "norse" ? "" : "0.2rem")};
-
+  user-select: none;
   cursor: pointer;
   transition: transform 250ms ease;
 
@@ -103,9 +93,9 @@ const Logo = styled(Link)`
   @media ${media.mobile} {
     width: fit-content;
     padding-left: ${(props) =>
-      props.theme.currentTheme === "norse" ? "0" : "7.5px"};
+      props.theme.currentTheme === "norse" ? "0" : "2.5px"};
     padding-top: ${(props) =>
-      props.theme.currentTheme === "norse" ? "0" : "7.5px"};
+      props.theme.currentTheme === "norse" ? "0" : "9px"};
   }
 
   @media ${media.tablet} {
@@ -115,34 +105,32 @@ const Logo = styled(Link)`
 
 const LogoIcon = styled.img`
   height: ${(props) =>
-    props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
+    props.theme.currentTheme === "norse" ? "45px" : "38.25px"};
   width: ${(props) =>
-    props.theme.currentTheme === "norse" ? "65px" : "62.5px"};
+    props.theme.currentTheme === "norse" ? "60px" : "57.70px"};
   position: relative;
   top: -0.25rem;
 
   @media ${media.mobile} {
     min-height: ${(props) =>
-      props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
-    height: ${(props) =>
-      props.theme.currentTheme === "norse" ? "50px" : "42.5px"};
+      props.theme.currentTheme === "norse" ? "45px" : "38.25px"};
     min-width: ${(props) =>
-      props.theme.currentTheme === "norse" ? "60px" : "47.5px"};
+      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
     width: ${(props) =>
-      props.theme.currentTheme === "norse" ? "60px" : "47.5px"};
+      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
     top: ${(props) =>
-      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
+      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.3rem"};
   }
 
   @media ${media.tablet} {
     min-height: ${(props) =>
-      props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
-    height: ${(props) =>
-      props.theme.currentTheme === "norse" ? "60px" : "52.5px"};
+      props.theme.currentTheme === "norse" ? "45px" : "38.25px"};
     min-width: ${(props) =>
-      props.theme.currentTheme === "norse" ? "65px" : "57.5px"};
+      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
+    width: ${(props) =>
+      props.theme.currentTheme === "norse" ? "55px" : "47.5px"};
     top: ${(props) =>
-      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.35rem"};
+      props.theme.currentTheme === "norse" ? "-0.1rem" : "-0.3rem"};
   }
 `;
 
@@ -163,10 +151,6 @@ const SearchIcon = styled(Link)`
     & > img {
       display: none;
     }
-  }
-
-  @media ${media.tablet} {
-    left: -1rem;
   }
 `;
 
@@ -264,11 +248,6 @@ const SearchBar = styled.input.attrs({
       animation: none;
     }
   }
-
-  @media ${media.tablet} {
-    position: relative;
-    left: 1rem;
-  }
 `;
 
 const CartIcon = styled.img.attrs({
@@ -290,7 +269,7 @@ const CartContainer = styled.div`
   place-self: center end;
 
   svg {
-    width: 11.5px;
+    min-width: 11.5px;
     position: relative;
     top: -18px;
     right: 0px;

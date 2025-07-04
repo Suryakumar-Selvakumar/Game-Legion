@@ -28,7 +28,7 @@ const StyledShop = styled.div`
   padding-top: 4rem;
 `;
 
-const Body = styled.div`
+const Body = styled.main`
   display: grid;
   grid-template-columns: max-content 1fr;
   grid-template-rows: min-content 1fr;
@@ -42,7 +42,7 @@ const Body = styled.div`
   }
 `;
 
-const FirstRow = styled.div`
+const FirstRow = styled.section`
   grid-area: first-row;
   display: flex;
   flex-direction: column;
@@ -52,6 +52,7 @@ const FirstRow = styled.div`
   h1 {
     color: white;
     font-family: myFontBlack;
+    font-weight: 500;
     font-size: 60px;
     line-height: 1;
     padding: 0rem 2rem 0rem 2rem;
@@ -61,7 +62,7 @@ const FirstRow = styled.div`
     padding-top: 2rem;
 
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       text-align: center;
       padding: 0rem 2rem 1.5rem 2rem;
     }
@@ -72,8 +73,12 @@ const DropDownsContainer = styled.div`
   display: flex;
   width: 100%;
   height: min-content;
+  padding: 1.5rem 0rem 0rem 2rem;
+  gap: 1rem;
 
   @media ${media.mobile} {
+    padding: 0;
+    gap: 0;
     width: calc(100dvw - 3.5rem);
     justify-content: space-evenly;
     margin: 0 auto;
@@ -331,8 +336,7 @@ class Shop extends Component {
   }
 
   render() {
-    const { cart, setCart, theme, setTheme, wishList, setWishList } =
-      this.context;
+    const { theme } = this.context;
 
     return (
       <StyledShop>
@@ -341,7 +345,7 @@ class Shop extends Component {
           setShopSearchInput={this.setSearchInput}
           setPageState={this.setPageState}
         />
-        <Body>
+        <Body aria-labelledby="page-heading">
           {this.state.isMobileView && this.state.gamesData && (
             <>
               <CheckBox
@@ -350,10 +354,22 @@ class Shop extends Component {
                 onChange={this.setSideBarVisible}
                 ref={this.checkBoxRef}
               />
-              <ButtonLabel htmlFor="navi-toggle">
-                <Icon></Icon>
+              <ButtonLabel
+                tabIndex={0}
+                aria-label="Open Filter menu"
+                htmlFor="navi-toggle"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    document.activeElement.click();
+                  }
+                }}
+              >
+                <Icon aria-hidden="true"></Icon>
               </ButtonLabel>
-              <Background onTransitionEnd={this.setSideBarClosed}></Background>
+              <Background
+                role="presentation"
+                onTransitionEnd={this.setSideBarClosed}
+              ></Background>
             </>
           )}
           {this.state.isMobileView ? (
@@ -371,9 +387,9 @@ class Shop extends Component {
               setPageState={this.setPageState}
             />
           )}
-          <FirstRow>
+          <FirstRow role="region" aria-label="Sort actions">
             {this.state.pageState && this.state.pageState !== "default" && (
-              <h1 data-testid="page-state">
+              <h1 id="page-heading" data-testid="page-state">
                 {this.state.pageState === "Results"
                   ? this.state.searchInput !== "" &&
                     `Results for "${this.state.searchInput}"`

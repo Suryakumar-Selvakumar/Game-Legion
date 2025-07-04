@@ -3,21 +3,15 @@ import { Component, createRef } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 import media from "../utils/breakpoints";
+import { FocusTrap } from "focus-trap-react";
 
 const StyledDropDown = styled.div`
-  padding: 1.5rem 0rem 0rem 1rem;
-  position: relative;
-  margin-left: 1rem;
   width: max-content;
-
-  @media ${media.mobile} {
-    padding: 0;
-    margin-left: 0;
-  }
 `;
 
-const MenuOpener = styled.div`
+const MenuOpener = styled.button`
   background-color: white;
+  border: none;
   width: 220px;
   display: flex;
   padding: 5px 10px;
@@ -85,7 +79,6 @@ const Menu = styled.ul`
   background-color: white;
   border-radius: 10px;
   z-index: 3;
-  cursor: pointer;
   transform-origin: top center;
   transform: scaleY(0);
 
@@ -112,11 +105,19 @@ const MenuItem = styled.li`
   background: none;
   border: none;
   padding: 1px 7.5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  cursor: pointer;
   border-radius: 10px;
   transition: all 250ms ease;
+
+  button {
+    width: 100%;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   &:hover {
     background-color: #e3e3e3;
@@ -144,9 +145,11 @@ class DropDown extends Component {
     this.setDropDownOpen = this.setDropDownOpen.bind(this);
     this.setFirstLoad = this.setFirstLoad.bind(this);
     this.dropDownRef = createRef(null);
+    this.menuOpenerRef = createRef(null);
     this.setIsMobileView = this.setIsMobileView.bind(this);
     this.mobileRef = createRef(null);
     this.handleMediaChange = this.handleMediaChange.bind(this);
+    this.handleEscapePress = this.handleEscapePress.bind(this);
   }
 
   handleMediaChange(e, currentView) {
@@ -188,6 +191,14 @@ class DropDown extends Component {
     }
   };
 
+  handleEscapePress(e) {
+    if (this.state.dropDownOpen) {
+      if (e.key === "Escape") {
+        this.setDropDownOpen();
+      }
+    }
+  }
+
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutside, true);
 
@@ -195,6 +206,8 @@ class DropDown extends Component {
     this.mobileRef.current.addEventListener("change", (e) =>
       this.handleMediaChange(e, "mobile")
     );
+
+    document.addEventListener("keydown", this.handleEscapePress);
   }
 
   componentWillUnmount() {
@@ -203,6 +216,8 @@ class DropDown extends Component {
     this.mobileRef.current.removeEventListener("change", (e) =>
       this.handleMediaChange(e, "mobile")
     );
+
+    document.removeEventListener("keydown", this.handleEscapePress);
   }
 
   render() {
@@ -211,6 +226,7 @@ class DropDown extends Component {
     return (
       <StyledDropDown ref={this.dropDownRef}>
         <MenuOpener
+          ref={this.menuOpenerRef}
           onClick={() => {
             this.setDropDownOpen();
             this.setFirstLoad();
@@ -222,6 +238,9 @@ class DropDown extends Component {
                 : "145px"
               : "",
           }}
+          aria-haspopup="listbox"
+          aria-expanded={this.state.dropDownOpen}
+          aria-controls="dropdown-menu"
           data-testid={
             this.props.menuName === "Order by: " ? "order-by" : "sort-by"
           }
@@ -234,12 +253,12 @@ class DropDown extends Component {
                   ? "order-by-block"
                   : "sort-by-block"
               }
-              key={crypto.randomUUID()}
             >
               {this.props.menuItem}
             </b>
           </span>
           <svg
+            aria-hidden="true"
             className={
               this.state.firstLoad
                 ? ""
@@ -256,67 +275,86 @@ class DropDown extends Component {
             />
           </svg>
         </MenuOpener>
-
-        <Menu
-          data-testid={
-            this.props.menuName === "Order by: "
-              ? "order-by-menu"
-              : "sort-by-menu"
-          }
-          className={
-            this.state.firstLoad
-              ? ""
-              : this.state.dropDownOpen
-              ? "open"
-              : "close"
-          }
-          style={{
-            width: this.state.isMobileView
-              ? this.props.count === 1
-                ? "160px"
-                : "145px"
-              : "",
+        <FocusTrap
+          active={this.state.dropDownOpen}
+          focusTrapOptions={{
+            clickOutsideDeactivates: true,
           }}
         >
-          {this.props.menuItems &&
-            this.props.menuItems.map((item, index) => (
-              <MenuItem
-                data-testid={
-                  this.props.menuName === "Order by: "
-                    ? "order-by-options"
-                    : "sort-by-options"
-                }
-                key={index}
-                onClick={() => {
-                  this.props.setMenuItem(item);
-                  this.setDropDownOpen();
-                }}
-              >
-                <span>{item}</span>
-                {this.props.menuItem === item && (
-                  <svg
-                    fill={
-                      theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"
+          <Menu
+            id="dropdown-menu"
+            role="listbox"
+            aria-label={
+              this.props.menuName === "Order by: "
+                ? "Order by menu"
+                : "Sort by menu"
+            }
+            data-testid={
+              this.props.menuName === "Order by: "
+                ? "order-by-menu"
+                : "sort-by-menu"
+            }
+            className={
+              this.state.firstLoad
+                ? ""
+                : this.state.dropDownOpen
+                ? "open"
+                : "close"
+            }
+            style={{
+              width: this.state.isMobileView
+                ? this.props.count === 1
+                  ? "160px"
+                  : "145px"
+                : "",
+            }}
+          >
+            {this.props.menuItems &&
+              this.props.menuItems.map((item, index) => (
+                <MenuItem key={index}>
+                  <button
+                    role="option"
+                    tabIndex={this.state.dropDownOpen ? 0 : -1}
+                    data-testid={
+                      this.props.menuName === "Order by: "
+                        ? "order-by-options"
+                        : "sort-by-options"
                     }
-                    viewBox="0 0 1024 1024"
-                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => {
+                      this.props.setMenuItem(item);
+                      this.setDropDownOpen();
+                    }}
+                    aria-selected={this.props.menuItem === item}
                   >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0" />
+                    <span>{item}</span>
+                    {this.props.menuItem === item && (
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        fill={
+                          theme.currentTheme === "norse" ? "#46afe8" : "#ff5a5a"
+                        }
+                        viewBox="0 0 1024 1024"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
 
-                    <g id="SVGRepo_iconCarrier">
-                      <path d="M760 380.4l-61.6-61.6-263.2 263.1-109.6-109.5L264 534l171.2 171.2L760 380.4z" />
-                    </g>
-                  </svg>
-                )}
-              </MenuItem>
-            ))}
-        </Menu>
+                        <g id="SVGRepo_iconCarrier">
+                          <path d="M760 380.4l-61.6-61.6-263.2 263.1-109.6-109.5L264 534l171.2 171.2L760 380.4z" />
+                        </g>
+                      </svg>
+                    )}
+                  </button>
+                </MenuItem>
+              ))}
+          </Menu>
+        </FocusTrap>
       </StyledDropDown>
     );
   }

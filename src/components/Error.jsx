@@ -2,7 +2,7 @@ import { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const StyledError = styled.div`
+const StyledError = styled.section`
   display: flex;
   justify-content: start;
   align-items: center;
@@ -23,10 +23,15 @@ class Error extends Component {
 
   render() {
     return (
-      <StyledError>
+      <StyledError
+        role="alert"
+        aria-labelledby="error-heading"
+      >
         <svg
+          role="hidden"
           viewBox="0 0 24 24"
           fill="none"
+          focusable="false"
           xmlns="http://www.w3.org/2000/svg"
           strokeWidth="0.6"
         >
@@ -54,7 +59,7 @@ class Error extends Component {
             />{" "}
           </g>
         </svg>
-        <h1>Error fetching games</h1>
+        <h2 id="error-heading">Error fetching games</h2>
         <p>{this.props.error}</p>
       </StyledError>
     );

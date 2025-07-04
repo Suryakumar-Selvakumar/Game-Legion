@@ -19,7 +19,7 @@ import { CartContext } from "./CartContext";
 import { Link } from "react-router-dom";
 import media from "../utils/breakpoints";
 
-const GameCardDetails = styled.div`
+const GameCardDetails = styled.section`
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -30,18 +30,24 @@ const GameCardDetails = styled.div`
     cursor: pointer;
   }
 
-  & > div:first-child {
-    display: flex;
-    justify-content: space-between;
-    color: rgb(153, 153, 153);
-    font-size: 1rem;
+  @media ${media.mobile} {
+    gap: 5px;
+    padding-top: 1rem;
   }
+`;
 
-  div > button {
+const FirstRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: rgb(153, 153, 153);
+  font-size: 1rem;
+
+  button {
     background-color: rgb(32, 32, 32);
     border: none;
     outline: none;
     color: rgb(153, 153, 153);
+    border-radius: 2.5px;
     padding: 0;
     cursor: pointer;
     line-height: 1;
@@ -49,13 +55,12 @@ const GameCardDetails = styled.div`
     align-items: center;
   }
 
-  div > button > svg {
-    width: 25px;
+  button:focus-visible {
+    box-shadow: 0 0 0 1.5px white;
   }
 
-  @media ${media.mobile} {
-    gap: 5px;
-    padding-top: 1rem;
+  svg {
+    width: 25px;
   }
 `;
 
@@ -81,10 +86,17 @@ const Icons = styled.div`
   }
 `;
 
-const GameName = styled.p`
+const WishListButton = styled.button`
+  padding: 0;
+  border: none;
+  background-color: transparent;
+`;
+
+const GameName = styled.h3`
   color: white;
   font-family: myFontBold;
   font-size: 1.375rem;
+  font-weight: 500;
   line-height: 1;
   padding: 0.25rem 0;
   cursor: pointer;
@@ -94,7 +106,7 @@ const GameName = styled.p`
   }
 `;
 
-const StyledGameCard = styled.div`
+const StyledGameCard = styled.article`
   display: grid;
   grid-template-rows: 250px 150px;
   background-color: rgb(32, 32, 32);
@@ -123,6 +135,11 @@ const ImageContainer = styled.div`
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
   }
+
+  a {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+  }
 `;
 
 const GameImage = styled.img`
@@ -136,6 +153,19 @@ const GameImage = styled.img`
   @media ${media.mobile} {
     height: 225px;
   }
+`;
+
+const ScreenReaderText = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  border: 0;
 `;
 
 class GameCard extends Component {
@@ -188,7 +218,7 @@ class GameCard extends Component {
     cart?.find((cartItem) => cartItem.id === this.props.gameDetails.id);
 
   addToCart() {
-    const { cart, setCart, theme, setTheme } = this.context;
+    const { cart, setCart } = this.context;
 
     const cartGameDetails = {
       id: this.props.gameDetails.id,
@@ -204,8 +234,7 @@ class GameCard extends Component {
   }
 
   updateWishList() {
-    const { cart, setCart, theme, setTheme, wishList, setWishList } =
-      this.context;
+    const { wishList, setWishList } = this.context;
 
     const wishListGameDetails = {
       id: this.props.gameDetails.id,
@@ -241,10 +270,11 @@ class GameCard extends Component {
   static contextType = CartContext;
 
   render() {
-    const { cart, setCart, theme, setTheme, wishList } = this.context;
+    const { cart, theme, wishList } = this.context;
 
     return (
       <motion.div
+        role="presentation"
         animate={
           !this.state.isMobileView
             ? this.state.animateTap
@@ -266,13 +296,17 @@ class GameCard extends Component {
           <ImageContainer>
             {this.state.imageLoading && (
               <Skeleton
+                role="presentation"
                 variant="rectangular"
                 width="100%"
                 height="100%"
                 animation="wave"
               />
             )}
-            <Link to={`game/${String(this.props.gameDetails.id)}`}>
+            <Link
+              aria-label={`View ${this.props.gameDetails.name}`}
+              to={`game/${String(this.props.gameDetails.id)}`}
+            >
               <GameImage
                 data-testid="game-card-image"
                 src={
@@ -280,7 +314,8 @@ class GameCard extends Component {
                     ? this.props.gameDetails.image
                     : placeHolderImage
                 }
-                alt={this.props.gameDetails.name}
+                alt=""
+                aria-hidden="true"
                 onLoad={this.setImageLoading}
                 style={{
                   display: this.state.imageLoading ? "none" : "block",
@@ -288,10 +323,13 @@ class GameCard extends Component {
               />
             </Link>
           </ImageContainer>
-          <GameCardDetails>
-            <div>
+          <GameCardDetails aria-labelledby="game-name-heading">
+            <FirstRow>
               <button
-                onClick={this.addToCart}
+                onClick={() => {
+                  this.addToCart();
+                  document.activeElement.blur();
+                }}
                 data-testid="add-to-cart"
                 style={{
                   color: this.existingItem(cart)
@@ -300,6 +338,8 @@ class GameCard extends Component {
                       : "#ff5a5a"
                     : "white",
                 }}
+                disabled={this.existingItem(cart)}
+                aria-disabled={this.existingItem(cart)}
               >
                 {!this.existingItem(cart) ? (
                   "Add to cart +"
@@ -328,17 +368,26 @@ class GameCard extends Component {
                   </>
                 )}
               </button>
+              <ScreenReaderText aria-live="polite">
+                {this.existingItem(cart)
+                  ? `${this.props.gameDetails.name} added to cart`
+                  : ""}
+              </ScreenReaderText>
               <p>${this.props.gameDetails.price}</p>
-            </div>
+            </FirstRow>
             <SecondRow>
               <Icons>
+                <ScreenReaderText>
+                  {`Platforms: ${this.props.gameDetails.platforms?.join(", ")}`}
+                </ScreenReaderText>
                 {this.props.gameDetails.platforms?.includes("PC") && (
-                  <img src={pcIcon} alt="pc icon" />
+                  <img src={pcIcon} alt="" aria-hidden="true" />
                 )}
                 {this.props.gameDetails.platforms?.includes("PlayStation") && (
                   <img
                     src={playStationIcon}
-                    alt="playstation icon"
+                    alt=""
+                    aria-hidden="true"
                     style={{
                       width: "17.5px",
                       height: "17.5px",
@@ -346,12 +395,13 @@ class GameCard extends Component {
                   />
                 )}
                 {this.props.gameDetails.platforms?.includes("Xbox") && (
-                  <img src={xboxIcon} alt="xbox icon" />
+                  <img src={xboxIcon} alt="" aria-hidden="true" />
                 )}
                 {this.props.gameDetails.platforms?.includes("Nintendo") && (
                   <img
                     src={nintendoIcon}
-                    alt="nintendo icon"
+                    alt=""
+                    aria-hidden="true"
                     style={{
                       width: "17.5px",
                       height: "17.5px",
@@ -359,14 +409,15 @@ class GameCard extends Component {
                   />
                 )}
                 {this.props.gameDetails.platforms?.includes("Android") && (
-                  <img src={androidIcon} alt="android icon" />
+                  <img src={androidIcon} alt="" aria-hidden="true" />
                 )}
                 {this.props.gameDetails.platforms?.includes(
                   "Apple Macintosh"
                 ) && (
                   <img
                     src={appleIcon}
-                    alt="apple icon"
+                    alt=""
+                    aria-hidden="true"
                     style={{
                       width: "17.5px",
                       height: "17.5px",
@@ -374,37 +425,43 @@ class GameCard extends Component {
                   />
                 )}
               </Icons>
-              <svg
+              <WishListButton
                 onClick={this.updateWishList}
                 data-testid="wishlist-card-icon"
-                viewBox="0 0 64 64"
-                xmlns="http://www.w3.org/2000/svg"
-                strokeWidth="3"
-                stroke="#ffffff"
-                fill={
-                  this.existingItem(wishList)
-                    ? theme.currentTheme === "norse"
-                      ? "#46afe8"
-                      : "#ff5a5a"
-                    : "none"
-                }
+                aria-label={`Add to wishlist`}
               >
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 64 64"
+                  xmlns="http://www.w3.org/2000/svg"
+                  strokeWidth="3"
+                  stroke="#ffffff"
+                  fill={
+                    this.existingItem(wishList)
+                      ? theme.currentTheme === "norse"
+                        ? "#46afe8"
+                        : "#ff5a5a"
+                      : "none"
+                  }
+                >
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
                     strokeLinecap="round"
-                  ></path>
-                </g>
-              </svg>
+                    strokeLinejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M51,55.4,32.18,39A1,1,0,0,0,31,39L13,55.34a1,1,0,0,1-1.6-.8V9.41a1,1,0,0,1,1-1H51.56a1,1,0,0,1,1,1V54.58A1,1,0,0,1,51,55.4Z"
+                      strokeLinecap="round"
+                    ></path>
+                  </g>
+                </svg>
+              </WishListButton>
             </SecondRow>
             <Link to={`game/${this.props.gameDetails.id}`}>
-              <GameName data-testid="game-card-name">
+              <GameName id="game-name-heading" data-testid="game-card-name">
                 {this.props.gameDetails.name}
               </GameName>
             </Link>

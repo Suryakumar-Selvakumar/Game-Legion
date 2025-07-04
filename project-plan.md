@@ -1117,3 +1117,33 @@ The GOAL of this project is to become proficient with Class components, Routing,
                 • Then check if the name of the game exists inside the cart, might be easier to assign a testId to the GameName and check if its textContent matches the mock game’s name.
 
             iv) Clicking on GameName & GameImage should lead to the GamePage of the game.
+
+13. Keyboard/Screen Reader/ARIA accessibility
+
+    13.1. Components
+
+        • Cart – DONE
+        • CartContext – DONE
+        • CartProvider – DONE
+        • DropDown – DONE
+        • Error – DONE
+        • Footer – DONE
+        • GameCard – DONE
+        • Games – DONE
+        • Header – DONE
+        • InfoCard – DONE
+        • Loading – DONE
+        • Preview – DONE
+        • QuickNavigation – DONE
+        • Sidebar – DONE
+        • Slider – DONE
+        • withRouter – DONE
+
+    13.2. Pages
+
+        • ErrorPage – DONE
+        • GamePage – DONE
+        • Home – DONE
+        • Layout – DONE
+        • Shop – DONE
+        • ShopWrapper – DONE
