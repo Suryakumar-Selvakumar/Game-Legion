@@ -604,7 +604,14 @@ function GamePage() {
         },
       });
     else {
-      navigate(-1);
+      const storedPageState = JSON.parse(localStorage.getItem("page-state"));
+      if (storedPageState === "Results") navigate(-1);
+      else
+        navigate("/shop", {
+          state: {
+            pageState: storedPageState,
+          },
+        });
     }
   }
 
